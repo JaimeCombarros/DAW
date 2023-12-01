@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		body>div:first-child{
+			width: 500px;
+			height: 200px;
+			border: 1px solid black;
+			border-radius: 20px;
+			z-index: 1;
+			float: left;
+			background: rgb(0,0,0);
+            background: url("imagenes/arabesque.png"), linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(235,235,235,1) 100%);
+			color: white;
+			margin-left: 410px;
+			margin-top: 210px;
+			display: table;
+		}
+		
+		body>div:nth-child(2){
+			margin-left: 400px;
+			margin-top: 200px;
+			width: 520px;
+			height: 220px;
+			border-radius: 20px;
+			float: left;
+			position: absolute;
+			background: rgb(238,174,202);
+			background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+			filter: blur(10px);
+			z-index: -1;
+		}
+		boby div div{
+			display: table-row;
+		}
+		boby div div div{
+			display: table-cell;
+			vertical-align: middle;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<div>
+			<div>Ies Martin Rivero</div>
+		</div>
+	</div>
+	<div>
+	</div>
+</body>
+</html>

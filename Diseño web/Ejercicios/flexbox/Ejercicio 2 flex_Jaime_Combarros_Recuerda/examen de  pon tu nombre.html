@@ -1,0 +1,156 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+	<title>Documento sin título</title>
+	<meta name="viewport" content="width=device-width">
+</head>
+<style>
+	body,html{
+		margin: 0;
+		padding: 0;
+		
+	}
+	/*HEADER*/
+	header{
+		display: flex;
+		background-color: black;
+		width: 100vw;
+		justify-content: space-between;
+		flex-flow: row;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+		header #logo{padding: 0 0 0 1vw}
+		header img{display: block; width: 100px;}
+	
+	
+		header #formulario{display: flex;flex-direction: row; order: 3;width: 100vw;justify-content: center;align-items: center;margin-bottom: 1vh}
+		header #formulario form{display: flex;align-items: center;}
+		header #formulario img{width: 30px;}
+		header #formulario button{border: none;padding: 0;margin-right: 1vw;background: none;}
+		header #formulario input{width: 60vw; border-radius: 40px;padding: 5px 10px 5px 10px}
+		
+	
+		header #login{display: block;border: none;padding: 0;margin-right: 1vw;background: none;}
+	
+	/*NAV*/
+	nav{
+		display: flex;
+		width: 100vw;
+		justify-content: space-around;
+		background-color: goldenrod;
+	}
+	
+	nav a{
+		text-decoration: none;
+		color: white;
+		font-size: 1.2em;
+		width: 25vw;
+		display: flex;
+		justify-content: center;
+	}
+	
+	/*MAIN*/
+	
+	.main div{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		width: 100vw;
+		margin-top: 20px;
+	}
+	
+	.main div img{
+		width: 80vw;
+	}
+	
+	/*FOOTER*/
+	
+	footer{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+		background-color: black;
+	}
+	footer div{
+		width: 20vw;
+		font-size: 0.7em;
+	}
+	
+	footer div h3{
+		color: goldenrod;
+	}
+	
+	footer div p{
+		color: white;
+	}
+</style>
+
+<body>
+	<header>
+		<img src="img/logo2.jpg" alt="" id="logo">
+		<div id="formulario">
+			<form action="" >
+				<input type="text" placeholder="buscar">
+				<button><img src="img/buscar.png" alt=""></button>
+			</form>
+		</div>
+		<button id="login"><img src="img/icon-login.png" alt=""></button>
+	</header>
+	<nav>
+			<a href="#"> Inicio</a>
+			<a href="#"> Informática</a>
+			<a href="#"> Hogar</a>
+			<a href="#"> Decoración</a>
+	</nav>
+	<div class="main">
+		<div>
+			<img src="img/mesa.webp" >
+			<h3>MUEBLES Y SOFAS</h3>			
+		</div>
+		<div>
+			<img src="img/lavadora.webp">
+			<h3>GRAN ELECTRODOMESTICO</h3>			
+		</div>
+		<div>
+			<img src="img/portatil.webp">
+			<h3>INFORMATICA</h3>			
+		</div>
+		<div>
+			<img src="img/vajilla.webp">
+			<h3>MENAJE DE MESA</h3>			
+		</div>
+		<div>
+			<img src="img/moviles.webp">
+			<h3>MÓVILES</h3>			
+		</div>		
+	</div>		
+	
+    <footer>
+        <div>
+            <h3>Diseño</h3>
+            <p>Derechos</p>
+        </div>
+        <div>
+            <h3>Información</h3>
+            <p>Creadores</p>
+            <p>Agencias</p>
+            <p>Precios</p>
+            <p>Comunidad</p>
+        </div>
+        <div>
+            <h3>Compañia</h3>
+            <p>Ubicacion</p>
+        </div>
+        <div>
+            <h3>Recursos</h3>
+            <p>Ayuda</p>
+            <p>Soporte</p>
+            <p>Terminos de uso</p>
+            <p>Privacidad</p>
+        </div>
+    </footer>
+
+</body>
+</html>

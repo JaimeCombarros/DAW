@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<style>
+		@keyframes movimiento {
+			0%{left: -200px;}
+			50%{left: 400px;}
+			60%{left: 400px;}
+			100%{left: 1600px;}
+		}
+		
+		@keyframes tamano {
+			0%{font-size: 2em;}
+			50%{font-size: 4em;}
+			60%{font-size: 4em;}
+			100%{font-size: 2em;}
+		}
+		
+		@keyframes colorLwetra {
+			0%{color: red;}
+			50%{color: purple;}
+			100%{color: red;}
+		}
+		
+		h1{
+			position: relative;
+			animation: 	movimiento 4s linear infinite,
+				      	tamano 4s linear infinite,
+						colorLwetra 4s linear infinite;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Mira como me muevo</h1>
+	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque perspiciatis commodi et laborum, eum ratione aliquam temporibus incidunt pariatur, molestiae non possimus totam consequuntur minima, veniam sed molestias consectetur doloribus.</p>
+</body>
+</html>

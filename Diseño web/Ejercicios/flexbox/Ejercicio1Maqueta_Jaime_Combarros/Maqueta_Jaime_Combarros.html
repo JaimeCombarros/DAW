@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=4.0, user-scalable=0">
+<style>
+	body,html{
+		padding: 0px;
+		margin: 0xp;
+	}
+	
+	body{
+		background-color: rgba(225,225,225,1.00);
+	}
+	
+	.contenedor{
+		width: 90%;
+		margin: auto;
+		max-width: 1200px;
+	}
+	
+	header{
+		display: flex;
+		background-color: #324759;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: nowrap;
+	}
+		header .logo {width: 30%;flex-grow: 1;}
+		header .logo img{width: 100%;}
+	
+		 .links{
+			width: 65%;
+			display: flex;
+			flex-grow: 2;
+			justify-content: space-between;
+			background-color: #AB3225;
+			border: 1px solid;
+			margin-right: 1%;
+			
+		}
+			 .links a{
+				display: flex;
+				justify-content: center;
+				width: 100%;
+				padding: 10px 20px 10px 20px;
+				text-decoration: none;
+				color: white;
+			}
+			 .links a:hover{
+				background-color: #C73A2B;
+			}
+		/*MAIN*/
+		main{
+			display: flex;
+		}
+	
+		article{
+			background-color: white;
+			flex-basis: 70%;
+		}
+	
+			article .hr{border: 1px solid grey; margin: 20px 50px 20px 50px}
+		
+		.art{
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+		}
+			.art p{margin: 5px 20px 5px 20px;}			
+			.art button{ padding: 10px 40% 10px 40%; margin-bottom: 10px;}
+		
+	
+		
+		aside{
+			flex-basis: 30%;
+			background-color: #E67E22;
+			display: flex;
+			flex-flow: column;
+			justify-content: space-between;
+			
+
+		}
+		
+			aside .publicidad{
+				background-color: #D35400;
+				
+			}
+			
+			aside .publicidad h2{margin: 15px;}
+		/*FOOTER*/
+		footer{
+			display: flex;
+			background-color: #324759;
+			justify-content: space-between;
+			align-items: center;
+			flex-wrap: nowrap;
+		}
+			footer .links{flex-basis: 70%;margin: 0px 30% 0px 1%}
+			footer .contenedorimg{
+				flex-basis: 30%;
+				flex-grow: 1;
+				display: flex;
+				margin-right: 1%;
+			}
+				footer .contenedorimg img{width: 5vmax;margin: 10px 0px 10px 0px}
+	
+	@media only screen and (max-width:700px){
+		header{
+			flex-direction: column;
+			border: 1px solid;
+		}
+		
+		header .links{
+			width: 100%;
+			margin: 0;
+		}
+		
+		header .logo {width: 100%;flex-grow: 1;}
+		
+		header .logo figure{margin: 0}
+		
+		main{
+			flex-direction: column;
+		}
+		
+		footer .links{margin-right: 10%;}
+		
+		footer .links a{
+				padding: 1vw 2vw 1vw 2vw;
+				font-size: 2vw;
+			}
+	}
+	
+	@media only screen and (max-width:415px){
+		footer .contenedorimg{
+			display: none;
+		}
+		
+		footer .links{
+			margin: 2%;
+			padding: 3vw 5vw 3vw 5vw;
+			font-size: 5vw;
+		}
+		
+		footer{
+			align-items: center;
+		}
+	}
+	
+</style>	
+</head>
+
+<body>
+<div class="contenedor">
+<header>
+	<div class="logo">
+		<figure>
+			<img src="logos/logo300x300.jpg" alt="">
+			<figcaption></figcaption>
+		</figure>
+	</div>
+	
+	
+	<nav class="links">
+		<a href="#">Inicio</a>
+		<a href="#">Blog</a>
+		<a href="#">Proyectos</a>
+		<a href="#">Contacto</a>
+	</nav>
+</header>
+
+<main>
+	<article>
+		<section class="art">
+			<h2>Lorem ipsum dolor sit amet.</h2>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia quae accusantium dicta eaque possimus provident fugit rerum nisi deserunt exercitationem corporis, rem dignissimos magni, quos vitae ab eligendi, delectus voluptate. Eius cupiditate enim laudantium earum quod, quos, voluptate, totam, repellat similique adipisci eveniet facilis facere minima. Reiciendis harum fugit impedit sit veritatis. Ipsa fugit aliquam inventore ut reprehenderit, non asperiores.
+			</p>
+			<button>Leer mas</button>
+		</section>
+		<div class="hr"></div>
+		<section class="art">
+			<h2>Lorem ipsum dolor sit amet.</h2>
+			<p>
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia quae accusantium dicta eaque possimus provident fugit rerum nisi deserunt exercitationem corporis, rem dignissimos magni, quos vitae ab eligendi, delectus voluptate. Eius cupiditate enim laudantium earum quod, quos, voluptate, totam, repellat similique adipisci eveniet facilis facere minima. Reiciendis harum fugit impedit sit veritatis. Ipsa fugit aliquam inventore ut reprehenderit, non asperiores.
+			</p>
+			<button>Leer mas</button>
+		</section>
+	</article>
+
+	<aside>
+		
+			<div class="publicidad">
+				<h2>BLOQUE PUBLICITARIO</h2>
+			</div>
+			<div class="publicidad">
+				<h2>BLOQUE PUBLICITARIO</h2>
+			</div>
+			<div class="publicidad">
+				<h2>BLOQUE PUBLICITARIO</h2>
+			</div>
+		
+	</aside>
+</main>	
+
+
+
+<footer>
+	<section class="links">
+		<a href="#">Inicio</a>
+		<a href="#">Blog</a>
+		<a href="#">Proyectos</a>
+		<a href="#">Contacto</a>
+	</section>
+	
+	<div class="contenedorimg">
+		<img src="LOGOS/Marca ER ISO 9001INF.jpg"   alt=""/> 
+		<img src="LOGOS/ga-gestion-ambiental-14001-inf.jpg"  alt=""/>
+		<img src="LOGOS/IQNET-9001.png"   alt=""/>
+	</div>
+	
+
+</footer>
+	</div>
+</body>
+</html>

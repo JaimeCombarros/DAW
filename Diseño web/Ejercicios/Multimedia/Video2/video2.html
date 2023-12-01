@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+	
+		video{
+			position: absolute;
+			
+			top: 0px;
+			left: 0px;
+			right: 0px;
+			margin: auto;
+		}
+		
+		#BarraSprites{
+			width: 600px;
+			position: absolute;
+			top: 410px;
+			left: 0px;
+			right: 0px;
+			margin: auto;
+			border: 1px solid black;
+		}
+		
+		#inicio{
+			width: 50px;
+			height: 50px;
+			background-image: url("Multimedia/iconosSonidos.jpg");
+			background-position: top 54px left 151px;
+		}
+		
+		#parar{
+			width: 50px;
+			height: 50px;
+			background-image: url("Multimedia/iconosSonidos.jpg");
+			background-position: top 54px left 54px;
+			
+		}
+		
+		#retrocede{
+			width: 50px;
+			height: 50px;
+			background-image: url("Multimedia/iconosSonidos.jpg");
+			background-position: top 54px left 269px;
+			
+		}
+		
+		#avanza{
+			width: 50px;
+			height: 50px;
+			background-image: url("Multimedia/iconosSonidos.jpg");
+			background-position: top 54px left 217px;
+			
+		}
+
+	</style>
+</head>
+
+<body>
+	
+	<video width="600" height="400" preload id="video" poster="Multimedia/andalucia.png" controls>
+		<source src="../videos/video coro.mp4" type="" >
+	</video>
+	<div id="BarraSprites">
+		<button id="inicio"></button>
+		<button id="parar"></button>
+		<button id="retrocede"></button>
+		<button id="avanza"></button>
+	</div>
+</body>
+</html>

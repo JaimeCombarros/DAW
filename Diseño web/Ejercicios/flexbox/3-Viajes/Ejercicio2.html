@@ -1,0 +1,148 @@
+<!doctype html>
+<html> 
+<head>
+  <meta charset="utf-8">
+  <title>Viajes FlyKube.</title>
+  <meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="reset.css">
+
+  <style>
+/*	C A B E C E R A  */
+	  header{
+		  display: flex;
+		  background-color: black;
+		  justify-content: space-between;
+		  flex-flow: row-reverse;
+		  align-items: center;
+		  width: 100vw;
+	  }
+	  header form{margin: 0 20vw 0 0;display: flex;flex-flow: column nowrap;} 
+	  header input{ width: 22vw; height: 2vw;}
+	  header label{color: white; font-size: 2.5vw;text-align: center;}  
+	  header img{width: 25vw;}
+/**** C U E R P O  ********/
+	  
+	  main h1{
+		  text-align: center;
+		  font-size: 2.5vw;
+		  margin: 2vw 0 2vw 0;
+	  }
+	  
+	  
+	  #ofertas{
+		  display: flex;  
+	  }
+	  
+	  .card_uno,.card_dos,.card_tres{
+		  	display: flex;
+		  	width: 100%;
+		  	margin: 0 1.5vw 0 1.5vw ;
+		  	border: 1px solid;
+		  	border-radius: 10px;
+		  	align-items: center;
+			flex-flow: column nowrap;	 
+		  	justify-content: space-between;
+		  	box-shadow: 5px 5px 5px 5px grey;
+	  }
+	  
+	  
+	  	  .card_uno img,.card_dos img,.card_tres img{width: 96%; margin: 2%;border-radius: 10px;}	  
+		  .card_uno button,.card_dos button,.card_tres button{width: 90px; height: 30px; margin-bottom: 10px; margin-top: 10px; border-radius: 5px;cursor: pointer}
+		  .card_uno p,.card_dos p,.card_tres p{margin: 0px 1vw 5px 1vw}	
+		  .card_uno h2,.card_dos h2,.card_tres h2{margin: 0px 1vw 0px 1vw;text-align: center; font-size: 1.5em;}
+
+		  .card_uno button:hover,.card_dos button:hover,.card_tres button:hover{
+				background-color: orange;
+		  }
+	  
+	  
+	  .card_uno{
+		  background-color: lightblue;
+		  order: 1;
+	  }
+		
+	  .card_dos{
+		  background-color: lightcoral;
+		  order 0;
+	  }
+	  
+	  .card_tres{
+		  background-color: lightgreen;
+		  order: 2;
+	  }
+	  
+		  
+	  
+	  
+	  @media only screen and (max-width:640px){
+		  
+		  header{flex-flow: column-reverse;}
+		  header img{width: 50vw;}
+		  main h1{font-size: 7.5vw;text-align: center;} 
+		  header label{color: white; font-size: 7.5vw;text-align: center;} 
+		  header input{ width: 27vw; height: 3vw;}
+		  
+		  
+		  #ofertas{
+			  flex-flow: column nowrap; 
+		  }
+		  
+		  .card_uno,.card_dos,.card_tres{
+			  margin: 0vw 0vw 10vw 0vw;
+		  }
+		  
+	  }
+	  
+</style>
+
+</head>
+<body>
+<body>
+	<header>		
+			<form id="buscar">
+				<label for="busq">Buscar</label>
+				<input id="busq" type="text">
+			</form>
+			<img src="imagenes/logo2.jpg" alt="Logo de viajes FlyKube" />
+	
+	</header>
+	
+	
+<main>
+	<h1>Ofertas de viajes para Semana Santa</h1>
+	<section id="ofertas">
+	  <section class="card_uno">
+		  <div class="contenido">
+			    <img id="ronda" src="imagenes/rondapeq.jpg" alt="Tajo de Ronda" />
+			    <h2>Ronda, Ciudad Soñada </h2>
+	   			 <p>Dignissim ni iste explicabo. Minima repellendus consequatur facilis deleniti sint! Cupiditate,</p>
+	    		
+		  </div>
+		  <footer>
+	    		<button>Reservar</button>
+		  </footer>
+	  </section>
+	  <section class="card_dos">
+		  <div class="contenido">
+			  	<img src="imagenes/londres.jpg" alt="Vista de Oporto" />
+	     		<h2>Francia, un país de fábula</h2>
+	    		<p>Dignissim placerat vel aenean porta, magna Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores voluptate totam laborum sint numquam repellat, eveniet, voluptatem mollitia magni iste explicabo. Minima repellendus consequatur facilis deleniti sint! Cupiditate,Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem recusandae provident vitae cupiditate maiores ipsa doloribus consequatur, sed tenetur odit ullam asperiores, possimus inventore at quae cumque voluptatem, nam nobis.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis voluptatibus officia eius ad inventore delectus iusto ab laborum maxime necessitatibus dignissimos recusandae et fugiat blanditiis illum, tempore, at iure ex?</p>
+		  </div>
+	   	  <footer>
+	    		<button>Reservar</button>
+		  </footer>
+	  </section>
+	  <section class="card_tres">
+		  <div class="contenido">
+			    <img src="imagenes/francia.jpg" alt="Plaza Central de Polonia" />
+	     		<h2>Un viaje al viejo Londres</h2>
+	    		<p>Dignissim placerat vel aenean porta, magna Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maiores voluptate totam laborum sint numquam repellat, eveniet, voluptatem mollitia magni iste explicabo. Minima repellendus consequatur facilis deleniti sint! Cupiditate,</p>
+	    		
+		  </div>	  
+		  <footer>
+	    		<button>Reservar</button>
+		  </footer>	  </section>
+	</section>
+</main>
+</body>
+</html>

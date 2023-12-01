@@ -1,0 +1,498 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Reproductor de musica</title>
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Round" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Two+Tone" rel="stylesheet">
+	
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap');
+		
+		body,html{
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			font-family: 'Outfit', sans-serif;
+		}
+		/*------------------------------HEADER---------------------------------------------*/
+		header{
+			text-align: center;
+			font-size: 2em;
+			height: 200px;
+			background: linear-gradient(180deg, rgba(0,0,0,1) 60%, rgba(11,11,11,1)95%);
+			color: rgba(172,0,96,1.00);
+			width: 80%;
+			margin-left: 20%;
+		}
+		
+		header h1{
+			margin-top: 0px;
+			padding-top: 50px;
+		}
+		
+		/*------------------------------NAV---------------------------------------------*/
+		
+		#navegacion {
+			width: 20%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			background-color: rgba(0,0,0,1.00);
+			height: 2000px;
+		}
+		
+		#navegacion img{
+			display: block;
+			width: 50%;
+			margin: auto;
+			margin-top: 30px;
+		}
+		
+		#navegacion ul{
+			width: 100%;
+			height: 400px;
+			list-style: none;
+			padding-left: 0px;
+			margin-top: 100px;
+			font-size: 1.3em;
+		}
+		
+		#navegacion ul li{
+			height: 100px;
+			line-height: 100px;
+			overflow: hidden;
+		}
+		
+		#navegacion ul li a{
+			display: block;
+			width: 100%;
+			height: 100%;
+			text-decoration: none;
+			color: rgba(172,0,96,1.00);
+			padding-left: 30px;
+		}
+		#navegacion ul li span{
+			display: inline;
+			border-bottom: 1px solid rgba(11,11,11,1.00);
+			transition: border-color 0.5s linear;
+			transition: color 0.5s linear;
+		}
+		#navegacion ul li a:hover > span{
+			font-weight: bold;
+			border-color: white;
+			color: white;
+		}
+/*------------------------------ARTICLE---------------------------------------------*/
+		article{
+			width: 80%;
+			float: right;
+			background-color: #0B0B0B;
+		}
+		
+		.contenedorCanciones{
+			margin-top: 40px;
+			width: 20%;
+			/*border: 1px solid red;*/
+			height: 500px;
+			float: left;
+			margin-left: 17%;
+			color: #A7A7A7;
+			min-width: 300px;
+		}
+		.contenedorCanciones img{
+			width: 100%;
+			height: 230px;
+			border-radius: 10px;
+		}
+		
+		.cancion{
+			width: 230px;
+			height: 230px;
+			margin: auto; 
+			margin-top: 30px;
+			transition: box-shadow 1.5s linear;
+		}
+		
+		.contenedorCanciones h2{
+			text-align: center;
+		}
+		
+		.contenedorCanciones p{
+			margin-left: 25%;
+			opacity: 0;
+			transition: opacity 1s ease-in-out;
+		}
+		
+		.cancion:hover{
+			box-shadow: 5px 5px 25px 2px rgba(172,0,96,1.00), -5px -5px 25px 2px rgba(172,0,96,1.00);
+		}
+		.cancion:hover ~  p{
+			opacity: 1;
+		}
+		
+		article div:last-child{
+			margin-bottom: 150px;
+		}
+/*------------------------------BarraReproduccion---------------------------------------------*/
+		
+		#BarraReproduccion{
+			width: 100%;
+			position: fixed;
+			bottom: 0;
+			background-color: black;
+		}
+		#BarraReproduccion p{
+			display: block;
+			width: 70px;
+			float: left;
+			color: white;
+			margin-top: 40px;
+			margin-left: 1%;
+		}
+		
+		#BarraReproduccion input{
+			width: 250px;
+			margin-top: 42px;
+			margin-left: 5%;
+			border-radius: 5px;
+		}
+		
+		#BarraReproduccion #vol{
+			width: 150px;
+			margin-top: 42px;
+			margin-left: 1%;
+		}
+		
+		#BarraReproduccion #duracion{
+			color: white;
+			display: inline;
+			margin-left: 0.5%;
+			margin-top: 40px;
+			width: 40px;
+			height: auto;
+		}
+		
+		
+		#BarraReproduccion span{
+			width: 100%;
+			height: 100%;
+			display: block;
+			cursor: pointer;
+		}
+		#BarraReproduccion button{
+			background-color: black;
+			cursor: pointer;
+		}
+		#BarraReproduccion .material-icons-outlined:active{
+			color: rgb(255, 101, 99);
+		}
+		
+		#BarraReproduccion .material-icons-outlined{
+			font-size: 67px;
+			color: white;
+			
+		}
+		
+		#imagenCancionRepro{
+			margin-left: 10%;
+			width: 80px;
+			height: 80px;
+			border: 1px solid black;
+			float: left;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		
+		#loop{
+			margin-top: 15px;
+			margin-left: 2%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Atras{
+			margin-top: 15px;
+
+			margin-left: 5%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Reproducir{
+			margin-top: 15px;
+			margin-left: 3%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Avanza{
+			margin-top: 15px;
+			margin-left: 1%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#BarraReproduccion #volumen {
+			display: inline;
+			margin-top: 15px;
+			font-size: 27px;
+			color: white;
+			margin-left: 5%;
+			
+		}
+		
+		#barraVol{
+			width: 200px;
+			display: inline;
+			float: right;
+			margin-right: 10%;
+		}
+		
+		#vel {
+			-webkit-appearance: none;
+			background-color: purple;
+			width: 180px;
+			height:10px;
+		}
+		#vel::-webkit-slider-thumb {
+			 -webkit-appearance: none;
+            background-color: #6A0066;
+            border-radius: 100%;
+            width: 18px;
+            height: 18px;
+		}
+/*------------------------------Footer---------------------------------------------*/
+		footer{
+		}
+		
+		#limpia{
+			clear: both;
+			color: #CC3F00
+		}
+		
+	</style>
+	
+	<script>
+		var PlayPause=0;
+		var cancionSonando;
+		var myVar;
+		
+		function reproducirCancion(elemento){
+			if(cancionSonando!=undefined){
+				cancionSonando.currentTime=0;
+				cancionSonando.pause();
+			}
+			
+			cancionSonando=elemento.parentElement.getElementsByTagName("audio")[0];
+			var imagen=elemento.firstChild.getAttribute("src");
+			var texto=elemento.parentElement.getElementsByTagName("h2")[0].innerText;
+			//Fondo cancion
+			var cuadrito=document.getElementById("imagenCancionRepro");
+			cuadrito.style.background="url('"+imagen+"')";
+			cuadrito.style.backgroundSize="cover";
+			//Cambio del texto de la cancion
+			document.getElementById("tituloCancion").innerHTML=texto;
+			//Barra de la cancion
+			var barraVel=document.getElementById("vel");
+			barraVel.setAttribute("max",cancionSonando.duration);
+			
+			//iniciar la cancion
+			cancionSonando.currentTime=0;
+			cancionSonando.play();
+			PlayPause=1;
+			resetearValores();
+			reproducir();
+			document.getElementById("Reproducir").children[0].innerHTML="pause_circle_filled";
+		}
+		
+		function cambiaVolumen(elemento){
+			cancionSonando.volume=elemento.value*0.01;
+			if(cancionSonando.volume!=0){
+				document.getElementById("volumen").innerHTML="volume_up";
+			}else{
+				document.getElementById("volumen").innerHTML="volume_off";
+			}
+		}
+		
+		function cambiaDuracion(elemento){
+			cancionSonando.currentTime=elemento.value;			
+		}
+		
+		function activaLoop(elemento){
+			if(elemento.children[0].style.color=="rgb(255, 101, 99)"){
+				elemento.children[0].style.color="white";
+				cancionSonando.loop = false;
+			}else{
+				elemento.children[0].style.color="rgb(255, 101, 99)";
+				cancionSonando.loop = true;
+			}
+		}
+		
+		function cambiaReproduccion(elemento){
+			if(PlayPause==0){
+				cancionSonando.play();
+				reproducir();
+				PlayPause=1;
+				elemento.children[0].innerHTML="pause_circle_filled";
+			}else{
+				cancionSonando.pause();
+				PlayPause=0;
+				pausar();
+				elemento.children[0].innerHTML="play_circle_filled";
+			}			
+		}
+		
+		function resetCancion(elemento){
+			cancionSonando.currentTime=0;
+		}
+		
+		function resetearValores(){
+			clearInterval(myVar);
+			document.getElementById("vel").setAttribute("value","0");
+			duracion.innerHTML=0;
+		}
+		
+		
+		function actualizar_slider_tiempo() {
+            let tiempo_transcurrido = Math.round(cancionSonando.currentTime);
+            let minutos = Math.floor(tiempo_transcurrido / 60);
+            let segundos = tiempo_transcurrido % 60;
+            duracion.innerHTML = minutos + ":" + ((segundos>=10)?segundos:"0"+segundos);
+			document.getElementById("vel").setAttribute("value",tiempo_transcurrido);
+        }
+		
+		function reproducir() {
+			myVar = setInterval(actualizar_slider_tiempo, 1000);
+		}
+		
+		function pausar() {
+			clearInterval(myVar);
+		}
+		
+	</script>
+</head>
+	
+<body>
+	<header>	
+		<h1>My Music</h1>
+	</header>
+	<main>
+		<nav id="navegacion">
+			<img src="imagenes/logo.png" alt="">
+			<ul>
+				<li><a href=""><span>Inicio</span></a></li>
+				<li><a href="MyVideo.html"><span>Mis vídeos</span></a></li>
+				<li><a href=""><span>Descubrimiento</span></a></li>
+				<li><a href=""><span>Top éxitos</span></a></li>
+			</ul>
+		</nav>
+		<article>
+			<div id="limpia"></div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/yonaguni.jpg" alt="" ></div>
+				<h2>Yonaguni</h2>
+				<p>Autor: Bad Bunny</p>
+				<p>Año de Salida: 2021</p>
+				<p>Duración: 3:26</p>
+				<audio>
+					<source src="audios/yt1s.com - Bad Bunny  Yonaguni Video Oficial.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/nectar.jpg" alt=""></div>
+				<h2>MODUS</h2>
+				<p>Autor: Joji</p>
+				<p>Año de Salida: 2020</p>
+				<p>Duración: 3:27</p>
+				<audio>
+					<source src="audios/yt1s.com - Joji  MODUS.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/Absolution.jpg" alt=""></div>
+				<h2>Butterflies and hurricanes</h2>
+				<p>Autor: Muse</p>
+				<p>Año de Salida: 2003</p>
+				<p>Duración: 5:01</p>
+				<audio>
+					<source src="audios/yt1s.com - Butterflies and Hurricanes.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/time.jpg" alt=""></div>
+				<h2>After Dark</h2>
+				<p>Autor: Mr.Kitty</p>
+				<p>Año de Salida: 2014</p>
+				<p>Duración: 4:17</p>
+				<audio>
+					<source src="audios/yt1s.com - MrKitty  After Dark.mp3.webm" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/HDKR.jpg" alt=""></div>
+				<h2>Dime que si</h2>
+				<p>Autor: Natos y Waor ft.RecycledJ</p>
+				<p></p>
+				<p>Año de Salida: 2021</p>
+				<p>Duración: 4:29</p>
+				<audio>
+					<source src="audios/yt1s.com - Natos Waor Recycled J  DIME QUE SÍ Letra Hijos de la Ruina Vol 3.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+			<div class="contenedorCanciones">
+				<div class="cancion" onClick="reproducirCancion(this);"><img src="imagenes/mono.jpg" alt=""></div>
+				<h2>Cancion Jaime</h2>
+				<p>Autor: Jaime</p>
+				<p></p>
+				<p>Año de Salida: 2021</p>
+				<p>Duracion: 1:00</p>
+				<audio>
+					<source src="audios/remixMusica_Jaime.mp3" type="audio/mpeg">
+				</audio>
+			</div>
+		</article>
+		<div id="BarraReproduccion">
+			
+			<p id="tituloCancion"></p>
+			
+			<div id="imagenCancionRepro"> </div>
+			<button id="loop" onClick="activaLoop(this);">
+				<span class="material-icons-outlined">loop</span>
+			</button>
+			<button id="Atras" onClick="resetCancion(this);"> 
+				<span class="material-icons-outlined" >skip_previous</span>
+			</button>
+			<button id="Reproducir" onClick="cambiaReproduccion(this);">
+				<span class="material-icons-outlined">play_circle_filled</span>
+			</button>
+			<button id="Avanza"> 
+				<span class="material-icons-outlined">skip_next</span>
+			</button>
+			
+			
+			<input type="range" id="vel" min="0" max="250" value="0" onchange="cambiaDuracion(this)">
+			<span id="duracion">0</span>
+			<div id="barraVol">
+				<span class="material-icons-outlined" id="volumen">volume_up</span>
+				<input type="range" id="vol" min="0" max="100" value="50" onmousemove="cambiaVolumen(this)">
+			</div>
+		</div>
+	</main>
+	<footer>
+	
+	</footer>
+</body>
+</html>

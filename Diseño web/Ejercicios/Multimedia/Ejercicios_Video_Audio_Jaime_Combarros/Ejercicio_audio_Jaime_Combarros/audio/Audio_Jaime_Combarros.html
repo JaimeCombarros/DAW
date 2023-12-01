@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		
+		function opcionesAudio(opcion){
+			var musica= document.getElementById("musica");
+			
+			switch(opcion){
+				case 'reproducir':
+					musica.play();
+				break;
+				case 'parar':
+					musica.pause();
+				break;
+				case 'subir':
+					musica.volume=musica.volume+0.1;
+				break;
+				case 'bajar':
+					musica.volume=musica.volume-0.1;
+				break;
+			}
+		}
+		
+		function modificarRange(input){
+			var musica= document.getElementById("musica");
+			if(input.id=="vol"){
+				musica.volume=input.value*0.01;
+				document.getElementById("porcentaje").innerHTML=input.value+"%";
+			}else{
+				musica.currentTime=input.value;
+				document.getElementById("duracion").innerHTML=input.value+"seg";
+			}
+			
+		}
+		
+	</script>
+	<style>
+		div{
+			background-color: antiquewhite;
+			border: 1px solid black;
+			border-radius: 10px;
+			width: 60%;
+			margin: auto;
+			text-align: center;
+			height: 50px;
+		}
+		
+		div button,div input, div span{
+			margin-top: 10px;
+		}
+	
+	</style>
+</head>
+
+<body>
+	
+	<audio id="musica">
+		<source src="SONIDOS/Coldplay.mp3" type="audio/mpeg">
+	</audio>
+	
+	<div>
+		<button type="button" onClick="opcionesAudio('reproducir');">Reproducir</button>
+		<button type="button" onClick="opcionesAudio('parar');">Parar</button>
+		<button type="button" onClick="opcionesAudio('subir');">Subir Volumen</button>
+		<button type="button" onClick="opcionesAudio('bajar');">Bajar Volumen</button>
+		<input type="range" id="vol" min="0" max="100" value="50" onchange="modificarRange(this)">
+		<span id="porcentaje"></span>
+		<input type="range" id="vel" min="0" max="250" value="50" onchange="modificarRange(this)">
+		<span id="duracion"></span>
+	</div>
+</body>
+</html>

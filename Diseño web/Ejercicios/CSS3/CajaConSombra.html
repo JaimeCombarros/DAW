@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		div{
+			position: relative;
+			height: 300px;
+			width: 350px;
+			border: 1px solid ;
+			border-radius: 20px;
+			text-align: center;
+			margin:auto;
+			margin-top: 220px;
+			background-color: white;
+			z-index: 1000;
+		}
+		div::after{
+			position: absolute;
+			top: -10px;
+			left: -10px;
+			content: " ";
+			width: 110%;
+			height: 120%;
+			background: linear-gradient(90deg, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+			filter: blur(10px);
+			z-index: -1;
+		}
+	</style>
+</head>
+
+<body>
+	<div>
+		<p>Ies Martin Rivero</p>
+	</div>
+</body>
+</html>

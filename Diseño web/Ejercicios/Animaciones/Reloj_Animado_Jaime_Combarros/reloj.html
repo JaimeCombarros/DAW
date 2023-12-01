@@ -1,0 +1,59 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		@keyframes minutos{
+			0%{transform:rotate(0deg);}
+			100%{transform:rotate(360deg);}
+		}
+
+		
+		#reloj{
+			background-image: url("imagenes/clockFace.png");
+			width: 378px;
+			height: 378px;
+			margin: auto;
+			margin-top: 300px;
+			position: relative;
+		}
+		
+		#hora{
+			background-image: url("imagenes/hourHand.png");
+			position: absolute;
+			width: 378px;
+			height: 378px;
+			animation: minutos 43200s steps(12) infinite;
+		}
+		
+		#minutos{
+			background-image: url("imagenes/minuteHand.png");
+			position: absolute;
+			width: 378px;
+			height: 378px;
+			animation: minutos 3600s steps(3600) infinite;
+		}
+		
+		#segundos{
+			background-image: url("imagenes/secondHand.png");
+			position: absolute;
+			width: 378px;
+			height: 378px;
+			animation: minutos 60s steps(60) infinite;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div id="reloj">
+		<div id="hora"></div>
+		<div id="minutos"></div>
+		<div id="segundos"></div>
+	</div>
+	
+	
+	
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		nav{
+			width: 40%;
+			height: 100px;
+			margin: auto;
+			margin-top: 400px;
+		}
+		
+		li{
+			list-style: none;
+			background-color: black;
+			float: left;
+			width: 25%;
+			height: 100px;
+			text-align: center;
+		}
+		
+		a{
+			float: left;
+			width: 100%;
+			display: block;
+			line-height: 100px;
+			text-decoration: none;
+			color: white;
+			height: 0%;
+			transition: height 1s ease-in-out;
+		}
+		
+		li:hover > a{
+			height: 100%;
+		}
+		
+		#Servicios  a:hover{
+			color: black;
+		}
+		
+		#Servicios{
+			border-top: 5px solid yellow;
+		}
+		
+		#Proyectos{
+			border-top: 5px solid green;
+		}
+		
+		#Recursos{
+			border-top: 5px solid red;
+		}
+		
+		#Contacto{
+			border-top: 5px solid purple;
+		}
+		
+		#Servicios a{
+			background-color: yellow;
+		}
+		
+		#Proyectos a{
+			background-color: green;
+		}
+		
+		#Recursos a{
+			background-color: red;
+		}
+		
+		#Contacto a{
+			background-color: purple;
+		}
+	
+	</style>
+</head>
+
+<body>
+	<nav>
+		<ul>
+			<li id="Servicios"><a href="">Servicios</a></li>
+			<li id="Proyectos"><a href="">Proyectos</a></li>
+			<li id="Recursos"><a href="">Recursos</a></li>
+			<li id="Contacto"><a href="">Contacto</a></li>
+		</ul>	
+	</nav>
+</body>
+</html>

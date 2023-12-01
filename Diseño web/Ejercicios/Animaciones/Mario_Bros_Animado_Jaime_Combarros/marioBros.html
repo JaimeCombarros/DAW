@@ -1,0 +1,202 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		window.onload=function(){
+			document.onkeydown = salta;
+			mario.style.left="180px";
+		}
+		
+		function salta(Evento){
+			console.log(Evento.keyCode);
+			if(Evento.keyCode==65||Evento.keyCode==37){
+				var base = mario.style.left.substring(0,mario.style.left.length-2);
+				base = parseInt(base) - 5;
+				mario.style.left= base + "px";
+				mario.style.transform=" rotateY(180deg)";
+			}
+			if(Evento.keyCode==68||Evento.keyCode==39){
+				var base = mario.style.left.substring(0,mario.style.left.length-2);
+				base = parseInt(base) + 5;
+				mario.style.left= base + "px";
+				mario.style.transform=" rotateY(0deg)";
+			}
+			
+			if(Evento.keyCode==38||Evento.keyCode==87){
+				var base = mario.style.bottom.substring(0,mario.style.bottom.length-2);
+				base = parseInt(base) + 5;
+				mario.style.bottom= base + "px";
+				mario.style.transform=" rotateY(0deg)";
+			}
+		}
+		
+		
+		
+		
+	</script>
+	
+	<style>
+		@keyframes fondonubes {
+			0%{background-position: 0px;}
+			100%{background-position: 260px;}
+		}
+		
+		@keyframes muevesuelo {
+			0%{background-position: -32px;}
+			100%{background-position: 32px;}
+		}
+		
+		@keyframes mueveTubo {
+			0%{left: 0px;}
+			100%{left: -239px;}
+		}
+		
+		@keyframes apareceMario {
+			0%{height: 0px;}
+			100%{height: 31px;}
+		}
+		
+		@keyframes miraLados {
+			0%{transform: rotateY(180deg);}
+			40.9%{transform: rotateY(180deg);}
+			41%{transform: rotateY(0deg);}
+			58.9%{transform: rotateY(0deg);}
+			59%{transform: rotateY(180deg);}
+			100%{transform: rotateY(180deg);}
+		}
+		
+		@keyframes avanza {
+			0%{bottom: 62px;}
+			10%{bottom: 92px;}
+			30%{bottom: 13px;}
+			70%{bottom: 13px;transform: rotateY(0deg);}
+			70.1%{bottom: 13px;transform: rotateY(180deg);}
+			89.9%{bottom: 13px;transform: rotateY(180deg);}
+			90%{bottom: 13px;transform: rotateY(0deg);}
+			100%{bottom: 13px;transform: rotateY(0deg);}
+		}
+		
+		@keyframes salta {
+			0%{bottom: 13px;}
+			20%{bottom: 13px;}
+			40%{bottom: 63px;}
+			60%{bottom: 13px;}
+			100%{bottom: 13px;}
+		}
+		
+
+		
+		@keyframes muevebloque {
+			0%{left: 450px;}
+			100%{left: 180px;}
+		}
+		
+		@keyframes desaparece {
+			0%{opacity: 1;}
+			20%{opacity: 0;}
+			100%{opacity: 0;}
+		}
+		
+		@keyframes goombaAnda {
+			0%{left: 100%;}
+			100%{left: 180px;}
+		}
+		
+		
+		.fondo{
+			width: 60%;
+			height: 200px;
+			border:1px solid black;
+			position: absolute;
+			background-color: #16C5D4;
+			top: 0;
+			bottom: 0;
+			margin: auto;
+			left: 0;
+			right: 0;
+			overflow: hidden;
+			
+		}
+		
+		.tubo{
+			position: absolute;
+			width: 239px;
+			height: 113px;
+			background: url("Imagenes/fondosingumba.png");
+			animation: mueveTubo 4.5s  steps(72)  4s forwards;
+			bottom: 0px;
+			left: 0px;
+		}
+		
+		.suelo{
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			height: 13px;
+			background: url("Imagenes/f01.png") repeat-x;
+			animation: 	muevesuelo 4s  steps(64)  forwards 4s,
+						muevesuelo 4s  steps(64)  infinite 11s;
+		}
+		
+		.nubes{
+			height: 80px;
+			background: url("Imagenes/f03.png");
+			animation: fondonubes 4s  steps(64) reverse  4s,
+						fondonubes 4s  steps(64) reverse  infinite 11s;
+		}
+		
+		.mario2{
+			position: absolute;
+			background: url("Imagenes/mario222.png");
+			width: 16px;
+			height: 31px;
+			left: 180px;
+			bottom: 62px;
+			animation: 	apareceMario 2s steps(32),
+						miraLados 2s linear 2s,
+						avanza 6s  steps(128) 4s forwards,
+						salta 2s steps(32) 9s forwards,
+						salta 2s steps(32) 14s forwards;
+			overflow: hidden;
+		}
+		
+		.bloque{
+			position: absolute;
+			background: url("Imagenes/bloque2.PNG");
+			width: 20px;
+			height: 18px;
+			bottom: 72px;
+			left: 450px;
+			animation: 	desaparece 1s steps(8) 10s forwards,
+						muevebloque 4s steps(64) 4s forwards;
+			
+		}
+		
+		.goomba{
+			position: absolute;
+			background: url("Imagenes/goomba.png");
+			width: 16px;
+			height: 16px;
+			bottom: 13px;
+			left: 100%;
+			animation: 	goombaAnda 12s steps(256) 3s forwards,
+						desaparece 1s steps(8) 15.2s forwards;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<div class="fondo">
+		<div class="tubo"></div>
+		<div class="nubes"></div>
+		<div class="suelo"></div>
+		<div class="mario2" id="mario"></div>
+		<div class="bloque"></div>
+		<div class="goomba"></div>
+	</div>
+</body>
+</html>

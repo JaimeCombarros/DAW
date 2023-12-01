@@ -1,0 +1,135 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=4.0, user-scalable=0">
+<style>
+      /* Probar ocultando meta */
+  	body {
+   		font: 24px Helvetica;
+  	 	background: #999999;
+  	}
+	
+	
+	
+	
+	header,footer{
+		background-color: lightblue;
+		display: flex;
+		flex-direction: row;
+		border-radius: 10px;
+		justify-content: space-between;
+		align-items: center;
+		min-height: 100px;
+		border: 1px solid;
+	}	
+	header figure{text-align: center;}
+	header figure:nth-child(1) img{ max-width: 10vw;}
+	header figure:nth-child(2) img{ max-width: 5vw;}
+	
+	
+	#main{
+		min-height: 800px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		margin-top: 10px;
+	}
+	
+	
+	#main article,#main nav,#main aside{
+		border-radius: 10px;
+		border: 1px solid;
+	}
+	
+	#main article{
+		background-color: steelblue;
+		flex-basis: 400px;
+		flex-grow: 3;
+		flex-shrink: 1;
+		order: 1;
+		margin-left: 10px;
+		margin-right: 10px; 
+	}
+	
+	#main nav{
+		background-color: darkcyan;
+		flex-basis: 200px;
+		flex-grow: 1;
+		flex-shrink: 2;
+		order: 0;
+	}
+	
+	#main aside{
+		background-color: darkcyan;
+		flex-basis: 200px;
+		flex-grow: 3;
+		flex-shrink: 2;
+		order: 2;
+	}
+	
+	
+	footer{
+		margin-top: 10px;
+	}
+	
+	@media only screen and (max-width:640px){
+		body{
+			background-color: red;
+		}
+		
+		header figure{text-align: left; margin: 5px}
+		header figure{display: flex;}
+		header figure:nth-child(2) figcaption{ display: none;}
+		
+		#main{
+			flex-direction: column;
+			margin-top: 0;
+		}
+		
+		#main article,#main nav,#main aside{
+			margin-left: 0;
+			margin-right: 0;
+			margin-top: 5px;
+		}
+		
+		
+		
+		#main article{
+			order: 0;
+		}
+		#main nav,#main aside{
+			flex-basis: 50px;
+			flex-grow: 0;
+		}
+		#main nav{
+			order: 1;	
+		}
+		
+		#main aside{
+			order: 2;
+		}
+	}
+	
+	
+</style>
+  </head>
+  <body>
+	  	<header>
+  		  <figure>
+			  <img src="imagenes/logo.png" alt="logo empresa">
+			  <figcaption>Formación online</figcaption>  
+		  </figure> 
+		  <figure>
+		  	<img src="imagenes/login.png" alt="icono login">
+			  <figcaption>Iniciar Sesión</figcaption>	  
+		  </figure>
+	 	</header>
+ 	<div id="main">
+		<article><p>article</p></article>
+		<nav><p>nav</p></nav>
+		<aside><p>aside</p></aside>
+ 	</div>
+ 	<footer>footer</footer>
+  </body>
+</html>

@@ -1,0 +1,445 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;700&display=swap');
+		
+		body,html{
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
+		/*HEADER--------------------------------------------------------------------------*/
+		header{
+			width: 100%;
+			height: 150px;
+			background: linear-gradient(to right, rgba(7,59,76,1.00) 0%, rgba(83,129,255,0.50) 100%),url("imagenes/header.jpg") ;
+			color: rgba(203,224,232,1.00);
+			max-width: 2500px;
+			min-width: 500px;
+		}
+		
+		header img{
+			display: block;
+			margin-left: 15%;
+			float: left;
+			margin-top: 30px;
+		}
+		
+		header h1{
+			margin-top: 0px;
+			padding-left: 30%;
+			padding-top: 45px;
+			font-size: 2.3em;
+			font-family: 'Oswald', sans-serif;
+		}
+		
+		/*NAV--------------------------------------------------------------------------*/
+		
+		#navegacion{
+			height: 50px;
+			margin-top: -20px;
+			background: linear-gradient(180deg, #09222A 0%, #195b70 100%);
+			width: 100%;
+			font-family: 'Oswald', sans-serif;
+			min-width: 800px;
+			max-width: 2500px;
+		}
+		
+		#navegacion ul{
+			width: 30%;
+			margin-left: 10%;
+			list-style: none;
+		}
+		
+		#navegacion ul li{
+			float: left;
+			width: 33%;
+			text-align: center;
+		}
+		
+		#navegacion ul li a{
+			display: block;
+			line-height: 50px;
+			text-decoration: none;
+			color: white;
+		}
+		#navegacion ul li a:hover{
+			background: linear-gradient(180deg, #FCFCFC 0%, #C2C2C2 100%);
+			color: black;
+		}
+		
+		/*MAIN--------------------------------------------------------------------------*/
+		/*SECTION--------------------------------------------------------------------------*/
+		main{
+			max-width: 2500px;
+		}
+		main #informacion{
+			margin: auto;
+			margin-top: 40px;
+			width: 80%;
+			height: 200px;
+			min-width: 990px;
+		}
+		
+		main #informacion article{
+			width: 23%;
+			height: 100%;
+			float: left;
+			text-align: center;
+			border: 1px solid black;
+			overflow: hidden;
+		}
+		
+		main #informacion article img{
+			width: 55px;
+			float: left;
+			margin-top: 35px;
+		}
+		main #informacion article h1{
+			width: 60%;
+			display: block;
+			font-family: 'Oswald', sans-serif;
+		}
+		main #informacion article p{
+			text-align: left;
+			padding-left: 5%;
+		}
+		main #informacion article button{
+			width: 50px;
+			height: 30px;
+			margin-bottom: 10px;
+			cursor: pointer;
+		}
+		
+		button{
+			cursor: pointer;
+			background: linear-gradient(180deg, #FCFCFC 0%, #C2C2C2 100%);
+		}
+		#a1{
+			background: linear-gradient(180deg, steelblue 0%, lightblue 100%);
+			color: white;
+		}
+		
+		#a2{
+			background: linear-gradient(180deg, limegreen 0%, lightgreen 100%);
+			color: white;
+		}
+		
+		#a3{
+			background: linear-gradient(180deg, orange 0%, red 100%);
+			color: white;
+		}
+		
+		#a4{
+			background: linear-gradient(180deg, orange 0%, yellow 100%);
+			color: white;
+		}
+		/*SECTION2--------------------------------------------------------------------------*/
+		#columnas{
+			width: 80%;
+			margin: auto;
+			margin-top: 50px;
+			display: block;
+			min-width: 600px;
+		}
+		#columnas article{
+			width: 32%;
+			float: left;
+			
+		}
+		#columnas article h2{
+			font-family: 'Oswald', sans-serif;
+			
+		}
+		/*1COLUM--------------------------------------------------------------------------*/
+		#columnas article:nth-child(1) h2{
+			color: gray;
+			
+		}
+		
+		#columnas article:nth-child(1) p{
+			padding-right: 1%;
+			padding-left: 1%;
+		}
+		
+		#columnas article:nth-child(1) img{
+			width: 70%;
+			text-align: left;
+			margin-left: 1%;
+			
+		}
+		/*2COLUM--------------------------------------------------------------------------*/
+		#columnas article:nth-child(2) h2{
+			color: gray;
+			margin-left: 5%;
+		}
+		
+		#columnas article:nth-child(2) ul{
+			list-style-image: url("imagenes/viñetas.png");
+		}
+		
+		#columnas article:nth-child(2) li{
+			margin-top: 5px;
+		}
+		/*3COLUM--------------------------------------------------------------------------*/
+		#columnas article:nth-child(3) {
+			overflow: hidden;
+			border: 1px solid red;
+		}
+		
+		#columnas article:nth-child(3) h2{
+			color: gray;
+			margin-left: 5%;
+			color: rgba(152,53,68,1.00);
+			font-weight: bold;
+		}
+		
+		#columnas article:nth-child(3) input,#columnas article:nth-child(3) select{
+			margin-top: 20px;
+		}
+		
+		input{
+			border: none;
+			background: none;
+			width: 50%;
+			border-bottom: 1px solid grey;
+			transition: border-color 1.5s linear;
+			color: rgba(110,110,110,1.00);
+			font-size: 1.2em;
+		}
+		
+		label{
+			margin-left: 5%;
+			font-size: 1.2em;
+		}
+		
+		
+		input:last-child{
+			width: 60px;
+			height: 40px;
+			display: block;
+			margin: auto;
+			margin-top: 30px;
+			margin-bottom: 10px;
+			font-size: 1em;
+			background-color: rgba(134,213,202,1.00);
+			color: white;
+			border: none;
+			border-radius: 10px;
+			transition: background-color 0.5s linear;
+			
+		}
+		select{
+			transition: border-color 1.5s linear;
+			margin-left: 30%;
+		}
+		
+		select:focus{
+			border-color: orange;
+			outline: none;
+		}
+		
+		input:focus{
+			border-color: orange;
+			outline: none;
+		}
+		
+		input:last-child:hover{
+			background-color: rgba(241,109,41,1.00);
+		}
+		
+		input:valid,select:valid{
+			border-color: green;
+		}
+		/*Footer--------------------------------------------------------------------------*/
+		footer{
+			clear: both;
+			margin-top: 30px;
+			background-color: rgba(166,187,168,1.00);
+			height: 150px;
+			min-width: 700px;
+			max-width: 2500px;
+		}
+		
+		footer a{
+			text-decoration: none;
+			color: rgba(48,134,114,1.00);
+		}
+		
+		footer div{
+			float: left;
+			width: 20%;
+		}
+		footer div h3{
+			font-family: 'Oswald', sans-serif;
+		}
+		
+		footer div:nth-child(4){
+			float: left;
+			width: 30%;
+		}
+		
+		/*1colum--------------------------------------------------------------------------*/
+		footer div:nth-child(1){
+			text-align: center;
+			margin-top: 10px;
+		}
+		
+		
+		footer div:nth-child(1) h3{
+			margin-left: 10%;
+		}
+			
+		footer div ul{
+			list-style: none;
+		}
+		/*2colum--------------------------------------------------------------------------*/
+		footer div:nth-child(2){
+			text-align: center;
+			margin-top: 10px;
+		}
+		footer div:nth-child(2) h3{
+			margin-left: 10%;
+		}
+		/*3colum--------------------------------------------------------------------------*/
+		footer div:nth-child(3){
+			text-align: center;
+			margin-top: 10px;
+		}
+		footer div:nth-child(3) button{
+			border: none;
+			background: none;
+			cursor: pointer;
+		}
+		/*4colum--------------------------------------------------------------------------*/
+		footer div:nth-child(4) p{
+			text-align: center;
+			margin-top: 50px;
+		}
+		
+		
+		#limpia{
+			clear: both;
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+	<img src="imagenes/logo.png" alt="">
+	<h1>UNIVERSIDAD EUROPEA DE MADRID</h1>
+	</header>
+	<nav id="navegacion">
+		<ul>
+			<li><a href="">INICIO</a></li>
+			<li><a href="">MATRICULA</a></li>
+			<li><a href="">CONTACTO</a></li>
+		</ul>
+	</nav>
+	
+	<main>
+		
+		<section id="informacion">
+			<article id="a1">
+				<img src="imagenes/port.png" alt="">
+				<div>
+				<h2>Documentacion</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+				</div>
+				<button>Mas</button>
+			</article>
+			<article id="a2">
+				<img src="imagenes/time-3.png" alt="">
+				<h2>Temporalizacion</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+				<button>Mas</button>
+			</article>
+			<article id="a3">
+				<img src="imagenes/chart.png" alt="">
+				<h2>Inversiones</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+				<button>Mas</button>
+			</article>
+			<article id="a4">
+				<img src="imagenes/dir.png" alt="">
+				<h2>Directiorio</h2>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+				<button>Mas</button>
+			</article>	
+		</section>
+		
+		<section id="columnas">
+			<article>
+				<h2>Equipo de expertos</h2>
+				<img src="imagenes/imagen_1.jpg" alt="">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam deleniti id maiores modi reiciendis labore et, quia, quidem quisquam culpa autem obcaecati eveniet sint. Debitis optio, eaque accusantium quia dolore.</p>
+				<button>Mas</button>
+			</article>
+			<article>
+				<h2>Servicios</h2>
+				<ul>
+					<li>Lorem ipsum dolor sit amet.</li>
+					<li>Lorem ipsum dolor sit amet.</li>
+					<li>Lorem ipsum dolor sit.</li>
+					<li>Lorem ipsum dolor.</li>
+					<li>Lorem ipsum dolor sit amet.</li>
+					<li>Lorem ipsum dolor sit amet.</li>
+					<li>quidem quisquam culpa autem</li>
+					<li>quidem quisquam culpa autem</li>
+					<li>quidem quisquam culpa autem</li>
+				</ul>
+			</article>
+			<article>
+				<form action="">
+				<h2>Solicitud de informacion</h2>
+					<label for="nombre">Nombre: </label>
+					<input type="text" id="nombre" required><br>
+					<label for="apellidos">Apellidos: </label>
+					<input type="text" id="apellidos" required> <br><br>
+					<label for="curso">Cursado anteriormente: </label>
+					<select name="curso" id="curso" required>
+						<option value ="2Bach">2Bach</option>
+						<option value ="FP">FP</option>
+						<option value ="Educaciones">Educaciones exteriores</option>
+						<option value ="Otros">Otros</option>
+					</select><br>
+					<input type="submit">
+				</form>
+			</article>
+		</section>
+		<div id="limpia"></div>
+	</main>
+	<footer>
+		<div>
+			<h3>Web amigas</h3>
+			<ul>
+				<li><a href="">Bienvenido</a></li>
+				<li><a href="">Lorem ipsum.</a></li>
+				<li><a href="">Bienvenido</a></li>
+				<li><a href="">Lorem ipsum.</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>Utilidades</h3>
+			<ul>
+				<li><a href="">Map</a></li>
+				<li><a href="">adress.</a></li>
+				<li><a href="">Contact us</a></li>
+			</ul>
+		</div>
+		<div>
+			<h3>Redes sociales</h3>
+			<button><img src="imagenes/footerrssicon.png" alt=""></button>
+			<button><img src="imagenes/footerfacebookicon.png" alt=""></button>
+			<button><img src="imagenes/twitter_32.png" alt=""></button>
+		</div>
+		<div>
+			<p>Hecho por: Jaime Combarros Recuerda <a href="">IconBender</a></p>
+			
+		</div>
+	</footer>
+</body>
+</html>

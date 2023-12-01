@@ -1,0 +1,112 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		.general .letras:nth-child(1) .front { background: #ff4136 }
+		.general .letras:nth-child(2) .front { background: #ff851b }
+		.general .letras:nth-child(3) .front { background: #2ecc40 }
+		.general .letras:nth-child(4) .front { background: #0074d9 }
+		.general .letras:nth-child(5) .front { background: #b10dc9 }
+		.general .letras:nth-child(6) .front { background: #F60 }
+		
+		.general .letras:nth-child(1) .back { border-color: #ff4136 }
+		.general .letras:nth-child(2) .back { border-color: #ff851b }
+		.general .letras:nth-child(3) .back { border-color: #2ecc40}
+		.general .letras:nth-child(4) .back { border-color: #0074d9}
+		.general .letras:nth-child(5) .back { border-color: #b10dc9}
+		.general .letras:nth-child(6) .back { border-color: #F90 }
+		
+		.letras {
+			display: inline-block;
+			width: 8%;
+			padding: .9rem;
+			position: relative;
+			-webkit-perspective: 20rem;
+			perspective: 20rem;
+			transform-style:preserve-3d;
+		}
+		
+		.letras::before {
+			content: "\00a0";
+		}
+		
+		.back, .front {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			line-height: 3em;
+			-webkit-backface-visibility: hidden;
+			transition: transform 800ms;
+			text-align: center;
+		}
+		
+		.general .back {
+			border: .5rem solid;
+			background: #fff;
+			color: #000;
+			transform: rotateY(-180deg);
+			line-height: 2em;
+		}
+		
+		.general:hover .back {
+			transform: rotateY(0deg)
+			}
+		
+		.general:hover .front {
+			transform: rotateY(180deg)
+			}
+		
+		.general .letras:nth-child(1) span { transition-delay: 200ms }
+		.general .letras:nth-child(2) span { transition-delay: 400ms }
+		.general .letras:nth-child(3) span { transition-delay: 600ms }
+		.general .letras:nth-child(4) span { transition-delay: 800ms }
+		.general .letras:nth-child(5) span { transition-delay: 1000ms }
+		.general .letras:nth-child(6) span { transition-delay: 1200ms }
+
+		.general {
+			margin: 0 auto;
+			width: 371px;			
+		}
+		
+		.general:hover {
+			cursor: pointer;
+		}
+	
+	</style>
+</head>
+
+<body>
+	<div class="general">
+		<span class="letras">
+			<span class="back">R</span>
+			<span class="front">M</span>
+		</span>
+		<span class="letras">
+			<span class="back">I</span>
+			<span class="front">A</span>
+		</span>
+		<span class="letras">
+			<span class="back">V</span>
+			<span class="front">R</span>
+		</span>
+		<span class="letras">
+			<span class="back">E</span>
+			<span class="front">T</span>
+		</span>
+		<span class="letras">
+			<span class="back">R</span>
+			<span class="front">I</span>
+		</span>
+		<span class="letras">
+			<span class="back">O</span>
+			<span class="front">N</span>
+		</span>
+		
+	</div>
+</body>
+</html>

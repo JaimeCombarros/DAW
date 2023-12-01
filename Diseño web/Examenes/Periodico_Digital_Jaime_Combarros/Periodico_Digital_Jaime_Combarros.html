@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		html{
+			width: 100%;
+		}
+		body{
+			width: 50%;
+			margin: auto;
+			max-width: 650px;
+			min-width: 360px;
+		}
+		
+		@font-face{
+			 font-family: 'Roboto';
+			  src:url("fuente/Roboto-Black.ttf");
+			  font-style: normal;
+			  font-weight: 300;
+		}
+		
+		header{
+			text-align: center;
+			background: -webkit-linear-gradient(bottom, rgba(237,237,237,1.00) 30%, rgba(66, 89, 153,1.00) 90%);
+			color: rgba(192,192,192,1.00) 			
+			margin: 0px 0px 0px 0px;
+			border-bottom: 5px solid black;
+		}
+		
+		header h1{
+			font-family: Roboto;
+			margin-top: 0px;
+			padding-top: 10px;
+			text-shadow: 3px 3px 3px grey;
+		}
+		
+		header p{
+			padding-bottom: 15px;
+			font-weight: bold;
+		}
+		//---------------------------------------------------------
+		main{
+			
+		}
+		
+		main,article{
+			width: 100%;
+			font-size: 1em;
+		}
+		
+		main>article{
+			margin-top: 20px;
+			/*border: 2px dotted black;*/
+		}
+		
+		span{
+			font-size: 2.2em;
+			float: left;
+			margin-top: -6px;
+		}
+		main article p{
+			text-align: justify;
+		}
+		
+		main article img:first-child{
+			width: 30%;
+			float: left;
+			margin-right: 1%;
+		}
+		
+		main article aside{
+			float: right;
+			width: 50%;
+			border: 2px dotted black;
+			margin-left: 5%;
+			text-align: center;
+			display: table;
+		}
+		
+		main article aside h1,main article aside p{
+			height: 50px;
+			border-bottom: 1px dotted black;
+			
+		}
+		main article aside div{
+			display: table-row;
+		}
+		main article aside h1{
+			display: table-cell;
+			vertical-align: middle;
+			color: black;
+			background: radial-gradient(ellipse, rgba(255,255,255,1) 20%,  rgba(66, 89, 153,1.00)100%);
+		}
+		
+		main article aside div p{
+			display: table-cell;
+			vertical-align: middle;
+			background-color: rgba(221,215,255,1.00);
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+		
+		main article aside div:last-child p{
+			border-bottom: none;
+		}
+		-----------------------------------------------------------------------
+		
+		footer{
+		}
+		
+		footer p{
+			text-align: center;
+			line-height: 70px;
+			height: 70px;
+			clear: both;
+			margin-top: 70px;
+			background: -webkit-linear-gradient(bottom, rgba(66, 89, 153,1.00) 20% ,rgba(237,237,237,1.00) 70% );
+			
+		}
+		
+	</style>
+</head>
+
+<body>
+	<header>
+		<h1>Periódico digital EL PAIS</h1>
+		<p>El engaño de Volskswagen se extiende a las pruebas de dioxido de carbono</p>
+	</header>
+	<main>
+		<article>
+			<img  src="imagenes/coches.jpg" alt="imagen de un vehiculo Volskswagen">
+			<section>
+				<p><span>E</span>l escándalo Volkswagen alcanza una nueva proporción. Hasta el momento la compañía solo había reconocido la instalación de un software en 11 millones de vehículos de todo el mundo que trucaba las emisiones de óxidos de nitrógeno (NOx). Esta tarde, la empresa alemana ha reconocido en un comunicado que la investigación interna ha sacado a la luz “incoherencias inexplicables” en otras emisiones, las de dióxido de carbono, en al menos 800.000 coches. La empresa puso cifras al coste que le supondrá la nueva irregularidad: en torno a 2.000 millones de euros, que vienen a sumarse a los 6.700 millones de euros que ya provisionó para hacer frente a la crisis del software trampa.</p>
+			</section>
+			<section>
+				<p><span>V</span>olkswagen no ofreció más detalles del nuevo descubrimiento. Lo único claro es que es un caso distinto al del software fraudulento y que implica nuevas emisiones. No dijo en qué países se vendieron los coches afectados, cuándo se fabricaron o en cuánto se exceden los niveles permitidos. Solo apuntó el coste del problema: 2.000 millones. Eso significa que la reparación por coche sería de 2.500 euros por vehículo, frente a los 600 por unidad que provisionó por el escándalo de septiembre.
+				</p>
+			</section>
+			<aside>
+				<div><h1>Mas información</h1></div>
+				<div><p>Volkswagen afronta una oleada de demandas en todo el mundo</p></div>
+				<div><p>El estudio de 60.000 euros que puede arruinar a Volkswagen</p></div>
+				<div><p>EE UU acusa también a Porsche de haber falseado las emisiones</p></div>
+				<div><p>Volkswagen avisará por ‘mail’ a los dueños de coches trucados</p></div>
+			</aside>
+			<section>
+				<p>Si se confirmara que hay problemas con las emisiones de dióxido de carbono en coches europeos, el caso Volkswagen podría alcanzar una nueva dimensión. El dióxido de carbono influye directamente en el cambio climático, y a diferencia de las emisiones NOx, las emisiones de dióxido de carbono sí son un criterio que utiliza, por ejemplo, el Ministerio de Industria español a la hora de conceder ayudas a los fabricantes de automóviles.
+				</p>
+			</section>
+
+		</article>
+	</main>
+	<footer>
+		<p>Agencia EuropeaPress 2018</p>
+	</footer>
+		
+</body>
+</html>

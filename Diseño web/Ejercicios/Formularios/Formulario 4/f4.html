@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		html,body{
+			width: 100%;
+			height: 100%;
+		}
+		
+		body{
+			background: url("imagenes/fondo2.jpg");
+			background-size: cover;
+			background-attachment: fixed;
+			position: relative;
+		}
+		
+		
+		#cristal{
+
+			height: 500px;
+			position: absolute;
+			top:  0px;
+			left:  0px;
+			right: 0px;
+			bottom: 0px;
+			margin: auto;
+			box-shadow: inset 0 0 2000px rgba(255, 255, 255, .5);
+			filter: blur(10px);
+			backdrop-filter:opacity(90%);
+			background: inherit;
+			z-index: -1000;
+		}
+		
+		img{
+			width: 30%;
+			display: block;
+			margin: auto;
+			border-radius: 50%;
+			margin-top: 40px;
+			filter: none;
+			background: none;
+		}
+		
+		#formulario{			
+			position: absolute;
+			filter: none;
+			background: none;
+			width: 350px;
+			height: 500px;
+			top:  0px;
+			left:  0px;
+			right: 0px;
+			bottom: 0px;
+			margin: auto;
+		}
+		
+		input{
+			border: none;
+			background: none;
+			border-bottom: 1px solid grey;
+			width: 60%;
+			height: 40px;
+			display: block;
+			margin: auto;
+			transition: border-color 1.5s ease;
+			transition-timing-function: cubic-bezier(0,0,1,1);
+			color: rgba(210,210,210,1.00);
+			font-size: 1.2em;
+		}
+		
+		input:focus{
+			border-color: orange;
+		}
+		
+		input:valid{
+			border-color: green;
+		}
+		
+		input:first-child{
+			margin-top: 50px;
+			
+		}
+		
+		input:last-child{
+			margin-top: 55px;
+			background-color: rgba(202,19,99,1.00);
+			color: white;
+			border: none;
+			border-radius: 10px;
+			height: 50px;
+			font-weight: bold;
+			transition: background-color 0.5s ease;
+			transition-timing-function: cubic-bezier(0,0,1,1);
+			cursor: pointer;
+		}
+		input:last-child:hover{
+			background-color: rgba(241,109,41,1.00);
+		}
+		input:focus{
+			outline: none;
+		}
+		
+		
+		a{
+			display: block;
+			text-align: center;
+			color: rgba(210,210,210,1.00);
+			margin-top: 30px;
+		}
+	
+	</style>
+</head>
+
+<body>
+	<div id="formulario">
+		<div id="cristal"></div>
+		<img src="imagenes/loki.png" alt="">	
+		<form action="">
+			<input type="text" placeholder="Usuario" required autofocus pattern="[A-Za-z]*"><br>
+			<input type="password" placeholder="Password" required>
+			<input type="submit" value="Iniciar sesión">
+		</form>
+		<a href="">¿Olvidate la clave?</a>
+	</div>
+	
+</body>
+</html>

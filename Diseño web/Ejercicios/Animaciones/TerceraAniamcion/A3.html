@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		
+		@keyframes fondoEstrellas {
+			0%{background-position: -550px;}
+			100%{background-position: 550px;}
+		}
+		
+		@keyframes muneco{
+			0%{background-position: 0px;}
+			100%{background-position: -672px;}
+		}
+		
+		body,html{
+			width: 100%;
+			height: 100%;
+			margin: 0px;
+			background-color: black;
+		}
+		
+		#animacion{
+			width: 100%;
+			height: 400px;
+		}
+	
+		#cielo{
+			width: 100%;
+			height: 148px;
+			background-image: url("imagenes/sky.png");
+			animation: fondoEstrellas 20s linear reverse infinite;
+		}	
+		
+		#mar{
+			width: 100%;
+			height: 142px;
+			background-image: url("imagenes/sea.png");
+			animation: fondoEstrellas 10s linear reverse infinite;
+		}
+		/*112*/
+		#moneco{
+			background-image: url("imagenes/muñeco.png");
+			height: 156px;
+			width: 112px;
+			animation: muneco 1s steps(6) infinite;
+			position: relative;
+			top: -180px;
+			left: 45%;
+		}
+	</style>
+
+</head>
+
+<body>
+	<audio controls autoplay>
+	  <source src="Street Fighter II SNES-Guile Stage.mp3" type="audio/mpeg">
+	</audio>
+	<div id="animacion">
+		<div id="cielo"></div>
+		<div id="mar"></div>
+		<div id="moneco"></div>
+	</div>
+
+</body>
+</html>

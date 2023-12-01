@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<style>
+		body,html{
+			margin: 0;
+			padding: 0;
+		}
+		
+		header{
+			display: flex;
+			background-color: black;
+			justify-content: center;
+			align-items: center;
+			color: white;
+		}
+			header img{width: 40px;padding: 10px 0 10px 0}
+			header  #identifica{padding-right: 4vw;}
+			header  #ayuda{padding-left: 4vw;}
+		
+		
+		#contenido{
+			display: flex;
+			width: 90vw;
+			margin: auto;
+			justify-content: space-around;
+		}
+		
+		#contenido #logos{display: flex;flex-direction: column;}
+		#contenido #logos #fila1{display: flex;justify-content: space-between;align-items: center;}
+		#contenido #logos #fila2{display: flex;justify-content: space-between;align-items: center;}
+		#contenido #logos #fila1 img{display: block; width: 10vw;margin-right: 10vw;}
+		#contenido #logos #fila2 img{display: block;width: 25vw;margin-left: 10vw;}
+		
+		#ofertas{
+			width: 90vw;
+			margin: auto;
+		}
+		
+		#ofertas h3{
+			background-color: darkred;
+			color: white;
+			display: flex;
+			justify-content: center;
+			padding: 10px 0 10px 0;
+			font-size: 1.5em;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<header>
+		<div id="identifica">
+			<img  src="Imagenes/identif1.jpg" alt="">
+			<p>Identificate</p>
+		</div>
+		<div id="ayuda">
+			<img  src="Imagenes/icono_ayuda3.png" alt="">
+			<p>Ayuda</p>
+		</div>	
+	</header>
+	<div id="contenido">
+		<div id="logos">
+			<div id="fila1">
+				<img src="Imagenes/logo.gif" alt="">
+				<form action="">
+					<input type="text">
+				</form>
+			</div>
+			<div id="fila2">
+				<h2>Black Friday</h2>
+				<img src="Imagenes/dias.jpg" alt="">
+			</div>
+		</div>
+	</div>
+	<div id="ofertas">	
+		<h3>Solo 4 dias     Para adelantar tus compras de Navidad</h3>
+		
+		
+	</div>
+	
+	
+	
+</body>
+</html>

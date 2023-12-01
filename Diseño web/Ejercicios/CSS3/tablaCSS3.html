@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		table{
+			width: 50%;
+			margin: auto; 	
+			border: 1px solid gray;
+			border-radius: 20px;
+			border-spacing: 0px;
+			text-align: center;
+		}
+		
+		
+		td,th{
+			border-left: 1px solid gray;
+			border-bottom: 1px solid gray;
+		}
+		
+		table tr{
+			height: 40px;
+		}
+		/*------TAMAÑO DE LAS CELDAS-------*/
+		table tr td:nth-child(1){
+			border-left: none;
+			width: 10%;
+		}
+		
+		table tr td:nth-child(2){
+			width: 60%;
+		}
+		
+		table tr td:nth-child(3){
+			width: 30%;
+		}
+		
+		tbody tr:last-child td{
+			border-bottom: none;
+		}
+		/*------BORDER REDONDEADOS-------*/
+		table tr:first-child th:first-child{
+			border-top-left-radius: 20px;
+		}
+		
+		table tr:first-child th:last-child{
+			border-top-right-radius: 20px;
+		}
+		
+		table tr:last-child td:first-child{
+			border-bottom-left-radius: 20px;
+		}
+		
+		table tr:last-child td:last-child{
+			border-bottom-right-radius: 20px;
+		}
+		
+		/*------COLORES DEL HEAD Y HOVER-------*/
+		thead{
+			background: linear-gradient(180deg, rgba(153,153,0,1) 0%, rgba(255,255,255,1)100%);
+		}
+		
+		table tr:hover{
+			background: linear-gradient(90deg, rgba(153,153,0,1) 0%, rgba(255,255,255,1)40%,rgba(255,255,255,1)60%, rgba(153,153,0,1) 100%);
+		}
+	
+	</style>
+</head>
+
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>IMDB Top 10 Movies</th>
+				<th>Year</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>1</td>
+				<td>Lorem ipsum dolor.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>2</td>
+				<td>The shawsark redemption</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>3</td>
+				<td>Lorem ipsum dolor sit amet.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>4</td>
+				<td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aut, ipsa!</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>5</td>
+				<td>Lorem ipsum dolor sit amet, consectetur adipisicing.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>6</td>
+				<td>Lorem ipsum dolor sit.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>8</td>
+				<td>Lorem ipsum dolor sit amet.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>7</td>
+				<td>Lorem ipsum dolor.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>9</td>
+				<td>Lorem ipsum dolor sit amet, consectetur.</td>
+				<td>1994</td>
+			</tr>
+			<tr>
+				<td>10</td>
+				<td>Lorem ipsum dolor sit amet.</td>
+				<td>1994</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

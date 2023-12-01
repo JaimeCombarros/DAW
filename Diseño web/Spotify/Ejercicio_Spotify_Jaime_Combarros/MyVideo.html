@@ -1,0 +1,488 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Reproductor de video</title>
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+	
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Round" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp" rel="stylesheet">
+
+	<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Two+Tone" rel="stylesheet">
+	
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@200&display=swap');
+		
+		body,html{
+			height: 100%;
+			width: 100%;
+			margin: 0;
+			font-family: 'Outfit', sans-serif;
+		}
+		/*------------------------------HEADER---------------------------------------------*/
+		header{
+			text-align: center;
+			font-size: 2em;
+			height: 200px;
+			background: linear-gradient(180deg, rgba(0,0,0,1) 60%, rgba(11,11,11,1)95%);
+			color: rgba(172,0,96,1.00);
+			width: 80%;
+			margin-left: 20%;
+		}
+		
+		header h1{
+			margin-top: 0px;
+			padding-top: 50px;
+		}
+		
+		/*------------------------------NAV---------------------------------------------*/
+		
+		#navegacion {
+			width: 20%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			background-color: rgba(0,0,0,1.00);
+			height: 2000px;
+		}
+		
+		#navegacion img{
+			display: block;
+			width: 50%;
+			margin: auto;
+			margin-top: 30px;
+		}
+		
+		#navegacion ul{
+			width: 100%;
+			height: 400px;
+			list-style: none;
+			padding-left: 0px;
+			margin-top: 100px;
+			font-size: 1.3em;
+		}
+		
+		#navegacion ul li{
+			height: 100px;
+			line-height: 100px;
+			overflow: hidden;
+		}
+		
+		#navegacion ul li a{
+			display: block;
+			width: 100%;
+			height: 100%;
+			text-decoration: none;
+			color: rgba(172,0,96,1.00);
+			padding-left: 30px;
+		}
+		#navegacion ul li span{
+			display: inline;
+			border-bottom: 1px solid rgba(11,11,11,1.00);
+			transition: border-color 0.5s linear;
+			transition: color 0.5s linear;
+		}
+		#navegacion ul li a:hover > span{
+			font-weight: bold;
+			border-color: white;
+			color: white;
+		}
+/*------------------------------ARTICLE---------------------------------------------*/
+		article{
+			width: 80%;
+			float: right;
+			background-color: #0B0B0B;
+		}
+		
+		.contenedorVideos{
+			margin: auto;
+			margin-top: 240px;
+			width: 40%;
+			height: 500px;
+			color: #A7A7A7;
+			min-width: 300px;
+			
+		}
+
+		article div:nth-child(3){
+			margin-top: 50px;
+		}
+
+		.video{
+			width: 100%;
+			margin: auto; 
+			margin-top: 30px;
+			transition: box-shadow 1.5s linear;
+			border-radius: 10px;
+			box-shadow: 5px 5px 25px 2px rgba(167,167,167,1.00), -5px -5px 25px 2px rgba(167,167,167,1.00);
+			transition: height 3s linear;
+			transition: width 3s linear;
+		}
+		
+		.contenedorVideos h2{
+			text-align: center;
+		}
+		
+		.contenedorVideos p{
+			margin-left: 25%;
+			opacity: 0;
+			transition: opacity 1s ease-in-out;
+		}
+		
+		.video:hover ~  p{
+			opacity: 1;
+		}
+		
+		article div:last-child{
+			margin-bottom: 350px;
+		}
+/*------------------------------BarraReproduccion---------------------------------------------*/
+		
+		#BarraReproduccion{
+			width: 100%;
+			position: fixed;
+			bottom: 0;
+			background-color: black;
+		}
+		#BarraReproduccion p{
+			display: block;
+			width: 70px;
+			float: left;
+			color: white;
+			margin-top: 40px;
+			margin-left: 1%;
+		}
+		
+		#BarraReproduccion input{
+			width: 250px;
+			margin-top: 42px;
+			margin-left: 5%;
+			border-radius: 5px;
+			background: #205928;
+		}
+		
+		#BarraReproduccion #vol{
+			width: 150px;
+			margin-top: 42px;
+			margin-left: 1%;
+		}
+		
+		#BarraReproduccion #duracion{
+			color: white;
+			display: inline;
+			margin-left: 0.5%;
+			margin-top: 40px;
+			width: 40px;
+			height: auto;
+		}
+		
+		#BarraReproduccion span{
+			width: 100%;
+			height: 100%;
+			display: block;
+			cursor: pointer;
+		}
+		#BarraReproduccion button{
+			background-color: black;
+			cursor: pointer;
+		}
+		#BarraReproduccion .material-icons-outlined:active{
+			color: rgb(255, 101, 99);
+		}
+		
+		#BarraReproduccion .material-icons-outlined{
+			font-size: 67px;
+			color: white;
+			
+		}
+		
+		#imagenCancionRepro{
+			margin-left: 10%;
+			width: 80px;
+			height: 80px;
+			border: 1px solid black;
+			float: left;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		
+		#loop{
+			margin-top: 15px;
+			margin-left: 2%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Atras{
+			margin-top: 15px;
+
+			margin-left: 5%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Reproducir{
+			margin-top: 15px;
+			margin-left: 3%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#Avanza{
+			margin-top: 15px;
+			margin-left: 1%;
+			float: left;
+			cursor: pointer;
+			border: none;
+		}
+		
+		#BarraReproduccion #volumen {
+			display: inline;
+			margin-top: 15px;
+			font-size: 27px;
+			color: white;
+			margin-left: 5%;
+			
+		}
+/*------------------------------Footer---------------------------------------------*/
+		footer{
+		}
+		
+		#limpia{
+			clear: both;
+			color: #CC3F00
+		}
+		
+		#PantallaCompleta{
+			position: fixed;
+			top: 0px;
+			width: 80%;
+			height: 900px;
+			left: 20%;
+			/*border: 1px solid red;*/
+			opacity: 0;
+		}
+		
+	</style>
+	
+	<script>
+		var video;
+		var elementoVuelta;
+		var alturaAnterior;
+		
+		function reproducirVideo(elemento){
+			if(video!=undefined){
+				video.currentTime=0;
+				video.pause();
+			}
+			
+			video=elemento.parentElement.getElementsByTagName("video")[0];
+			
+			var texto=elemento.parentElement.getElementsByTagName("h2")[0].innerText;
+			document.getElementById("tituloCancion").innerHTML=texto;
+			
+			var barraVel=document.getElementById("vel");
+			barraVel.setAttribute("max",video.duration);
+
+			video.play();
+			document.getElementById("Reproducir").children[0].innerHTML="pause_circle_filled";
+			reproducir();
+		}
+		
+		function cambiaReproduccion(elemento){
+			if (video.paused) {
+				video.play();
+				reproducir();
+				elemento.children[0].innerHTML="pause_circle_filled";
+			} else {
+				video.pause();
+				pausar();
+				elemento.children[0].innerHTML="play_circle_filled";
+			}
+		}
+		
+		function cambiaVolumen(elemento){
+			video.volume=elemento.value*0.01;
+			if(video.volume!=0){
+				document.getElementById("volumen").innerHTML="volume_up";
+			}else{
+				document.getElementById("volumen").innerHTML="volume_off";
+			}
+		}
+		
+		function cambiaDuracion(elemento){
+			video.currentTime=elemento.value;			
+		}
+		
+		function retrasar() {
+			video.currentTime -= 5;	
+		}
+		
+		function adelantar() {
+			video.currentTime += 5;
+		}
+		
+		function ponerPantallaCompleta() {
+			var pantalla=document.getElementById("PantallaCompleta");
+			if(pantalla.childElementCount==0){
+				alturaAnterior=video.style.height;
+				elementoVuelta=video.parentNode;
+				video.style.boxShadow="none";
+				pantalla.appendChild(video);
+				video.style.marginTop="0px";
+				video.style.height="900px";
+				pantalla.style.opacity="1";
+				disableScroll();
+			}else{
+				video.style.boxShadow="5px 5px 25px 2px rgba(167,167,167,1.00), -5px -5px 25px 2px rgba(167,167,167,1.00)";
+				video.style.marginTop="30px";
+				video.style.height=alturaAnterior;
+				pantalla.removeChild(video);
+				elementoVuelta.insertBefore(video,elementoVuelta.children[0]);
+				pantalla.style.opacity="0";
+				enableScroll();
+			}
+			//video.requestFullscreen();
+		}
+		
+		function actualizar_slider_tiempo() {
+            let tiempo_transcurrido = Math.round(video.currentTime);
+            let minutos = Math.floor(tiempo_transcurrido / 60);
+            let segundos = tiempo_transcurrido % 60;
+            duracion.innerHTML = minutos + ":" + ((segundos>=10)?segundos:"0"+segundos);
+			document.getElementById("vel").setAttribute("value",tiempo_transcurrido);
+        }
+		
+		function reproducir() {
+			myVar = setInterval(actualizar_slider_tiempo, 1000);
+		}
+		
+		function pausar() {
+			clearInterval(myVar);
+		}
+		
+		
+	function disableScroll() {
+		scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+		scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+		window.onscroll = function() {
+			window.scrollTo(scrollLeft, scrollTop);
+		};
+	}
+  
+	function enableScroll() {
+		window.onscroll = function() {};
+	}
+	</script>
+</head>
+	
+<body>
+	<header>	
+		<h1>My Video</h1>
+	</header>
+	<main>
+		<nav id="navegacion">
+			<img src="imagenes/logo.png" alt="">
+			<ul>
+				<li><a href=""><span>Inicio</span></a></li>
+				<li><a href="MyMusic.html"><span>Mi Música</span></a></li>
+				<li><a href=""><span>Descubrimiento</span></a></li>
+				<li><a href=""><span>Top éxitos</span></a></li>
+			</ul>
+		</nav>
+		<article>
+			<div id="limpia"></div>
+			<div id="PantallaCompleta"></div>
+			<div class="contenedorVideos" id="primero">
+				<video class="video" src="videos/Bad Bunny - Yonaguni (Video Oficial).mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>Yonaguni</h2>
+				<p>Autor: Bad Bunny</p>
+				<p>Año de Salida: 2021</p>
+				<p>Duración: 3:26</p>
+			</div>
+			
+			<div class="contenedorVideos">
+				<video class="video" src="videos/MODUS.mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>MODUS</h2>
+				<p>Autor: Joji</p>
+				<p>Año de Salida: 2020</p>
+				<p>Duración: 3:27</p>
+			</div>
+			
+			<div class="contenedorVideos">
+				<video class="video" src="videos/DIMEQUESI.mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>Dime que si</h2>
+				<p>Autor: Natos y Waor ft.RecycledJ</p>
+				<p>Año de Salida: 2021</p>
+				<p>Duración: 4:29</p>
+			</div>
+			
+			<div class="contenedorVideos">
+				<video class="video" src="videos/AFTERDARK.mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>After Dark</h2>
+				<p>Autor: Mr.Kitty</p>
+				<p>Año de Salida: 2014</p>
+				<p>Duración: 4:17</p>
+			</div>
+			
+			<div class="contenedorVideos">
+				<video class="video" src="videos/BUTTERFLIESANDHURRICANES.mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>Butterflies and hurricanes</h2>
+				<p>Autor: Muse</p>
+				<p>Año de Salida: 2003</p>
+				<p>Duración: 5:01</p>
+			</div>
+			
+			<div class="contenedorVideos">
+				<video class="video" src="videos/Video_Jaime.mp4" onClick="reproducirVideo(this);">	
+				</video>
+				<h2>Video de Jaime</h2>
+				<p>Autor: Jaime</p>
+				<p>Año de Salida: 2021</p>
+				<p>Duración: 1:01</p>
+			</div>
+			
+		</article>
+		<div id="BarraReproduccion">
+			
+			<p id="tituloCancion"></p>
+			
+			<div id="imagenCancionRepro"> </div>
+			<button id="loop" onClick="ponerPantallaCompleta(this);">
+				<span class="material-icons-outlined">fullscreen</span>
+			</button>
+			<button id="Atras" onClick="retrasar();"> 
+				<span class="material-icons-outlined" >skip_previous</span>
+			</button>
+			<button id="Reproducir" onClick="cambiaReproduccion(this);">
+				<span class="material-icons-outlined">play_circle_filled</span>
+			</button>
+			<button id="Avanza"> 
+				<span class="material-icons-outlined" onClick="adelantar();">skip_next</span>
+			</button>
+			
+			
+			
+			<input type="range" id="vel" min="0" max="250" value="0" onchange="cambiaDuracion(this)">
+			<span id="duracion">0</span>
+			<span class="material-icons-outlined" id="volumen">volume_up</span>
+			<input type="range" id="vol" min="0" max="100" value="50" onmousemove="cambiaVolumen(this)">
+		</div>
+	</main>
+	<footer>
+	
+	</footer>
+</body>
+</html>

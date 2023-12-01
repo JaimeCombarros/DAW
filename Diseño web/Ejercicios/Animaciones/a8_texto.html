@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+
+		
+		@keyframes rota2{
+			0%{transform:rotate(0deg);color: red ;}
+			10%{transform:rotate(-10deg);color: purple;}
+			20%{transform:rotate(10deg);color: blue;}
+			50%{transform:rotate(-30deg);color: orange;}
+			80%{transform:rotate(30deg);color: green;}
+			100%{transform:rotate(0deg);color: red ;}
+		}
+		
+		
+		@keyframes visibilidad {
+			0%{opacity: 1;}
+			50%{opacity: 0;}
+			100%{opacity: 1;}
+		}
+		body{
+			text-align: center;
+		}
+		
+		
+		h1{
+			text-align: center;
+			animation: 	rota2 2.5s linear infinite,
+						visibilidad 3s linear infinite;
+			margin-top: 300px;
+			color: red;
+			font-size: 2.5em;
+		}
+		button{
+			margin-top: 50px;
+			height: 50px;
+			background: none;
+			border: 1px solid red;
+			color: red;
+			width: 8%;
+			cursor: pointer;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<h1>IES MARTIN RIVERO</h1>
+	<button>Visitar web</button>
+</body>
+</html>

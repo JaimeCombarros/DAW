@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		
+		table{
+			width: 90%;
+			min-width: 90%;
+		}
+		
+		th{
+			color:white;
+			background-color:#524123;
+			border-bottom: 2px solid #a4d668;
+			height: 30px;
+		}
+		
+		.oculto{
+			visibility:hidden;
+		}
+		a{
+			color:#bfb175;
+			background: url("externalLink.gif") no-repeat top right;
+			padding-right: 10px;
+		}
+		
+		.verdeOscuro{
+			background-color: #c5e894;
+			border: 1px solid #c6e48c;
+		}
+		
+		td{
+			background-color: #ddf0bd;
+		}
+		
+		.footer{
+			background-color: #524123;
+			color: white;
+			border-bottom: 2px solid #a4d668;
+		}
+		
+		.footerNumeros{
+			background-color: #524123;
+			color: white;
+			border-bottom: 2px solid #a4d668;
+			text-align: right;
+		}
+		
+		 .verdeOscuro:hover ~td.resto{
+			background-color: #D0EBA6;
+			color:white;
+		}
+		
+		
+	</style>
+</head>
+
+<body>
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2" rowspan="2" class="oculto"></th>
+				<th colspan="2">Ropa</th>
+				<th colspan="2">Zapatos</th>
+				<th colspan="2"></th>
+			</tr>
+			<tr>
+				<th>Pantalones</th>
+				<th>Chaquetas</th>
+				<th>Deportivos</th>
+				<th>Tacones</th>
+				<th colspan="2">Descarga Info</th>
+		  	</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td rowspan="3" class="verdeOscuro">España</td>
+				<td class="verdeOscuro">Andalucia</td>
+				<td class="resto">46</td>
+				<td class="resto">18</td>
+				<td class="resto">50</td>
+				<td class="resto">50</td>
+				<td class="resto"><a href="#">Descargar</a></td>
+			</tr>
+			<tr>
+				<td class="verdeOscuro"> Madrid</td>
+				<td class="resto">76</td>
+				<td class="resto">8</td>
+				<td class="oculto"></td>
+				<td class="resto">150</td>
+				<td class="resto"><a href="#">Descargar</a></td>
+			</tr>
+			<tr>
+				<td class="verdeOscuro">Galicia</td>
+				<td class="resto">36</td>
+				<td class="oculto"></td>
+				<td class="resto">0</td>
+				<td class="resto">350</td>
+				<td class="resto"><a href="#">Descargar</a></td>
+			</tr>
+			<tr>
+				<td rowspan="2" class="verdeOscuro">Francia</td>
+				<td class="verdeOscuro">París</td>
+				<td class="resto">86</td>
+				<td class="resto">68</td>
+				<td class="resto">50</td>
+				<td class="resto">50</td>
+				<td class="resto"><a href="#">Descargar</a></td>
+			</tr>
+			<tr>
+				<td class="verdeOscuro">Burdeos</td>
+				<td class="resto">846</td>
+				<td class="resto">77</td>
+				<td class="resto">5</td>
+				<td class="oculto"></td>
+				<td class="resto"><a href="#">Descargar</a></td>
+			</tr>
+			<tr>
+				<td colspan="2" class="footer">Total</td>
+				<td class="footerNumeros">1938</td>
+				<td class="footerNumeros">237</td>
+				<td class="footerNumeros">135</td>
+				<td class="footerNumeros">636</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
+</html>

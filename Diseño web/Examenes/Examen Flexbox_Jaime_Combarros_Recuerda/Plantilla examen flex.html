@@ -1,0 +1,217 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		body,html{
+			margin: 0px;
+			padding: 0px;
+		}
+		/*COLUMNA IZQ*/
+		header{
+			height: 60px;
+			background-color: #f0f2f5;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+			header img{ width: 45px;border-radius: 50%;display: block;}
+			header div{display: flex;}
+			header #icono{margin-left: 1vw;width: 45px;}
+			header div:nth-child(2) img{margin-right: 1vw;}
+			
+			#headerder{justify-content: flex-start;}
+			#headerder img{margin-left: 1vw}
+			#headerder div{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-left: 1vw;
+			}
+		header div img{width: 35px}
+			#headerder div h5 , #headerder div p{margin: 0px;}
+			#headerder div h5{font-size: 1em;}
+			 #headerder div p{color:rgba(95,85,166,1)}
+		/*MAIN*/
+		
+		main{
+			width: 100%;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: nowrap;
+		}
+		/*COLUMNA DER*/
+		.contacto{
+			flex-basis: 30%;
+			flex-direction: column;
+			display: flex;
+			max-width: 500px;
+			min-width: 300px;
+		}
+		
+			.contacto .personas{
+				display: flex;
+				flex-wrap: nowrap;
+				align-items: center;
+				justify-content: space-between;
+				padding: 0px 0px 0px 0px;
+				border-bottom: 1px solid rgba(176,176,176,1.00);
+				overflow: hidden;text-overflow: ellipsis;
+			}
+		
+				.contacto .personas div:nth-child(1){display: flex;align-items: center;}
+				.contacto .personas img{width: 45px;border-radius: 50%;display: block;margin-left: 1vw;margin-bottom: 1vw}
+				.contacto .personas div:nth-child(1) h5,.contacto .personas div:nth-child(1) p{margin: 0.5vw;font-size: 1em;}
+				.contacto .personas div:nth-child(1) h5{color: rgba(54,54,54,1.00)}
+				.contacto .personas .tiempo{margin-right: 1vw;display: flex;flex-direction: column;align-items: center;}
+				.contacto .personas .tiempo time,.contacto .personas  .tiempo p{margin: 0.5vw}
+				.contacto .personas .tiempo p{background-color: lawngreen;border-radius: 100%;width: 30%;padding: 7px; display: flex;justify-content: center;}
+		
+		.mensajes{
+			flex-basis: 75%;
+			margin-left: 0.2vw;
+			display: flex;
+			flex-direction: column;
+			min-width: 300px;
+		}
+		
+			.mensajes #bloqueChat{background:linear-gradient(to right, rgba(248,228,185,0.44) 0%, rgba(248,228,185,0.44) 100%),url("imagenes/fondo1.jpg");display: flex;flex-direction: column;height: 80vh;}
+			.mensajes .chat:nth-child(odd){background-color: white;align-self: flex-start;margin-left: 2vw;}
+			.mensajes .chat:nth-child(even){background-color: rgba(131,242,169,1);align-self: flex-end;margin-right: 2vw;}
+			.mensajes .chat{ width: 70%;border-radius: 20px;margin-top: 2vw;padding: 0px 2vw 0px 2vw;display: flex;justify-content: space-between;align-items: center;}
+		
+		/*FOOTER*/
+		
+		
+		footer{
+			display: flex;
+			justify-content: space-around;
+			margin-top: auto;
+			background-color: #f0f2f5;
+		}
+		@media only screen and (max-width:460px){
+			.mensajes{display: none;}
+			.contacto{flex-basis: 100%}
+			footer div:nth-child(3){display: none;}
+			.contacto .personas .tiempo p{width: 30%;padding: 1.5vw; display: flex;justify-content: center;}
+		}
+		
+		
+	</style>
+</head>
+<body> 
+	<main> 	
+		<div class="contacto">				
+		<header id="headerizq">
+			<div>
+				<img src="imagenes/nieve.jpg" alt="" id="icono">
+			</div>
+			<div>
+				<img src="imagenes/estados.jpg" alt="">
+				<img src="imagenes/nuevochat.JPG" alt="">
+				<img src="imagenes/menuVertical.JPG" alt="">
+			</div>
+		</header>
+		
+		<div class="personas">
+			<div>
+				<img src="imagenes/pp.jfif" alt="">
+				<div>
+					<h5>Pilar Rubio Pérez</h5>
+					<p>Hola, donde estás?</p>
+				</div>
+			</div>
+			<div class="tiempo">
+				<time>17:45</time>
+				<p>2</p>
+			</div>
+		</div>
+		<div class="personas">
+			<div>
+				<img src="imagenes/logo 100x100.jpg" alt="">
+				<div>
+					<h5>Lola Verdú</h5>
+					<p>Tenemos hoy reunión de Erasmus?</p>
+				</div>
+			</div>
+			<div class="tiempo">
+				<time>13:45</time>
+				<p>25</p>
+			</div>
+		</div>	
+		<div class="personas">
+			<div>
+				<img src="imagenes/logoErasmus.jpg" alt="">
+				<div>
+					<h5>Pedro Torres Lujián Profe</h5>
+					<p>A las 3 en la bodeguita?</p>
+				</div>
+			</div>
+			<div class="tiempo">
+				<time>13:45</time>
+				<p>9</p>
+			</div>
+		</div>	
+		<div class="personas">
+			<div>
+				<img src="imagenes/pp.jpg" alt="">
+				<div>
+					<h5>Grupo Italia</h5>
+					<p>Hi! how its going?</p>
+				</div>
+			</div>
+			<div class="tiempo">
+				<time>17:05</time>
+				<p>1</p>
+			</div>
+		</div>	
+	</div>
+	<div class="mensajes">
+		
+		<header id="headerder">
+			<img src="imagenes/pp.jpg" alt="">
+			<div>
+				<h5>Grupo Italia</h5>
+				<p>En linea</p>
+			</div>
+		
+		</header>
+		
+			<div id="bloqueChat">
+				<div class="chat">
+					<p>Hola que tal</p>					
+					<time>20:45</time>
+				</div>
+				<div class="chat">
+					<p>Hola que tal. Os quería recordar que mañana tenemos reunión. Debeís traer corregidas las fichas de calificaciones de italiano</p>			
+					<time>20:45</time>
+				</div>
+
+			</div>
+	</div>	
+	</main> 
+	
+<footer>   
+    <div>
+		<h3>Diseño MR - WASAP</h3>
+        <p>All Rights Reserved</p>
+    </div>
+    <div>
+		<h3>Información</h3>
+        <p>Creadores</p>
+        <p>Agencias</p>
+	</div>
+    <div>
+		<h3>Compañía</h3>
+        <p>Ubicación</p>
+    </div>
+    <div>
+		<h3>Recursos</h3>
+        <p>Ayuda</p>
+        <p>Soporte</p>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<style>
+		@import url(https://weloveiconfonts.com/api/?family=entypo);
+		
+		@font-face {
+			font-family: 'open_sansregular';
+			src: url("fuente/OpenSans-Italic-VariableFont_wdth,wght.ttf");
+			font-weight: normal;
+			font-style: normal;
+		}
+		
+		body,html{
+			width: 100%;
+			height: 100%;
+		}
+		#contenedor{
+			width: 30%;
+			height: 550px;
+			margin: auto;
+			background-color: gainsboro;
+			border-radius: 10px;
+			color: rgba(110,110,110,1.00);
+			box-shadow: 2px 2px 10px 1px rgba(184,184,184,1.00),-2px -2px 10px 1px rgba(184,184,184,1.00);
+			margin-top: 30px;
+			font-family: 'open_sansregular';
+			font-size: 120%;
+			min-width: 320px;
+		}
+		
+		h1{
+			text-align: center;
+			padding-top: 10px;
+		}
+		
+		.linea{
+			width: 80%;
+			margin: auto;
+			border: 1px solid rgba(170,170,170,1.00);
+		}
+		
+		.botones{
+			color: black;
+			text-align: center;
+			height: 50px;
+			line-height: 50px;
+			font-weight: 600;
+			width: 100%;
+		}
+		
+		
+		#segundoForm{
+			width: 75%;
+			margin: auto;
+		}
+		
+		[class*="entypo-"]:before {
+ 			 font-family: 'entypo', sans-serif;
+			color: white;
+		}
+		
+		span{
+			padding: 0px 1% 5px 1%;	/*********/
+			background-color: rgba(18,112,164,1.00);
+			border-bottom-left-radius: 5px;
+			border-top-left-radius: 5px;
+			width: 5%;
+			box-sizing: border-box;
+		}
+		
+		#segundoForm input{
+			box-sizing: border-box;
+			height: 33px;
+			width: 85%;
+		}
+		
+		#primerCampo,#segundoCampo,#tercerCampo{
+			width: 100%;
+			margin-top: 20px;
+		}
+		
+		#botton{
+			width: 80%;
+			margin: auto;
+		}
+		
+		
+		#botton p{
+			width: 60%;
+			float: left;
+		}
+		
+		#botton input{
+			margin: auto;
+			width: 30%;
+			height: 45px;
+			border-radius: 10px;
+			background-color: rgba(0,107,152,1.00);
+			color: white;
+			font-weight: 600;
+			margin-left: 10%;
+			margin-top: 50px;
+			cursor: pointer;
+		}
+		
+		#segundoForm input:required{
+			border:1px solid red;
+		}
+		
+		#segundoForm input:valid{
+			border:1px solid green;
+		}
+		
+		
+
+		#segundoForm input:focus{
+			outline: none;
+		}
+		
+		/*------------------------------------------------------------------*/
+		#Personal, #Empresa, #Hombre, #Mujer{
+			visibility: hidden;
+		}
+		
+		.entero{
+			position: relative;
+			display: inline-block;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			background-color: steelblue;
+			position: relative;
+			cursor: pointer;
+		}
+		
+		.vacio{
+			position: relative;
+			background: transparent;
+			border-bottom: 2px solid white;
+			border-left: 2px solid white;
+			position: relative;
+			top: 4px;
+			left: 4px;
+			transform: rotate(-45deg);
+	        width: 6px;
+			height: 2px;
+			visibility: hidden;
+		}
+		
+		input:checked+label>.entero>.vacio{
+            visibility: visible;
+
+        }
+	</style>
+</head>
+
+<body>
+	
+	<div id="contenedor">
+		<form action="">
+		<h1>Registro</h1>
+		<div class="linea"></div>
+		<div class="botones">
+			<input type="radio" name="orientacion" value="Personal" id="Personal">
+			<label for="Personal">
+			<div class="entero"><div class="vacio"></div></div>
+			Personal</label>
+			<input type="radio" name="orientacion" value="Empresa" id="Empresa">
+			<label for="Empresa">
+			<div class="entero"><div class="vacio"></div></div>
+			Empresa</label>
+		</div>
+		<div class="linea"></div>
+		<div id="segundoForm">
+			<div id="primerCampo">
+				<span class="entypo-mail"></span>
+				<input type="email" placeholder="Email" required>
+			</div>
+			<div id="segundoCampo">
+				<span class="entypo-user"></span>
+				<input type="text" placeholder="Nombre" required>
+			</div>
+			<div id="tercerCampo">
+				<span class="entypo-key"></span>
+				<input type="password" placeholder="Password" required>
+			</div>
+		</div>
+		<div class="botones">
+			<input type="radio" name="sexo" value="Hombre" id="Hombre">
+			<label for="Hombre">
+			<div class="entero"><div class="vacio"></div></div>
+			Hombre</label>
+			<input type="radio" name="sexo" value="Mujer" id="Mujer">
+			<label for="Mujer">
+			<div class="entero"><div class="vacio"></div></div>	
+			Mujer</label>
+		</div>
+		<div id="botton">
+			<p>Haciendo click en el Registro, usted está aceptando nuestros <a href="">términos y condiciones</a></p>
+			<input type="submit" value="Registro">
+		</div>
+		</form>	
+</body>
+</html>

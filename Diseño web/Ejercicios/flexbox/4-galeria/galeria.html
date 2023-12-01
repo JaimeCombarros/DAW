@@ -1,0 +1,228 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo Galería Flexbox</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<style>
+		html,body{
+			margin: 0;padding: 0;
+		}
+		
+		body{
+			background-color: rgba(225,225,225,1.00);
+		}
+		
+		.galeria{
+			list-style: none;
+			padding-left: 0;
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			width: 80%;
+			margin: auto;
+			
+		}
+
+			.galeria li{
+				width: 29%;
+				border: 1px solid;
+				border-radius: 10px;
+				margin: 1.5%;
+				box-shadow: 5px 5px 5px 5px grey;
+				transition: width 1s;
+			}
+			
+		.carta{
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			background-color: rgba(168,179,164,1.00);
+			border-radius: 10px;
+		}
+		
+			.carta img{
+				width: 96%; 
+				margin: 2%;
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+			}
+			.carta figure{margin: 0}
+			.carta h3{text-align: center; margin: 2px 0 0 0}
+			.carta p{margin: 4px 2% 10px 2%}
+			.carta time{
+				text-align: center;
+				margin: auto 0 5px 0;
+			}
+
+		@media only screen and (max-width:768px){
+			.galeria{
+				width: 90%;
+			}
+			
+			.galeria li{
+				width: 45%;
+				margin: 2%;
+			}
+		}
+		
+		
+		@media only screen and (max-width:468px){
+			.galeria{
+				width: 95%;
+			}
+			
+			.galeria li{
+				width: 98%;
+				margin: 2%;
+			}
+		}
+	</style>
+	
+</head>
+<body>
+<ul class="galeria">
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/bosque.jpg" />
+			</figure>
+			<h3>Ipsum dolor sit amet</h3>
+			<p>Chanante ipsum dolor sit amet, nui,  ut gañán saepe. Nostrud btó, nisi ut piticli 
+				magna  ex ut ex minim ex zagal adipisicing.</p>
+			<time>12/09/2014</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/globo.jpg"/>
+			</figure>
+			<h3>Ut eveniet adipisicing</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>
+			<time>12/09/2018</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/hojas.jpg" />
+			</figure>
+			<h3>Chanante ipsum dolor sit amet</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			<time>12/09/2018</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/paisaje.jpg"/>
+			</figure>
+			<h3>Cabore exercitation nostrud</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2017</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/playa.jpg" />
+			</figure>
+			<h3>Minim atiendee aemet </h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2016</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/playa2.jpg" />
+			</figure>
+			<h3>Ceniam quis ex ullamco nostrud ex </h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2018</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/puente.jpg" />
+			</figure>
+			<h3> Ut gañán saepe ipsum dolor sit amet</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2014</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/rio.jpg" />
+			</figure>
+			<h3>Nostrud mare</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2017</time>
+		</div>
+	</li>
+	<li>
+		<div class="carta">
+			<figure>
+				<img src="imagenes/globo.jpg" />
+			</figure>
+			<h3>Cabore exercitation nostrud</h3>
+			<p>ipsum dolor sit amet, consectetur adipisicing elit. Fuga molestiae in, repellendus,
+				ipsa voluptates assumenda! Deserunt dolorum doloribus illum sit qui aliquid quam, 
+				vitae maxime ad dolor voluptas, consectetur sequi.Est culpa eveniet possimus quos 
+				totam sit distinctio vitae corporis inventore doloremque ad dolore iste maxime 
+				enim laboriosam, ullam dolores qui? Corporis pariatur maiores nulla reprehenderit
+				molestias accusamus, odit repudiandae ullamco minim eveniet adipisicing.  
+				</p>			
+			<time>12/09/2018</time>
+		</div>
+	</li>
+</ul>
+
+</body>
+</html>

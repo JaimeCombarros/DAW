@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		h1{
+			color: red;
+			font-size: 30px;
+		}
+	
+		meter{
+			height: 60px;
+			width: 20%;
+			box-sizing: border-box;
+			padding: 20px 10px 0px 10px;
+			box-shadow: inset 2px 2px 8px 1px grey;
+			border-radius: 10px;
+			position: relative;
+		}
+		meter::before{
+			display: block;
+			content: "0%";
+			width: 10px;
+			position: absolute;
+			top: 7px;
+		}
+		
+		meter::after{
+			display: block;
+			content: "100%";
+			width: 10px;
+			position: absolute;
+			top: 7px;
+			left: 110px;
+		}
+		
+		meter::-webkit-meter-bar {
+			background-color: antiquewhite;
+		}
+		
+		meter::-webkit-meter-suboptimum-value {
+			background-color: darkgoldenrod;
+		}
+		
+		meter::-webkit-meter-optimum-value {
+			background-color: greenyellow;
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Incrementando fondos de su cuenta bancaria</h1>
+	<label>Fondos transferidos   <span id="prog">0</span>%</label>
+	<meter id="meter"></meter>
+</body>
+	
+	<script>
+		
+			var elem = document.getElementById("meter");
+			var prog = document.getElementById("prog");
+			elem.min= 0;
+			elem.max= 100;
+			elem.high= 70;
+			elem.low= 40;
+			elem.optimum= 100;
+			
+		
+			Periodo=setInterval(
+			function(){elem.value++;prog.innerHTML=elem.value,110;
+				if(Periodo>=100)clearInterval(Periodo)
+		},100);
+		
+	</script>
+</html>

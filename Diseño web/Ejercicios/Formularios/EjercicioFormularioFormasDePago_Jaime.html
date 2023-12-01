@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+	
+	function comprueba(){
+		var opcionPago		= document.getElementsByName("pago");
+		var fielsetTarjeta 	= document.getElementById("TarjetaC");
+		var fielsetTranferencia 	= document.getElementById("TransferenciaB");
+		
+		for(let i=0;i<opcionPago.length;i++){
+			if(opcionPago[i].checked){
+				var opcionPagoSeleccionada = opcionPago[i].value;
+			}
+		}
+		
+		if(opcionPagoSeleccionada=="TC"){
+			fielsetTarjeta.style.display="block";
+			fielsetTranferencia.style.display="none";
+		}else if(opcionPagoSeleccionada=="TB"){
+			fielsetTarjeta.style.display="none";
+			fielsetTranferencia.style.display="block";
+		}
+		
+		
+		var formu= document.querySelectorAll("fieldset input");
+		
+		for(let i=0; formu.length; i++){
+			formu[i].classList.add("verde");
+			formu[i].disabled=false;
+		}
+	}
+		
+		
+	function cambiarColorTexto(event,input){
+		if(event.type=="focus"){
+			input.previousElementSibling.previousElementSibling.style.color="green";
+			input.previousElementSibling.previousElementSibling.style.fontWeight="bold";
+			input.classList.remove("verde");
+		}else{
+			input.previousElementSibling.previousElementSibling.style.color="black";
+			input.previousElementSibling.previousElementSibling.style.fontWeight="normal";
+			input.classList.add("verde");
+		}
+		
+	}	
+		
+	</script>
+	
+	<style>
+		html,body{
+			width: 100%;
+		}
+		
+		main{
+			width: 70%;
+			margin: auto;
+		}
+		
+		#caja{
+			width: 98%;
+			margin: auto;
+			height: 60px;
+		}
+		
+		#caja input{
+			display: none;
+		}
+		
+		#caja label{
+			width: 50%;
+			float: left;
+			text-align: center;
+			background-color: white;
+			height: 60px;
+			line-height: 60px;
+			cursor: pointer;
+			margin-top: 5px;
+		}
+		
+		#caja input:checked + label{
+			background: linear-gradient(180deg, rgba(11,41,111,1.00) 50%, rgba(255,255,255,1) 100%);
+			box-shadow: inset 2px 2px 20px 2px rgba(0,0,0,0.2),inset -2px -2px 20px 2px rgba(0,0,0,0.2);
+			color: white;
+		}
+		
+		#borde{
+			background-color: rgba(11,41,111,1.00);
+			height: 70px;
+			width: 60%;
+			margin: auto;
+		}
+		
+		fieldset{
+			width: 50%;
+			margin: auto;
+			margin-top: 30px;
+		}
+		
+		fieldset input{
+			width: 95%; 
+			height: 30px;
+		}
+		
+		fieldset label{
+			margin-top: 20px;
+			display: inline-block;
+		}
+		
+		fieldset input:last-child{
+			margin-bottom: 10px;
+		}
+		
+		fieldset input:focus{
+			background-color: white;
+		}
+		
+		.verde{
+			background: linear-gradient(180deg, rgba(141,301,111,1.00) 50%, rgba(255,255,255,1) 100%);
+		}
+		#botonesFin{
+			width: 90%;
+			margin: auto;
+			margin-top: 15px;
+			margin-left: 40%;
+		}
+		
+		#botonesFin input{
+			width: 10%;
+			box-shadow: 1px 1px 3px 1px rgba(0,0,0,1);
+			color: rgba(25,0,191,1.00)
+		}
+		
+		#botonesFin input:active{
+			width: 10%;
+			box-shadow: none;
+			box-shadow: 1px 1px 3px 1px rgba(25,0,191,1.00),
+			-1px -1px 3px 1px rgba(25,0,191,1.00);
+		}
+	</style>
+	
+	
+
+</head>
+
+<body>
+	<main>
+		<h1>Metodo de pago</h1>
+		<h2>Por favor seleccione un metodo de pago</h2>
+		<p>Metodos de pago disponibles</p>
+		
+		<form action="" method="post">
+			<div id="borde">
+				<div id="caja">
+					<input type="radio" name="pago" value="TC" id="TC" onChange="comprueba();">
+					<label for="TC" >Tarjeta de credito</label>
+					<input type="radio" name="pago" value="TB" id="TB" onChange="comprueba();">
+					<label for="TB" >Transferencia Bancaria</label>
+				</div>
+			</div>
+			
+			<fieldset id="TarjetaC">
+				<legend>Tarjeta de credito</legend>
+				
+				<label for="nombreT">Nombre y apellidos</label><br>
+				<input type="text" name="nombre" id="nombreT" placeholder="Nombre que figure en la tarjeta" disabled 
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+				<label for="Tarjeta">Numero de Tarjeta</label><br>
+				<input type="number" name="Tarjeta" id="Tarjeta" placeholder="6664 0199 9923 0453" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+				<label for="caducidad">Fecha de caducidad</label><br>
+				<input type="date" name="caducidad" id="caducidad" placeholder="-------- de -----" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+				<label for="codigo">Codigo de seguridad</label><br>
+				<input type="number" name="codigo" id="codigo" placeholder="3 digitos" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);" 
+					   pattern="[0-9]{3}">
+				
+			</fieldset>
+			
+			<fieldset id="TransferenciaB" style="display: none">
+				<legend>Transferencia Bancaria</legend>
+				
+				<label for="nombreB">Nombre de la entidad bancaria</label><br>
+				<input type="text" name="nombre" id="nombreB" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+				<label for="titular">Nombre del titular de la tarjeta</label><br>
+				<input type="text" name="titular" id="titular" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+				<label for="numeroT">Numero de Tarjeta</label><br>
+				<input type="number" name="numeroT" id="numeroT" placeholder="indicar IBAN" disabled
+					   onFocus="cambiarColorTexto(event,this);" onBlur="cambiarColorTexto(event,this);">
+				
+			</fieldset>
+			<div id="botonesFin">
+				<input type="reset" value="<---atras">
+				<input type="submit" value="siguiente--->">
+			</div>
+		</form>
+		
+	</main>
+</body>
+</html>

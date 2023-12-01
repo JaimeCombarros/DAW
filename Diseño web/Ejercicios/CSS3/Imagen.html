@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		#contenedor{
+			width: 900px;
+			height: 600px;
+			background: url("imagenes/View_Ilha_Grande.jpg");
+			background-size: cover;
+			margin: auto;
+			background-attachment: fixed;
+			background-position: 70%;
+			position: relative;
+		}
+	
+		#cristal, #texto{
+			border: solid 1px white;
+			width: 70%;
+			height: 40%;
+			box-shadow: 0 0 3px 0 rgba(0,0,0,0.8),
+			inset 0 0 2000px rgba(255,255,255,0.5);
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			margin: -15% 0 0 -35%;
+			filter: blur(50px);
+			background: inherit;
+		}
+		
+		#texto{
+			filter: none;
+			display: table;
+			background: none;
+		}
+		
+		#centrado{
+			display: table-cell;
+			vertical-align: middle;
+			text-align: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="contenedor">
+		<div id="cristal"></div>
+		<div id="texto">
+			<div id="centrado">
+				<h1>Ciclo de electricidad</h1>
+				<h2>IES Martin Rivero</h2>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

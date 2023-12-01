@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Round"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Sharp"
+      rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Icons+Two+Tone"
+      rel="stylesheet">	
+
+	<style>
+		html,body{
+			width: 100%;
+			height: 100%;
+			background-color: darkgrey;
+		}
+		
+		#contenedor{
+			width: 30%;
+			margin: auto;
+		}
+			
+		#contenedor h1{
+			background-color: rgba(172,37,0,1.00);
+			color: white;
+			text-align: center;
+			height: 80px;
+			line-height: 80px;
+		}
+		
+		form{
+			background-color: rgba(244,244,244,1.00);
+			padding-top: 10px;
+			padding-left: 20px;
+			padding-right: 20px;
+		}
+		
+		#cajita{
+			width: 90%;
+			margin: auto;
+		}
+		#botones{
+			height: 80px;
+			background-color: green;
+		}
+		#botones input{
+			display: none;
+		}
+		#botones label{
+			width: 50%;
+			float: left;
+			text-align: center;
+			background-color: white;
+			height: 60px;
+			line-height: 60px;
+			margin-top: 10px;
+			cursor: pointer;
+		}
+		
+		#botones input:checked + label{
+			background-color: rgba(34,231,11,1.00);
+			box-shadow: inset 2px 2px 20px 2px rgba(0,0,0,0.2),inset -2px -2px 20px 2px rgba(0,0,0,0.2);
+		}
+		
+		
+		#cuerpo input:not(#submit){
+			border: none;
+			border-bottom: 1px solid grey;
+			margin-bottom: 20px;
+			background: none;
+			outline: 0;
+		}
+		
+		#cuerpo input:not(#submit):focus{
+			border-color: green;
+		}
+		
+		#cuerpo:nth-child(2){
+			margin-top: 20px;
+		}
+		
+		#submit{
+			border: 1px solid grey;
+			width: 100%;
+			height: 40px;
+			box-shadow: 1px 1px 2px 2px rgba(136,136,136,1.00);
+			margin-bottom: 20px;
+		}
+		
+		#submit:active{
+			box-shadow:none;
+			border-color: green;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="contenedor">
+	<h1>Registro</h1>
+		
+
+	<form action="" >
+	<div id="botones">
+		<div id="cajita">
+			<input type="radio" name="sex" value="M" id="M" >
+			<label for="M">Mujer</label>
+			<input type="radio" name="sex" value="H" id="H">
+			<label for="H">Hombre</label>
+		</div>
+	</div>
+	
+	<div id="cuerpo">
+		<label for="nombre"><span class="material-icons-outlined">portrait</span></label>
+		<input type="text" id="nombre" placeholder="Nombre de Usuario"><br>
+
+		<label for="email"><span class="material-icons-outlined">email</span></label>
+		<input type="email" id="email" placeholder="Correo electronico"><br>
+
+		<label for="password"><span class="material-icons-outlined">lock</span></label>
+
+		<input type="password" id="password" placeholder="Contraseña"><br>
+		
+		<input type="submit" value="Enviar" id="submit">
+	</div>
+		</form>	
+	</div>
+</body>
+</html>

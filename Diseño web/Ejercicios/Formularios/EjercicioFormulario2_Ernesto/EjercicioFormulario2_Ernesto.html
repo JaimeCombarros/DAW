@@ -1,0 +1,255 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<style>
+		
+		@import url(https://weloveiconfonts.com/api/?family=entypo);
+		
+		@font-face {
+			font-family: 'open_sansregular';
+			src: url('fuente/opensans-variablefont_wdthwght-webfont.woff2') format('woff2'),
+				 url('fuente/opensans-variablefont_wdthwght-webfont.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+		
+		[class*="entypo-"]:before {
+              font-family: 'entypo', sans-serif;
+        }
+		
+		.contenedor{
+			width: 15%;
+			margin: 0 auto;
+			border: 1px solid lightgrey;
+			border-radius: 10px;
+			background-color: rgba(237,237,237,1.00);
+			text-align: center;
+			min-width: 360px;
+		}
+		
+		h1{
+			display: block;
+			padding-bottom: 10px;
+			font-size: 200%;
+			width: 40%;
+			margin: 0 auto;
+			text-align: center;
+			border-bottom: 1px solid grey;
+			margin-bottom: 15px;
+			margin-top: 10px;
+			font-family: 'open_sansregular';
+		}
+		
+		form input[type="radio"]{
+			display: none;
+		}
+		
+		.registro{
+			padding-right: 20px;
+		}
+		
+		.checkDiv{
+			display: inline-block;
+			width: 10px;
+			height: 10px;
+			border: 1px solid black;
+			border-radius: 50%;
+			cursor: pointer;
+			background-color: blue;
+			position: relative;
+		}
+		
+		.tick{
+			border:transparent;
+			background: transparent;
+			border-bottom: 2px solid white;
+			border-left: 2px solid white;
+			position: relative;
+			top: 3px;
+			left: 1px;
+			transform: rotate(320deg);
+	        width: 6px;
+			height: 2px;
+		}
+		
+		.contenedorRadioButtons{
+			border-bottom: 1px solid grey;
+			width: 60%;
+			margin: 0 auto;
+			padding-bottom: 5px;
+			margin-bottom: -11px;
+		}
+		
+		.imgLabel{
+			background-color: lightblue;
+			display: inline-block;
+			width: 40px;
+			height: 25px;
+			border-top-left-radius: 5px;
+			border-bottom-left-radius: 5px;
+			margin-top: 10px;
+			position: relative;
+			left: 4px;
+			bottom: 2px;
+		}
+		
+		.inputRendondo{	
+			border:1px solid black;
+			border-radius: 3px;
+			margin-right: 10px;
+			padding-left: 0;
+			padding: 5px;
+		 }
+		
+		form p{
+			width: 35%;
+			float: left;
+			text-align: left;
+			padding-left: 20px;
+		}
+		
+		input[type="submit"]{
+			margin-top: 28px;
+			margin-right: 5px;
+			box-shadow: 2px 2px 0 grey;
+			color: beige;
+			background-image: linear-gradient(to bottom,rgba(1,103,211,1.00),rgba(82,148,228,1.00));
+			border:1px solid darkblue;
+			border-radius: 13px;
+			padding: 10px;
+			width: 90px;
+		}
+		
+		input[type="submit"]:active{
+			box-shadow: inset 2px 2px 0 grey;
+			
+		}
+		
+		label{
+			font-family: 'open_sansregular';
+		}
+		
+		label>.checkDiv>.tick, input[type="radio"] {
+            visibility: hidden;
+
+        }
+
+        input:checked+label>.checkDiv>.tick{
+            visibility: visible;
+
+        }
+		
+		input[type="text"],input[type="email"],input[type="password"]{
+			font-family: 'open_sansregular';
+			border:1px solid red;
+		}
+		
+		input[type="text"]:focus,input[type="email"]:focus,input[type="password"]:focus{
+			outline: none;
+		}
+		
+		/*REALIZADO LA VALIDACION CON JS, ESTE SELECTOR TAMBIEN FUNCIONA*/
+		/*input[type="text"]:valid,input[type="email"]:valid,input[type="password"]:valid{
+			border:1px solid grey;
+		}*/
+		
+		.contenedorRadioButtons2{
+			margin-top: 11px;
+		}
+		
+		.limpio{
+			clear: both;
+		}
+		
+	</style>
+	
+	<script>
+	
+		function validaCamposFormulario(input){
+			
+			var hijosFormulario=formularioAValidar.children;
+			
+			var formatoValidado=false;
+						
+			for(let i=0;i<hijosFormulario.length;i++){
+				if(hijosFormulario[i].type==input.type){
+					if(hijosFormulario[i].validity.valid){
+						hijosFormulario[i].style.border="1px solid grey";
+						formatoValidado=true;
+				  	}
+				}
+			}
+			
+			if(!formatoValidado){
+			   input.style.border="1px solid red";
+			 }
+			
+		}
+	
+	
+	</script>
+	
+</head>
+
+<body>
+	
+	<div class="contenedor">
+		<h1>Registro</h1>
+		<form id="formularioAValidar">
+
+			<div class="contenedorRadioButtons">
+				<input type="radio" name="tipoRegistro" value="personal" id="personal">
+				<label for="personal" class="registro">
+					<div class="checkDiv"><div class="tick"></div></div>
+					Personal
+				</label>
+
+				<input type="radio" name="tipoRegistro" value="personal" id="empresa">
+				<label for="empresa" class="registro">
+					<div class="checkDiv"><div class="tick"></div></div>
+					Empresa
+				</label>
+
+			</div>
+
+			<br>
+
+			<label class="imgLabel" for="correoUsuario"><span class="entypo-mail"></span></label>
+			<input onBlur="validaCamposFormulario(this)" onKeyUp="validaCamposFormulario(this)" type="email" name="correo" id="correoUsuario" placeholder="Email" class="inputRendondo" title="email" required>
+			<br>
+			<label for="nombreUsuario" class="imgLabel"><span class="entypo-user"></span></label>
+			<input onBlur="validaCamposFormulario(this)" onKeyUp="validaCamposFormulario(this)" type="text" name="nombre" id="nombreUsuario" placeholder="Nombre" class="inputRendondo" title="nombre_usuario" required>
+			<br>
+			<label for="contraseniaUsuario" class="imgLabel"><span class="entypo-key"></span></label>
+			<input onBlur="validaCamposFormulario(this)" onKeyUp="validaCamposFormulario(this)" type="password" name="password" id="contraseniaUsuario" placeholder="Password" class="inputRendondo" title="password" required>
+
+			<div class="contenedorRadioButtons2">
+				
+				<input type="radio" name="genero" value="Hombre" id="hombre">
+				<label for="hombre" class="registro">
+					<div class="checkDiv"><div class="tick"></div></div>
+					Hombre
+				</label>
+
+				<input type="radio" name="genero" value="Mujer" id="mujer">
+				<label for="mujer" class="registro">
+					<div class="checkDiv"><div class="tick"></div></div>
+					Mujer
+				</label>
+				
+			</div>
+
+
+			<p>Haciendo click en el Registro, usted está aceptando nuestros <a href="">términos y condiciones</a></p>
+			<input type="submit" value="Registro">
+
+			<div class="limpio"></div>
+
+		</form>
+    </div>
+	
+</body>
+</html>

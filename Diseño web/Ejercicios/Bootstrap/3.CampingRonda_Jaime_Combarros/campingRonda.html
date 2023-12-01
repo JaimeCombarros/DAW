@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+	  
+	<style>
+		body{
+			background-color: rgba(245,245,245,1.00);
+		}
+		
+		header p{
+			background-color: darkred;
+			color: white;
+		}
+		
+		nav a{
+			text-decoration: none !important;
+			color: black !important;
+		}
+		
+		.w-55{
+			width: 55% !important;
+		}
+		
+		div img{
+			height: 300px;
+		}
+		
+		div div h2{
+			border-top: 1px solid black;
+			border-bottom: 1px solid black;
+		}
+		
+		main article #articulos div{
+			box-shadow: 0 0 10px grey;
+		}
+		
+		main article div div p{
+			color: red;
+			font-weight: bold;
+			top: 90%!important;
+		}
+		
+		main article div div img{
+			width: 100%;
+		}
+	</style>
+  </head>
+  <body class="container-fluid ">
+	<header class="">
+	  	<p class="row ps-5">Contacto- 95287 16 96 - 639225588</p>
+		<div class="row">
+		<nav class="navbar nav navbar-expand-md navbar-light">
+			<a href="" class="navbar-brand offset-1">CampingRonda.es</a>
+			<button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navegacion">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navegacion">
+				<ul class="navbar-nav ms-4">
+						<li class="nav-item">
+							<a href="" class="nav-link">Inicio</a>
+						</li>
+						<li class="nav-item">
+							<a href="" class="nav-link">Productos</a>
+						</li>
+						<li class="nav-item">
+							<a href="" class="nav-link">Contactar</a>
+						</li>
+				</ul>
+			</div>
+			<div class="row ms-auto me-2 ms-5">
+				<input class="w-55 form-control ms-5 ms-sm-0">
+				<input class="w-55 form-control ms-5 ms-sm-0">
+			</div>
+		</nav>
+		</div>
+	</header>
+	  
+	<div class="row fondo justify-content-center mt-5" id="foto">
+		<div class="col-10 col-md-3">
+			<h2 class="pt-3 pb-3 ">Descubre nuestros productos disfruta de la naturaleza</h2>
+		</div>
+	</div>
+	<main class="row mt-5">
+	  	<article class="col-10 col-md-7 offset-1">
+	  		<h3>Categorias</h3>
+			<hr>
+			<div class="row mt-5 row-cols-1 row-cols-sm-3 row-cols-lg-4 justify-content-center" id="articulos">
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/mochila.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Mochilas</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/brujula.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Brújula</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/botiquinparaosos.png" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Botiquín</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/lamparas-de-gas.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Lamparas de gas</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/herramientamultiusos.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Herramientas</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/prismaticos.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Prismaticos</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/sacodedormir.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Saco de dormir</p>
+				</div>
+				<div class="col position-relative d-flex flex-column justify-content-between bg-white border m-2">
+					<img src="img/walkie.jpg" alt="" class="col-12 img-fluid ">
+					<p class="text-center">Walkie</p>
+				</div>
+			</div>
+		</article> 
+		<aside  class="col-12 col-md-3 mt-md-5">
+			<img src="img/publi2.jpg" alt="" class="d-block col-7 col-md-12 col-lg-7 m-auto mt-3">
+			<img src="img/publi1.jpg" alt="" class="d-block col-7 col-md-12 col-lg-7 m-auto mt-3">
+		</aside>  
+	</main>
+	
+	  
+	  
+	  
+	  
+	  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  </body>
+</html>

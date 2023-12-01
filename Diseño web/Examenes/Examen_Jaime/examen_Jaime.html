@@ -1,0 +1,339 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+		/*--------------------------Header---------------------------------*/
+		header{
+			height: 400px;			
+		}
+		
+		header #navheader{
+			width: 40%;	
+		}
+		
+		#navheader ul{
+			list-style: none;
+			padding-left: 0px;
+		}
+		#navheader ul li:first-child{
+			margin-left: 0%;		
+		}
+		
+		#navheader ul li{
+			float: left;
+		}
+		
+		#navheader ul li:nth-child(2){
+			margin-left: 10%;
+		}
+		
+		#navheader ul li:nth-last-child(1){
+			margin-left: 20%;
+		}
+		
+		#navheader ul li a{
+			display: block;
+			float: left;
+			padding: 10px 60% 10px 60%;
+			line-height: 10px;
+			color: white;
+			text-decoration: none;
+			color: black;
+		}
+		
+		#inicio{
+			background-color: rgba(129,0,2,1.00);
+		}
+		
+		#navheader ul li a:hover{
+			background: url("imagenes/menuhovereditem.png");
+			background-repeat: repeat-x;
+			color: black;
+		}
+		
+
+		
+		header>div{
+			display: table;
+			width: 100%;
+			background-image: url("imagenes/header.jpg");
+			clear: both;
+			
+		}
+		
+		#tabla{
+			display: table-row;
+			width: 100%;
+		}
+		
+		header h1{
+			display: table-cell;
+			color: rgba(208,180,0,1.00);
+			vertical-align: middle;
+			padding-left: 4%;
+			font-size: 65px;
+			
+		}
+		header span{
+			color: white;
+			font-size: 90px;
+		}
+		
+		header img{
+			display: table-cell;
+			float: right;
+			height: 300px;
+		}
+		/*--------------------------Main---------------------------------*/
+
+		/*--------------------------Numeros---------------------------------*/
+		main{
+			width: 80%;
+			margin: auto;
+			height: auto;
+			min-width: 900px;
+			max-width: 1800px;
+		}
+		
+		main>#tablita{
+			display: table;
+			width: 100%;
+		}
+		
+		.tablas{
+			display: table-cell;
+			width: 30%;
+		}
+		
+		.tablas h1{
+			color: rgba(129,0,2,1.00);
+		}
+		
+		.tablas div{
+			width: 60%;
+			float: right;
+		}
+		.tablas>p{
+			width: 35%;
+			float: left;
+			color: rgba(129,0,2,1.00);
+			font-size: 80px;
+			text-align: center;
+			margin-top: 0px;
+		}
+		article button{
+			background-color: antiquewhite;
+		}
+		
+		article button:hover{
+			background-color: rgba(129,0,2,1.00);
+			color: white;
+		}
+		article button a:hover{
+			color: white;
+		}
+		
+		article button a{
+			display: block;
+			padding: 10px;
+			text-decoration: none;
+			color: rgba(129,0,2,1.00);
+		}
+		
+		/*--------------------------parte izq---------------------------------*/
+		
+		#resto h1{
+			color: rgba(129,0,2,1.00);
+		}
+		
+		main>#resto>#a1{		
+			width: 25%;
+			float: left;
+		}
+		
+		#resto #a1 div img{			
+			width: 100px;
+			float: left;
+			
+		}
+		#resto #a1 div p{
+			width: 100%;
+			margin-top: 0px;
+		}
+		
+		#resto #a1 div{
+			height: auto;
+			margin-bottom: 10px;
+	
+		}
+		/*--------------------------parte derecha---------------------------------*/
+		#resto #a2{
+			width: 70%;
+			float: right;
+			margin-right: 0px;
+		}
+		
+
+		#resto #a2 img{
+			width: 100%;
+		}
+	
+
+		
+		/*--------------------------footer---------------------------------*/
+		
+		footer{
+			width: 100%;
+			clear: both;
+			height: 100px;
+			background-color: aliceblue;
+			display: table;
+		}
+		
+		footer div{
+			display: table-row;
+		}
+		
+		footer div p{
+			display: table-cell;
+			width: 30%;
+			text-align: right;
+		}
+		
+		footer div a{
+			display: table-cell;
+			width: 30%;
+			vertical-align: bottom;
+			text-align: right;
+			text-decoration: none;
+			color: rgba(129,0,2,1.00);
+		}
+		
+		footer div lista{
+			display: table-cell;
+			width: 30%;
+		}
+		
+		footer nav{
+			width: 100%;	
+		}
+		
+		footer nav ul{
+			list-style: none;
+			padding-left: 0px;
+		}
+		 footer nav ul li:first-child{
+			margin-left: 0%;		
+		}
+		
+		 footer nav ul li{
+			float: left;
+			border-right: 1px solid black;
+		}
+		
+		footer nav ul li:last-child{
+			border-right: none;
+		}
+		
+		footer nav ul li a{
+			width: 100%;
+			display: block;
+			float: left;
+			color: rgba(129,0,2,1.00);
+			margin-right: 2px;
+
+		}
+		footer nav ul li a:hover{
+			color: rgba(63,0,0,1.00);
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+	<nav id="navheader">
+		<ul>
+			<li><a href="" id="inicio">Inicio</a></li>
+			<li><a href="">Inscripciones</a></li>
+			<li><a href="">Contacto</a></li>
+		</ul>
+	</nav>
+	<div>
+		<div id="tabla">
+			<h1><span>SEO</span><br>Importancia</h1>
+			<img src="imagenes/object1.png" alt="">
+		</div>
+	</div>
+	</header>
+	
+	
+	<main>
+		<div id="tablita">
+			<article class="tablas">
+				<p>1</p>
+				<div>
+				<h1>Crecimiento</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim voluptate nam maxime, illo, assumenda accusamus? Illo iure magni molestias pariatur.</p>
+				<button><a href="">Leer mas</a></button>
+				</div>
+			</article>
+			<article class="tablas">
+				<p>2</p>
+				<div>
+				<h1>Efectividad</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim voluptate nam maxime, illo, assumenda accusamus? Illo iure magni molestias pariatur.</p>
+				<button><a href="">Leer mas</a></button>
+				</div>
+			</article>
+			<article class="tablas">
+				<p>3</p>
+				<div>
+				<h1>Eficiencia</h1>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim voluptate nam maxime, illo, assumenda accusamus? Illo iure magni molestias pariatur</p>
+				<button><a href="">Leer mas</a></button>
+				</div>
+			</article>
+		</div>
+		<div id="resto">
+			<article id="a1">
+				<h1>Nuestros Servicios</h1>
+				<div>
+					<img src="imagenes/seo1-2-2-2.jpg" alt="">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione corrupti natus, necessitatibus incidunt amet. Consequatur.</p>
+				</div>
+				<div>
+					<img src="imagenes/seo2-2-2.jpg" alt="">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione corrupti natus, necessitatibus incidunt amet. Consequatur.</p>
+				</div>
+				<div>
+					<img src="imagenes/seo3-2-2.jpg" alt="">
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ratione corrupti natus, necessitatibus incidunt amet. Consequatur.</p>
+				</div>
+			</article >
+			<article id="a2">
+				<h1>Exclusividad a nuestros clientes</h1>
+				<img src="imagenes/seo_main-2-2-2.png" alt="">
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere magni odio pariatur qui delectus, adipisci quasi esse incidunt inventore dolores. Fugit iste itaque temporibus, autem nostrum minima tenetur mollitia fuga nemo. Sequi ducimus nisi quam iusto nihil iure nulla, in sit qui labore a ut delectus doloremque quas, deleniti. Quibusdam!</p>
+				<button><a href="">Leer mas</a></button>
+			</article>
+		</div>
+		</main>
+		<footer>
+			<div>
+				<p>Tutor: Lorem ipsum dolor sit amet.</p>
+				<a href="">Jaime Combarros Recuerda</a>
+				<nav>
+					<ul>
+						<li><a href="">Acerca de</a></li>
+						<li><a href="">Terminos de uso</a></li>
+						<li><a href="">Contacto</a></li>
+					</ul>
+				</nav>
+			</div>
+		</footer>
+	
+	
+</body>
+</html>

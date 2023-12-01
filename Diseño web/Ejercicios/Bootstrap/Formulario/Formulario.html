@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+	  
+	  <style>
+		  body{
+			background: url("Imagenes/cielo-al-atardecer-reflejado-en-el-mar_3840x2400_xtrafondos.com.jpg");
+			background-size: cover;
+			background-attachment: fixed;
+			position: relative;
+		  }
+		  
+		  .contendor{
+			  background-color: rgba(214,239,255,0.77);
+			  border-radius: 20px; 
+			  box-shadow: 5px 5px 15px 5px rgba(172,129,158,0.63),-5px -5px 15px 5px rgba(172,129,158,0.63);
+			  width: 80%;
+		  }
+		  
+		  .enviar{
+			  padding: 10px 0px 10px 0px;
+			  border-radius: 15px;
+			  transition:  background-color 0.5s ease;
+		  }
+		  
+		  .enviar:hover{
+			  background-color: rgba(202,19,99,1.00);
+			 
+		  }
+		  
+		  @media only screen and (min-width:768px){
+			  .select{
+				  width: 50%!important;
+			  }
+			  .contendor{
+				  width: 50%!important;
+			  }
+			}
+		  
+		  @media only screen and (min-width:576px){
+			  .enviar{
+				  width: 25%!important;
+			  }
+			}
+	  </style>
+	  
+	  
+  </head>
+  <body>
+	<div class="contendor container-fluid mt-5 ">
+		<div class="col-10 offset-1">
+		<h1 class="row justify-content-center pt-3">Registro</h1>
+		<form action="">
+			
+			<div class="row mt-5 ">
+				<label for="Nombre" class="col-sm-2 col-10 col-form-label ">Usuario:</label>
+    			<div class="col-sm-7 col-12 offset-sm-1">
+      				<input type="text" class="form-control" id="Nombre" required>
+   				 </div>
+			</div>
+			
+			<div class="row mt-3 mb-5">
+				<label for="Contraseña" class="col-sm-2 col-10 col-form-label ">Contraseña:</label>
+    			<div class="col-sm-7 col-12 offset-sm-1">
+      				<input type="password" class="form-control" id="Contraseña" required>
+   				 </div>
+				 <div id="HelpContraseña" class="form-text offset-sm-3 col-sm-8 col-12">
+                	 Tu contraseña debe estar formada mínimo por nueve caracteres
+            	</div>
+			</div>
+			
+			<div class="row"><h4 class="col-12 text-center">Género</h4></div>
+			<div class="row justify-content-center text-center">
+				<div class="form-check col-6">
+					<input type="radio" class="btn-check" name="genero" id="hombre" autocomplete="off">
+					<label class="btn btn-outline-primary" for="hombre">Hombre</label>
+				</div>
+				<div class="form-check col-6">
+					<input type="radio" class="btn-check" name="genero" id="mujer" autocomplete="off">
+					<label class="btn btn-outline-primary" for="mujer">Mujer</label>
+				</div>
+			</div>
+			
+			<div class="row mt-3 mb-3">
+				<label for="edad" class="col-2 col-form-label ">Edad</label>
+				<div class="col-sm-5 col-9 offset-1 ">
+      				<input type="number" class="form-control" id="edad">
+   				 </div>
+			</div>
+			
+			<div class="row mt-3 mb-3 ">
+				<label for="frecuencia" class="col-12 col-form-label ">Frecuencia con la que quieres recibir publicidad</label>
+					<select class="form-select w-100   select" aria-label="Default select example" id="frecuencia">
+					  <option selected>Seleccione una opción</option>
+					  <option value="1">Por semana</option>
+					  <option value="2">Dos veces a la semana</option>
+					  <option value="3">Mensual</option>
+					</select>
+			</div>
+			  	
+				<div class="input-group ">
+					<span class="input-group-text" for="email">@</span>
+					<input type="email" class="form-control" id="email" placeholder="Correo electronico">
+				</div>
+			
+			<div class="row mt-5 mb-3">
+				<div class="form-check col-10">
+				  <input class="form-check-input" type="checkbox" value="" id="condiciones" required>
+				  <label class="form-check-label" for="condiciones">Al pulsar este botón acepta los <a href="">términos y condiciones de la página</a> </label>
+					
+				</div>
+			</div>
+			
+			<div class="row mt-3 mb-3 form-floating">
+  				<textarea class="form-control" rows="3" id="comentario"></textarea>
+				<label for="comentario" class="form-label " >Comentario adicional</label>
+			</div>
+			
+			<div class="row mt-4 pb-3">
+				<input type="submit" class="btn btn-dark w-50 m-auto enviar" value="Enviar">
+			</div>
+			
+		</form>
+	  
+	  </div>
+	</div>
+	  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  </body>
+</html>
