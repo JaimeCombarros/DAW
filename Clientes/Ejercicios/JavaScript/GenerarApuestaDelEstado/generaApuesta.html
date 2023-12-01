@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+		
+		var generarNApuesta=function(){
+								
+			document.getElementById("apuestaAImprimir").innerHTML="";
+			
+			var nApuesta=document.getElementById("nApuesta").value;
+			
+			var valores=document.getElementById("seleccionar").value;
+			
+			valores=valores.slice(15,valores.length-1);
+			
+			var valoresSinComa=valores.split(",");
+			
+			for(let j=0;j<nApuesta;j++){
+				
+				for(let i=0;i<valoresSinComa.length;i+=4){
+					document.getElementById("apuestaAImprimir").innerHTML+=generarApuesta(valoresSinComa[i],valoresSinComa[i+1],valoresSinComa[i+2],valoresSinComa[i+3]);
+					
+				}
+				
+				document.getElementById("apuestaAImprimir").innerHTML+="<br>";
+			}
+	
+		}
+
+		function generarApuesta(){
+				
+			var totalADarVueltas=0;
+				
+			var elementosApuesta="";
+				
+			var apuesta="";
+				
+				for(let i=0;i<arguments.length;i++){
+					elementosApuesta+=arguments[i]+",";
+					if(totalADarVueltas==3){
+					   		apuesta+=generaCombinacion(elementosApuesta);
+							elementosApuesta="";
+							totalADarVueltas=-1;
+					 }
+					totalADarVueltas++;
+				}
+			
+			
+			document.getElementById("apuestaAImprimir").innerHTML=apuesta;
+			
+			return apuesta;
+		}
+		
+		var generaCombinacion=function(){
+				
+				let elementosAGenerar=arguments[0];
+				
+				elementosAGenerar=elementosAGenerar.substring(0,elementosAGenerar.length-1);
+				
+				let arrayApuesta=elementosAGenerar.split(",");
+				
+				let contadorNumeros=0;
+				
+				var cantidadNumerosAGenerar=parseInt(arrayApuesta[1]);
+								
+				var combinacionAGenerar=[];
+				
+				let minimo=parseInt(arrayApuesta[2]);
+				let maximo=parseInt(arrayApuesta[3]);
+			
+				let numeroAleatorioGenerado;
+				
+				while(contadorNumeros<cantidadNumerosAGenerar){
+					numeroAleatorioGenerado=generaAleatorio(minimo,maximo);
+					
+					if(combinacionAGenerar.length==0){
+					   	combinacionAGenerar[combinacionAGenerar.length]=numeroAleatorioGenerado;
+						contadorNumeros++;
+					}else{
+						  if(!(combinacionAGenerar.includes(numeroAleatorioGenerado))){
+							 	combinacionAGenerar[combinacionAGenerar.length]=numeroAleatorioGenerado;
+							  	contadorNumeros++;	
+						  }
+					}
+				}
+				
+				combinacionAGenerar.sort(function(a,b){return a-b});
+				
+				combinacionAGenerar.unshift(arrayApuesta[0]);
+				
+				let combinacionGenerada="";
+				
+				for(let i=0;i<combinacionAGenerar.length;i++){
+					combinacionGenerada+=combinacionAGenerar[i]+" ";
+				}
+				
+				return combinacionGenerada;	
+			}
+			
+			function generaAleatorio(minimo,maximo){
+				var x = Math.floor((Math.random() * maximo) + minimo);
+				return x;
+			} 
+			
+		
+	</script>
+</head>
+
+<body>
+	
+	<h1>Generador de apuestas: </h1>
+	
+		<select onChange="generarNApuesta()" id="seleccionar">
+			<option value="generarApuesta('Números:',6,1,54,'Número Clave:',1,0,9)">Gordo de la primitiva</option>
+			<option value="generarApuesta('Numeros:',6,1,49,'Reintegro:',1,0,9,'Joker:',1,0,9999999)">
+			Primitiva</option>
+			<option value="generarApuesta('Euromillones',5,1,50,'Estrellas',2,1,12)">Euromillon</option>
+			<option value="generarApuesta('Numeros:',6,1,49)">Bonoloto</option>
+		</select>
+	
+		<input type="number" id="nApuesta" onChange="generarNApuesta()" value="1">
+	
+		<p id="apuestaAImprimir">Apuesta aun no generada</p>
+	
+</body>
+</html>

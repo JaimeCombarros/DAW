@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Euromillones</title>
+    <style>
+        body{
+            width: 40%;
+            margin: auto;
+            text-align: center;
+        }
+
+        p{
+            font-size: 23px;
+            text-align: center;
+            height: 40px;
+            border: 2px dotted darkgray;
+        }
+
+    </style>
+</head>
+<body>s
+	
+    <h1>Generador de apuestas: Euromillones</h1>
+    
+    
+    <p>Elige Apuesta--</p>
+  
+  <!--select  onchange="combina(this.value);"-->
+    <select id="sApu" onchange="eval(this.value)">
+		<option value="generaNApuestas('Números:',6,1,54,'Número Clave:',1,0,9)">
+			Gordo de la Primitiva</option>
+	
+		<option value="generaNApuestas('Numeros:',6,1,49,'Reintegro:',1,0,9,'Joker:',1,0,9999999)">     Primitiva</option>
+		 
+		<option value="generaNApuestas('Numeros:',6,1,49)">BonoLoto</option>
+
+		<option value="generaNApuestas('Números:',5,1,50,'Estrellas:',2,1,12)">Euromillones</option>
+   </select> 
+    
+ 
+   <input type="number" value="1"  id="numApu" min="1" max="99" onchange="eval(sApu.value)"/>
+    
+	<p id="pApuesta"> Apuesta aún no generada </p>
+  
+    <script>
+        var apuesta = document.getElementById("pApuesta");
+        var apuestaCompleta = [];
+
+
+		function generaNApuestas() {
+			var numApuestas = document.getElementById("numApu").value;
+			apuestaCompleta = [];
+			
+			
+			
+			for (let j = 0; j < numApuestas; j++) {
+				for (let i = 0; i < arguments.length; i+=4) {
+					apuestaCompleta = apuestaCompleta.concat(generaCombinacion(arguments[i],arguments[i+1],arguments[i+2],arguments[i+3]));
+				}
+				apuestaCompleta = apuestaCompleta.concat(";");
+			}
+			
+			
+            pintaApuesta(apuestaCompleta);
+		}
+		
+        //genera un euromillon con sus estrellas y num aleatorios
+
+
+        //genera una apuesta y la almacena en un array que devuelve
+        function generaCombinacion(etiqueta,cantNums, min, max) {
+            let arrayNums = [];
+            let i = 0;
+            while (i < cantNums) {
+                var numAleatorio = getRandomInt(min, max);
+                if(!(arrayNums.includes(numAleatorio))){
+                    arrayNums[i] = numAleatorio ;
+                    i++;
+                }
+            }
+
+            arrayNums.sort(function(a, b){return a-b}); 
+            arrayNums.unshift(etiqueta);
+            return arrayNums;
+        }
+
+
+        //genera un numero random
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+
+
+        //pinta el array de apuesta que le pasemos por parametros
+        function pintaApuesta(arrayNums){
+            apuesta.innerHTML = "";
+			
+			
+            arrayNums.forEach(function(valor) {
+				if (valor == ";") {
+					apuesta.innerHTML += "<br>";
+					
+					}
+				else {
+					apuesta.innerHTML +=  valor + "_";
+				}
+
+            });
+        }
+
+    </script>
+</body>
+</html>
