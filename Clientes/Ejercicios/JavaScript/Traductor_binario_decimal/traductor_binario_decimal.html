@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>traductor_binario_decimal</title>
+	
+	<script>
+		
+				
+		function funcion(){
+			
+			var numeroBinarioString="";
+			
+			var campoTexto=document.getElementById("textField").value;
+			
+			for(var i=0;i<campoTexto.length;i++){
+				numeroBinarioString+=campoTexto.charCodeAt(i).toString(2)+" ";
+			}
+			
+			document.getElementById("binario").innerHTML=numeroBinarioString;	
+		}
+		
+		function transformarBinario(){
+			
+
+			 const arrayNumerosBinarios=document.getElementById("binario").textContent.split(" ");
+			 var numerosEnBinario=0; 
+			 var binarioALetra="";
+			
+			 for(let j in arrayNumerosBinarios){
+				 numerosEnBinario=parseInt(arrayNumerosBinarios[j],2);
+				 binarioALetra+=String.fromCharCode(numerosEnBinario);
+			 }
+			
+			 document.getElementById("TextoTraducido").innerHTML=binarioALetra;
+		}
+		
+	</script>
+	
+</head>
+
+<body>
+	<input type="text" id="textField" name="campoTexto">
+	<button id="botonABinario" onClick="funcion()">a Binario...</button>
+	<br>
+	<p>Texto en binario: </p><br>
+	<p id="binario"></p><br>
+	<button id="ADecimal" onClick="transformarBinario()">a Decimal...</button><br>
+	<p id="TextoTraducido"></p>
+</body>
+</html>
