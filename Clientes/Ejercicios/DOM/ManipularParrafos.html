@@ -1,0 +1,103 @@
+<!DOCTYPE html >
+
+<html>
+    <head>  <title>Modificando el DOM</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+     <script>
+
+    function aunarParrafos(){ 
+    } 
+
+    //--------------------------------
+    function nuevoParrafo(){ 
+		var listaParrafos = document.getElementById("div1");
+		var texto 		= document.getElementById("ta").value;
+		var posParrafo 	= document.getElementById("pos").value;
+		var nuevoParrafo= document.createElement("p");
+		var botonEliminar =creaBoton();
+		if(texto!=""){
+			nuevoParrafo.innerHTML=texto;
+			nuevoParrafo.appendChild(botonEliminar);
+			nuevoParrafo.setAttribute("onDblClick","mueve(this)");
+			if(posParrafo!=""){
+				alert("numero introducido");
+				listaParrafos.insertBefore(nuevoParrafo,listaParrafos.children[posParrafo-1]);
+			}else{
+				alert("numero vacio");
+				listaParrafos.appendChild(nuevoParrafo);
+			}
+		}else{
+			alert("Vacio");
+		}
+		document.getElementById("ta").value="";
+		document.getElementById("pos").value="";
+    }
+    //---------------------------------------------------------------------------
+    function borraParrafo(elemento){
+		var listaParrafos = document.getElementById("div1");
+		var posParrafo 	= document.getElementById("pos").value;
+		if(posParrafo==""){
+			alert("sin numero");
+			var parrafoBorrar=elemento.parentElement;
+			listaParrafos.removeChild(parrafoBorrar);
+		}else{		
+			alert("con numero");
+			listaParrafos.removeChild(listaParrafos.children[posParrafo-1]);
+		}
+		document.getElementById("pos").value="";
+    }
+    //----------------------------------------------------------------------------
+		 
+    function creaBoton(){
+		var botonEliminar= document.createElement("button");
+		botonEliminar.innerHTML="eliminar";
+		botonEliminar.setAttribute("onClick","borraParrafo(this)");
+		return botonEliminar;
+    }
+		 
+    //------------------------------------------------------------------
+    function mueve(elemento){
+		var listaParrafos = document.getElementById("div1");
+		if(elemento.nextElementSibling!=null){
+			var copia1 = elemento.cloneNode(true);
+			var copia2 = elemento.nextElementSibling.cloneNode(true);
+
+			listaParrafos.replaceChild(copia1, elemento.nextElementSibling);
+			listaParrafos.replaceChild(copia2, elemento);
+		}else{
+			var copia1 = elemento.cloneNode(true);
+			var copia2 = listaParrafos.firstChild.cloneNode(true);
+			
+			listaParrafos.replaceChild(copia1, listaParrafos.firstChild);
+			listaParrafos.replaceChild(copia2, elemento);
+		}
+    }
+    //---------------------------------------------------
+    window.onload=function(){
+		var listaParrafos = document.getElementById("div1");
+		for(parrafo of listaParrafos.children){
+			parrafo.setAttribute("onDblClick","mueve(this)");
+		}
+    }
+
+
+    </script>
+    </head>
+    <body>
+    <div id="div1">
+        <p id="p1">Aprendiendo DOM</p>
+        <p id="p2">DOM es sencillo de aprender</p>
+        <p id="p3">Ademas, DOM es muy potente<button onClick="borraParrafo(this)">eliminar</button></p>
+     </div>
+
+    <textarea id="ta" rows="6" cols="50" placeholder="Texto del nuevo parrafo"></textarea><br/>
+    <button value="añadir" onClick="nuevoParrafo()">añadir</button>
+    Posicion:
+    <input id="pos" type="number" />
+
+    <button value="borrar" onClick="borraParrafo(this)">borrar</button>
+    <button >aunar parrafos</button>
+    <div id="div2"> Todo el texto...</div>
+
+    </body>
+</html>

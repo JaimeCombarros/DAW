@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+</head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		var contador=0;
+		  
+		$("body").on("click","p",function(){
+    		$("<p>Este es el parrafo"+contador+"</p>").insertAfter(this);
+			$(this).addClass("pulsado");
+			contador++;
+			//this.style.backgroundColor="grey";
+  		});  
+	});
+	
+	
+</script>
+	
+	<style>
+	
+		p{
+			background-color: yellow;
+		}
+		
+		.pulsado{
+			background-color: grey;
+		}
+	</style>
+	
+
+<body>
+	<p>Click me!</p>
+</body>
+</html>

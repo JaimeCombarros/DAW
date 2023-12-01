@@ -1,0 +1,324 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<style>
+	
+		#divmiForm {
+			position:absolute; 
+			top:2em; 
+			right:3em; 
+            width:auto; 
+			height:auto; 
+            border:solid 2px brown;
+             background-color:#CFF
+		}
+                                 /* background-color:#9FF}*/
+         input[type=number]{ width:75px}
+         input:valid{color:black}
+         #cancela,#guarda,#borra,.borrar{float: right;}
+		
+	</style>
+</head>
+
+<body>
+	
+	<button type="button" onClick="aniadirApuesta()">aniadir tipo Apuesta</button><button type="button" onClick="editarApuesta()">Editar tipo Apuesta</button>
+	
+	<p>---ELIGE APUESTA---</p>
+	
+	<select id="sApu" onchange="eval(this.value)">
+		<option value="generaNApuestas('Números:',6,1,54,'Número Clave:',1,0,9)">Gordo de la Primitiva</option>
+	
+		<option value="generaNApuestas('Numeros:',6,1,49,'Reintegro:',1,0,9,'Joker:',1,0,9999999)">Primitiva</option>
+		 
+		<option value="generaNApuestas('Numeros:',6,1,49)">BonoLoto</option>
+
+		<option value="generaNApuestas('Números:',5,1,50,'Estrellas:',2,1,12)">Euromillones</option>
+   </select> 
+    
+   <input type="number" value="1"  id="numApu" min="1" max="99" onchange="eval(sApu.value)"/>
+	
+   <p id="pApuesta"> Apuesta aún no generada </p>
+	
+   <div id="divmiForm"  style="display: none;">
+		<form id="miForm1" action="#" >
+			<fieldset>
+				
+				<legend> Crear un nuevo Tipo de Apuesta...</legend>
+				
+				<div id="hijoFormu">	
+					<p>Nombre de la Apuesta..:<input type="text" id="nomApu" placeholder="Nombre?" name="Nombre"/></p>
+
+					<fieldset id="c1" name="formularioCombinacion"><legend> Combinación << 1 >></legend>
+						<button class="borrar" onClick="cancelaFieldSet(this)"> X </button>
+						Etiqueta1 -> <input type="text"   placeholder="Etiqueta?"/><br>
+						Cuantos numeros?<input type="number" placeholder="ctd?"/>
+						Valor mímino?   <input type="number" placeholder="minimo?" />
+						Valor máximo?   <input type="number" placeholder="maximo?" />
+
+					</fieldset>
+
+					<input type="button" onClick="nuevaCombinacion()" value="Nueva combinación" id="nueva"/></br>
+					<input type="button" value="Guardar"  id="guarda" onClick="guardar()">
+					<input type="reset" value="Limpiar" onClick="limpiarFormulario(this)" id="borra" />
+					<input type="button" value="Cancelar" onClick="cancelarFormulario(this)" id="cancela"/>
+
+					<br/>
+				 </div>   
+			 </fieldset>  
+		 </form> 
+	</div>
+	
+<script>
+	
+        var apuesta = document.getElementById("pApuesta");
+        var apuestaCompleta = [];		
+	
+		var copia=document.getElementById("hijoFormu").cloneNode(true);
+
+		function generaNApuestas() {
+			
+			var numApuestas = document.getElementById("numApu").value;
+			apuestaCompleta = [];
+			
+			
+			for (let j = 0; j < numApuestas; j++) {
+				for (let i = 0; i < arguments.length; i+=4) {
+					apuestaCompleta = apuestaCompleta.concat(generaCombinacion(arguments[i],arguments[i+1],arguments[i+2],arguments[i+3]));
+				}
+				apuestaCompleta = apuestaCompleta.concat(";");
+			}
+			
+			
+            pintaApuesta(apuestaCompleta);
+		}
+		
+        //genera un euromillon con sus estrellas y num aleatorios
+
+
+        //genera una apuesta y la almacena en un array que devuelve
+        function generaCombinacion(etiqueta,cantNums, min, max) {
+            let arrayNums = [];
+            let i = 0;
+            while (i < cantNums) {
+                var numAleatorio = getRandomInt(min, max);
+                if(!(arrayNums.includes(numAleatorio))){
+                    arrayNums[i] = numAleatorio ;
+                    i++;
+                }
+            }
+
+            arrayNums.sort(function(a, b){return a-b}); 
+            arrayNums.unshift(etiqueta);
+            return arrayNums;
+        }
+
+
+        //genera un numero random
+        function getRandomInt(min, max) {
+            return Math.floor(Math.random()*(max-min+1))+min;
+        }
+
+
+        //pinta el array de apuesta que le pasemos por parametros
+        function pintaApuesta(arrayNums){
+            apuesta.innerHTML = "";
+			
+			
+            arrayNums.forEach(function(valor) {
+				if (valor == ";") {
+					apuesta.innerHTML += "<br>";
+					
+					}
+				else {
+					apuesta.innerHTML +=  valor + "_";
+				}
+
+            });
+        }
+	
+		function aniadirApuesta(){
+			var div1=document.getElementById("divmiForm");
+			div1.style.display='block';
+		}
+	
+		function nuevaCombinacion(){
+			
+			var fieldset=document.getElementById("c1");
+		
+			var BotonReferencia=document.getElementById("nueva");
+			var div=document.getElementById("hijoFormu");
+			
+			var nuevoFieldset=fieldset.cloneNode(true);
+			limpiarCampos(nuevoFieldset);
+			
+			div.insertBefore(nuevoFieldset,BotonReferencia);
+		    
+		}
+	
+	
+		function cancelaFieldSet(elemento){
+			var fildsetABorrar=elemento.parentElement;
+			var div=document.getElementById("hijoFormu");
+			
+			div.removeChild(fildsetABorrar);
+		}
+	
+		function cancelarFormulario(){
+			
+			
+			var div=document.getElementById("divmiForm");
+			div.style.display="none";
+			
+			var formu=document.getElementById("hijoFormu");
+			var formularioHijo=document.getElementById("hijoFormu").children;
+			
+			var arrayFieldsSet=[];
+			
+			for(let i=0;i<formularioHijo.length;i++){
+				 if(formularioHijo[i].type=="fieldset"){
+					   arrayFieldsSet[arrayFieldsSet.length]=formularioHijo[i];
+				 }
+			}
+			
+			for(let i=0;i<arrayFieldsSet.length;i++){
+				 if(i!=0){
+						formu.removeChild(arrayFieldsSet[i]);	
+				 }
+			}
+			
+			
+		}
+	
+		function limpiarCampos(fieldsetALimpiar) {
+            for (var nodo of fieldsetALimpiar.children) {
+                if (nodo.tagName == "INPUT") {
+                    nodo.value = "";
+                    }
+            }
+
+        }
+	
+	
+		function limpiarFormulario(){
+			
+			var div=document.getElementById("hijoFormu");
+			var hijosDiv=div.children;
+			
+			for(let i=0;i<hijosDiv.length;i++){
+				 if(hijosDiv[i].type=="input"){
+					   hijosDiv[i].value="";
+					}
+			}
+			
+		}
+	
+	
+		function guardar(){
+			
+			var divPadre=document.getElementById("hijoFormu");
+			var fielsets=divPadre.querySelectorAll("#hijoFormu fieldset");
+			var hijosDelFieldset;
+			
+			var combinacion="";
+			var nombreCombinacion="";
+			
+			for(let i=0;i<fielsets.length;i++){
+				hijosDelFieldset=fielsets[i].children;
+				for(let j=0;j<hijosDelFieldset.length;j++){
+				    if(hijosDelFieldset[j].type=="number" ||  hijosDelFieldset[j].type=="text"){
+						 if(hijosDelFieldset[j].type=="text"){
+							 nombreCombinacion+="'"+hijosDelFieldset[j].value+"',";
+						 }else{
+							 nombreCombinacion+=hijosDelFieldset[j].value+",";
+						 }
+					}	
+				}
+			}
+			
+			nombreCombinacion=nombreCombinacion.substring(0,nombreCombinacion.length-1);
+			nombreCombinacion="generaNApuestas("+nombreCombinacion+")";
+			
+			
+			var option=document.createElement("option");
+			option.setAttribute("value",nombreCombinacion);
+			
+			var nombreApuesta = document.getElementById("nomApu").value;
+			var textoOption = document.createTextNode(nombreApuesta);
+			option.append(textoOption);
+			
+			
+			var select=document.getElementById("sApu");
+			select.appendChild(option);
+		}
+	
+		function destriparString(stringADestripar) {
+			var stringDestripado = [];
+			
+			stringADestripar = stringADestripar.substring(stringADestripar.indexOf("(")+1,stringADestripar.length-1);
+			
+			stringDestripado = stringADestripar.split(",");
+			
+			return stringDestripado;
+		}
+		
+	
+		
+		function editarApuesta() {
+			
+			var miSelect = document.getElementById("sApu");
+			var opcionEncontrada;
+			
+			for (var opcion of miSelect.children) {
+				if (miSelect.options[miSelect.selectedIndex].textContent == opcion.textContent) {
+					opcionEncontrada = opcion;
+				}
+			}
+			
+			var stringDestripado = destriparString(opcionEncontrada.value);
+			var nForms = stringDestripado.length/4;
+			
+			cancelarFormulario();
+			aniadirApuesta();
+			
+			for (let i = 0; i < nForms-1; i++) {
+				nuevaCombinacion();
+			}
+			
+			var misFieldsets = document.getElementsByName("formularioCombinacion");
+			
+			var posicionMiString = 0;
+			var esPrimero = true;
+			
+			for (let i = 0; i < misFieldsets.length; i++) {
+				
+				for (var nodoHijo of misFieldsets[i].children) {
+					if (nodoHijo.tagName == "INPUT") {
+						if (esPrimero) {
+							esPrimero = false;
+							stringDestripado[posicionMiString] = stringDestripado[posicionMiString].substring(1,stringDestripado[posicionMiString].length-2);
+						}
+						
+						nodoHijo.value = stringDestripado[posicionMiString];
+						posicionMiString++;
+						
+						
+					}
+					
+					
+				}
+				esPrimero = true;
+				
+			}
+			
+			
+		}
+	
+	
+		
+    </script>
+	
+</body>
+</html>

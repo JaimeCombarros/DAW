@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+		
+		function mensaje(event){
+			
+			var elemento=event|| window.Event;
+
+			var nodo="";
+			
+			
+			nodo=elemento.currentTarget.nodeName;
+
+			   
+			alert(nodo+" "+elemento.eventPhase+" "+elemento.type);
+			
+			
+		}
+	
+		window.onload=function(){
+			
+			//----------EVENTOS BURBUJAS--------------------//
+			bt.onclick=mensaje;
+			divContenedor.onclick=mensaje;
+		    bod.onclick=mensaje;
+			document.documentElement.onclick=mensaje;
+			document.onclick=mensaje;
+			window.onclick=mensaje;
+			
+			//---------EVENTOS CAPTURAS--------------------//
+			window.addEventListener("click",mensaje,true);
+			document.addEventListener("click",mensaje,true);
+			document.documentElement.addEventListener("click",mensaje,true);
+			bod.addEventListener("click",mensaje,true);
+			divContenedor.addEventListener("click",mensaje,true);
+			bt.addEventListener("click",mensaje,true);
+			
+		}
+		
+		
+		
+		
+		
+		
+	
+	</script>
+	
+</head>
+
+<body id="bod">
+	
+	<div id="divContenedor">
+		<button id="bt" type="button">HAZ CLICK</button>
+	</div>
+	
+</body>
+</html>

@@ -1,0 +1,407 @@
+<html>
+   <head>
+   <meta charset="utf-8">
+      <title>
+        Mantenimiento de Clientes
+      </title>
+ 
+      <style>
+          #panelCentro	  {left:20em;position:absolute;border:solid 1px green;top:1em;}
+	   #bt   {width: 400px;
+			 
+			  left: 30%;
+	   }
+            #fcli {display:none;
+	   		 width: 400px;
+			  float:left;
+			   position: absolute;
+			  left: 1%;
+	        }
+            #listados {    left: 45%;
+		    position: absolute;
+		 }
+                 #divQs{
+                    left: 30%;
+                    top:2%;
+                    width: 300px;
+		    		position: absolute; 
+                 }    
+                
+		  table,td,th{
+			  border: 1px solid black;
+			  border-collapse: collapse;
+			  text-align: center;
+		  }
+		  
+		  td,th{
+			  padding-left: 5px;
+			  padding-right: 5px;
+		  }
+		  
+      </style>
+	   
+	   
+      
+     <script src="cargaFicheroDOM.js"></script>
+	
+      <script>
+	//--------------------------------------------------------------------------------------------
+          var objetoProvincias={};
+		  var ClientesP={}; 
+		  var ClientesN={};
+		  
+
+	//--------------CLIENTE-------------------------------------------
+		  function guarda(event){
+			 	event.preventDefault();
+			  //no se por que no funciona el event.taget.name
+				var nombreFormulario=document.getElementById("clientes").name;
+			  	var clienteGenerico  	= crearObjetoGenerico(nombreFormulario);
+			  	var opcionGuardado 		= document.getElementsByName("td");
+			  	if(validaNif(clienteGenerico.nif) && validaNombre(clienteGenerico.nombre) && validaApellido(clienteGenerico.apellidos)){
+			  	for(let i=0;i<opcionGuardado.length;i++){
+					if(opcionGuardado[i].checked){
+						var opcionGuardadoSeleccionada = opcionGuardado[i].value;
+					}
+				}
+			  
+			  	if(compruebaContenido(clienteGenerico) != 0){
+					alert("entra");
+					ClientesN[clienteGenerico.nif]=clienteGenerico;
+					guardaClienteP(ClientesN,clienteGenerico);
+				}else{
+					alert("longitud 0");
+				}
+			  	pintaLista(opcionGuardadoSeleccionada);
+			  	document.forms[nombreFormulario].reset();
+			  	}
+			  
+		  }
+		  
+		  function crearObjetoGenerico(nombreFormulario){
+			var objetoGenerio={};
+			var formulario=document.forms[nombreFormulario];
+			var creado=false;
+			for(let i=0;i<formulario.length;i++){
+			if(formulario.elements[i].type=="text" || formulario.elements[i].type=="number" || formulario.elements[i].type=="email" || formulario.elements[i].type=="select-one" || formulario.elements[i].type=="radio"){
+				if(formulario.elements[i].value!="" && formulario.elements[i].value!="0"){
+					if( formulario.elements[i].type!="radio"){
+						objetoGenerio[formulario.elements[i].name]=formulario.elements[i].value;
+						creado=true;	
+					}else{
+						if(formulario.elements[i].checked){
+							objetoGenerio[formulario.elements[i].name]=formulario.elements[i].value;
+							creado=true;	
+						}
+					}
+					
+				}				
+			}
+
+		}
+		if(!creado){
+			alert("error en la creacion");
+		}		
+		return objetoGenerio;				   
+		}
+		  
+		function compruebaContenido(objetoGenerio){
+			var contenido=Object.keys(objetoGenerio).length;
+			return contenido;
+		}
+		 //---------------------COMPROBARNIF------------------------------------ 
+		  
+		function validaNif(nifIntroducido){
+			
+			var expresionAComprobar=/\d{8,8}(\s|-)[A-Z]{1,1}/;
+			
+			var cumpleNif=false;
+			var cumpleLetra;
+			
+			if(expresionAComprobar.test(nifIntroducido)){
+				
+			      if(nifIntroducido.split("").includes("-")){
+					   cumpleLetra=calcularLetraNif("-",nifIntroducido);
+				  }else if(nifIntroducido.split("").includes(" ")){
+					   cumpleLetra=calcularLetraNif(" ",nifIntroducido);
+				  }
+				
+				  if(cumpleLetra){
+					 	cumpleNif=true;
+				  }
+				
+			 }else{
+				alert("el nif no cumple con el formato: 8 Letras, espacio o guion, 1 letra mayuscula");
+			 }
+			
+			 return cumpleNif;	
+		}
+		  
+		function calcularLetraNif(signo,nif){
+			
+			var arrayLetras=["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"];
+			
+			var numerosNif=nif.substring(0,nif.indexOf(signo));
+			var resto=numerosNif%23;
+			var letra=arrayLetras[resto];
+			var dniCorrecto=numerosNif+signo+letra;
+			
+			var cumpleLetra=false;
+						
+			if(dniCorrecto==nif){
+			    cumpleLetra=true;
+			}else if(dniCorrecto!=nif){
+				alert("El nif ingresado no tiene la letra correcta, la correcta es --> "+letra);
+			}
+			
+			return cumpleLetra;
+		} 
+		 //---------------COMPROBAR NOMBRE ------------------------------------------ 
+		function validaNombre(nombreComprobar){
+			var cumplePatron=false;
+			var expresionAComprobar= /[A-Z]{1,}.*/;
+			if(nombreComprobar!=""){
+					if(expresionAComprobar.test(nombreComprobar)){
+				   cumplePatron=true;
+				}else{
+					alert("Patron del nombre incorrecto (Letra Mayuscula--Minimo tres caracteres)")
+				}
+			}else{
+				alert("patron nombre vacio")
+			}
+			
+			
+			return cumplePatron;
+		}
+		  
+		function validaApellido(apellidoComprobar){
+			var arrayApellidos=apellidoComprobar.split(" ");
+			var cumplePatron=false;
+			if(arrayApellidos[0]!=undefined && arrayApellidos[1]!=undefined){
+				var cumplePatron=true;
+			}else{
+				alert("El apellido debe de tener dos palabras")
+			}
+          return cumplePatron;
+			
+		}  
+//---------------PINTAR LISTA ------------------------------------------
+		function pintaLista(opcionGuardadoSeleccionada){
+			var lista = document.getElementById("qs");
+			lista.innerHTML = "";
+			if(opcionGuardadoSeleccionada=="JSON"){
+				for(let cliente of Object.keys(ClientesN)){
+				lista.innerHTML += JSON.stringify(ClientesN[cliente])+"<br>";
+				}
+			}else{
+				for(let valor of Object.keys(ClientesN)){
+					var queryString;
+					queryString= "nombre="+ClientesN[valor].nombre+"&Apellidos="+ClientesN[valor].apellidos+"&nif="+ClientesN[valor].nif+"&edad="+ClientesN[valor].edad+"&genero="+ClientesN[valor].sexo+"&email="+ClientesN[valor].email+"&provincia="+ClientesN[valor].provincia+"&localidad="+ClientesN[valor].localidad;
+					lista.innerHTML += queryString+"<br>";
+				}
+				
+				
+			}
+			
+		}
+		//------------------GUARDADO DE CLIENTE EN PROVINCIAS---------------------------------------
+		function guardaClienteP(ClientesN,clienteGenerico){
+			var claves=Object.keys(ClientesN);
+			var ProvinciasCliente=[];
+			var provincia="";
+			
+			for(let i=0;i<claves.length;i++){
+				if(clienteGenerico.provincia==ClientesN[claves[i]].provincia){
+					ProvinciasCliente[ProvinciasCliente.length]=ClientesN[claves[i]];
+					provincia=clienteGenerico.provincia;
+				}
+			}
+			ClientesP[provincia]=ProvinciasCliente;
+		}
+	//------------------LISTADO DE PROVINCIA-----------------------
+		  function listarProvincias(){
+			  var lista = document.getElementById("listados");
+			  lista.innerHTML="";
+			  var clavesProvin=Object.keys(ClientesP);
+			  var tabla="";
+			  var cliente;
+			  
+			  if(compruebaContenido(ClientesP)!=0){
+			  tabla+="<h2>TABLA DE CLIENTES POR PROVINCIAS:</h2>"
+			  for(let i=0; i<clavesProvin.length;i++){
+				  
+				  cliente=ClientesP[clavesProvin[i]];
+				  tabla+="<table>"
+				  tabla+="<caption> Procincia:"+clavesProvin[i]+"</caption>";
+				  tabla+="<tr>"
+				  tabla+="<th>Nombre</th><th>Apellidos</th><th>nif</th><th>edad</th><th>sexo</th><th>Email</th><th>Pronvincia</th><th>localidad</th>"
+				  tabla+="</tr>";
+				  for(let j=0;j<cliente.length;j++){
+					  tabla+="<tr>"
+					  tabla+="<td>"+cliente[j].nombre+"</td>";
+					  tabla+="<td>"+cliente[j].apellidos+"</td>";
+					  tabla+="<td>"+cliente[j].nif+"</td>";
+					  tabla+="<td>"+cliente[j].edad+"</td>";
+					  tabla+="<td>"+cliente[j].sexo+"</td>";
+					  tabla+="<td>"+cliente[j].email+"</td>";
+					  tabla+="<td>"+cliente[j].provincia+"</td>";
+					  tabla+="<td>"+cliente[j].localidad+"</td>";
+					  tabla+="</tr>"
+				  }
+				  tabla+="</table><br>"
+			  }
+			  
+				  lista.innerHTML=tabla;
+				  
+			  }else{
+				  alert("no hay clientes para mostrar en provincias");
+			  }
+		  }
+		  
+		  //------------------LISTADO DE CLIENTE-----------------------
+		  
+		  function listarClientes(){
+				var lista = document.getElementById("listados");
+			  	lista.innerHTML="";
+			  	var claves=Object.keys(ClientesN);
+			  	var opcion=document.getElementsByName("lc");
+			  	var tabla="";
+			  	
+			  if(compruebaContenido(ClientesN)!=0){
+				  tabla+="<h2>TABLA DE CLIENTES POR GENERO:</h2>"
+					tabla+="<table>"
+
+					tabla+="<tr>"
+					  tabla+="<th>Nombre</th><th>Apellidos</th><th>nif</th><th>edad</th><th>sexo</th><th>Email</th><th>Pronvincia</th><th>localidad</th>"
+					 tabla+="</tr>";
+				  for(let i=0;i<opcion.length;i++){
+					  if(opcion[i].checked){
+						  var opcionSeleccionada = opcion[i].value;
+					  }
+				  }
+				  tabla+="caption Listado de Clientes por el Genero: "+opcionSeleccionada+"</caption>";
+				  for(let i=0;i<claves.length;i++){
+					  if(ClientesN[claves[i]].sexo==opcionSeleccionada){
+						  tabla+="<tr>";
+						  tabla+="<td>"+ClientesN[claves[i]].nombre+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].apellidos+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].nif+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].edad+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].sexo+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].email+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].provincia+"</td>";
+						  tabla+="<td>"+ClientesN[claves[i]].localidad+"</td>";
+						  tabla+="</tr>";
+					  }
+				  }
+
+				  tabla+="</table>"
+				  lista.innerHTML=tabla;
+			}else{
+				alert("no hay clientes para listar")
+			}
+			  
+		  }
+  	//---------------------------------------------------------
+          window.onload=function(){
+		  }
+ 	
+        
+    //--------------------------------------------------------------- 
+    // devuelve un objeto con los datos del formulario....  
+    function form_params( form, como )
+        {
+            
+        } 
+		
+	function mostrarFormularioAlta(){
+		document.getElementById("fcli").style.display="inline-block";
+	}	  
+		  
+ </script>
+ 
+   </head>
+   <body>
+    	<form id="bt">
+         <fieldset><legend>Mantenimiento de Clientes...</legend>
+            <input type="button" value="Alta (Alt+A)" id="alta" onClick="mostrarFormularioAlta()"/>
+            <fieldset><legend>Listados de Clientes...</legend>
+                <input type="button" value="Listar (Alt+L)" onClick="listarClientes();" id="lista"/><br>
+                Mujeres   :<input type="radio" name="lc" id="listP" checked value="M">
+                Hombres   :<input type="radio" name="lc" id="listN" value="H">
+                no Binarios:<input type="radio" name="lc" id="listN" value="N" checked>
+               <br><input type="button" onClick="listarProvincias();" value="Listar Por Provincias (Alt+P)" id="listaP"/>
+            </fieldset>
+            <fieldset><legend>Datos a guardar en...</legend>
+                JSON   :<input type="radio" name="td" checked value="JSON" >
+                Query String   :<input type="radio" name="td" value="?">
+            </fieldset>
+          </fieldset>
+        </form>
+       
+       <div id="divQs">
+        <fieldset ><legend>Query String / JSON</legend>
+            <strong id="qs"></strong>
+        </fieldset>
+       </div>
+	   
+    <footer>
+	<hr>
+	<!-- formulario de alta -------------------------------------------------------->
+    <div id="fcli" style="display:none">
+        <form id="clientes" name="clientes" >
+            <fieldset><legend>Formulario Alta de Clientes...</legend>
+            <div>
+            <p>Nombre.....:<input type="text" id="nomcli" placeholder="Nombre?" name="nombre"
+             title="Mayuscula + 3 car" /></p>
+            
+            <p>Apellidos:<input type="text" id="apecli" placeholder="Apellidos?" name="apellidos" 
+                             title="2 Apellidos distintos, enpiezan May, min 3 car"/></p>
+            <p> <br />
+            Nif:<input type="text" id="nifcli" placeholder="Nif" name ="nif" 
+                             title="8 numeros y una letra"/></p>
+            <p>Edad.........:<input type="text" id="edcli" placeholder="Edad?" name="edad" 
+                              title="Uno o dos difgitos" /></p>
+            <p>Sexo......:<input type="radio" value="H"  placeholder="Sexo?" name="sexo"/>Hombre
+                        <input type="radio" value="M"  placeholder="Sexo?"  name="sexo"/>Mujer
+						<input type="radio" value="N"  placeholder="Sexo?"  name="sexo"/>No Binario
+        </p>
+       
+        <p>Email.......:<input type="text" id="mail" placeholder="Email?" name ="email" 
+                               title="empieza letra, minimo 3 car y @ 3car . y 2 o 3 car ext; empieza letra May" 
+                               /></p>       
+                   
+            <select  name="provincia" id="listaProvincias">
+           		<option value=0>ELIJA UNA PROVINCIA</option>   
+				<option value="Alava">Álava</option>
+				<option value="Castellón">Castellón</option>
+				<option value="León">León</option>
+				
+				</select>
+            <!--<input type="file" id="fichProv" value="provinciasypoblaciones.xml"/>-->
+    
+            <select name="localidad" id="listaPueblos" >
+             <option value=0>TODAS LAS POBLACIONES</option> 
+				<option value="Ronda">Ronda</option>
+				<option value="Ronda">Arriate</option>
+				<option value="Ronda">Casarabonela</option>
+				</select>
+                
+                        
+                <input type="submit" value="Guardar (Ctrl+G)" id="gcli" onClick="guarda(event);" />
+                <input type="reset" value="Cancelar (Ctrl+C)" id="ccli" />
+            <br />
+            </div>   
+           </fieldset>  
+         </form> 
+        
+    
+	
+    </div>
+    <div id="listados">
+    </div>
+    <!-- formulario de alta -------------------------------------------------------->  
+   </footer>  
+    
+     </body>
+</html>

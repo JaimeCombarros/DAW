@@ -1,0 +1,363 @@
+<!doctype html>
+<html>
+   <head>
+   <meta charset="utf-8">
+      <title>
+        Mantenimiento de Clientes
+      </title>
+ 
+      <style>
+          #panelCentro	  {left:20em;position:absolute;border:solid 1px green;top:1em;}
+	   #bt   {width: 400px;
+			 
+			  left: 30%;
+	   }
+            #fcli {display:none;
+	   		 width: 400px;
+			  float:left;
+			   position: absolute;
+			  left: 1%;
+	        }
+            #listados {    left: 45%;
+		    position: absolute;
+		 }
+                 #divQs{
+                    left: 45%;
+                    top:2%;
+                    width: 400px;
+		    position: absolute; 
+                 }    
+                
+      </style>
+
+      <script>
+		  var letras =['T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'];
+		  descargaArchivo();
+          var objetoProvincias={};
+		  var ClientesP={}; var ClientesN={};
+		  // JavaScript Document
+//-----------------------------------
+			function cargaFichero2(input) {
+
+				var files = input.files;
+				if (files) {
+
+					var file=files[0];
+					var reader = new FileReader();
+					reader.onload = function (e) {
+
+					parser = new DOMParser();
+					xmlDoc = parser.parseFromString(e.target.result,"text/xml");
+
+					metodoCargaXml(xmlDoc);
+
+					}
+					//reader.readAsDataURL(file);
+					reader.readAsText(file);
+
+				}//if	
+			}
+
+
+		//----------------------------------------------------------------------------------------
+		//-----------------------------------------
+			function descargaArchivo() {
+			// Obtener la instancia del objeto XMLHttpRequest
+			if(window.XMLHttpRequest) {
+				peticion_http = new XMLHttpRequest();
+			}
+				else if(window.ActiveXObject) {
+				peticion_http = new ActiveXObject("Microsoft.XMLHTTP");
+			}
+			// Preparar la funcion de respuesta
+				peticion_http.onreadystatechange = muestraContenido;
+			// Realizar peticion HTTP
+				peticion_http.open('GET', 'http://localhost/provinciasypoblaciones.xml', true);
+				peticion_http.send(null);
+
+				function muestraContenido() {
+					if(peticion_http.readyState == 4) {
+						if(peticion_http.status == 200) {
+							alert(peticion_http.responseXML);
+					}
+				}
+			}
+		}
+		//-----------------------------------
+		function metodoCargaXml(xmlDoc){
+			var provs=xmlDoc.getElementsByTagName("nombre");
+			for(prov of provs){
+				listaProvincias.add(new Option(prov.textContent,prov.textContent));
+				objetoProvincias[prov.textContent]=[]
+				var localidades=prov.nextElementSibling.children;
+				for(local of localidades){
+					objetoProvincias[prov.textContent].push(local.textContent);
+				}
+			}
+		}
+		//-----------------------------------
+		  function cargaLoc(valor){
+			  listaPueblos.length=1;
+			  listaPueblos.disabled=false;
+			  for(pueblo of objetoProvincias[valor]){
+				  listaPueblos.add(new Option(pueblo,pueblo))
+			  }
+		  }
+		  //------------------------
+		  function Cliente(nombre,apellidos,edad,sexo,nif,email,provincia,localidad){
+			  this.nombre	=nombre;
+			  this.apellidos=apellidos;
+			  this.edad		=edad;
+			  this.sexo		=sexo;
+			  this.nif		=nif;
+			  this.email	=email;
+			  this.provincia=provincia;
+			  this.localidad=localidad;
+		  }
+		  //-----------------------------------
+		  function letraNif(event){
+			
+			  
+		  }
+		  
+		  //------------------------
+		   function cargaProvincias2(){
+			
+			cargaFichero2(this,objetoProvincias);
+			  
+		   }
+		  
+		   //---------------------------------------------------------//
+          window.onload=function(){
+          
+         
+       }//onload................
+       //--------------------------------------------
+	
+        //------------------------------------------
+        
+        function validaAlta(){
+         
+                
+        }
+        
+      
+        //---------------------------------------------------
+        function cargaPueblos(evento){
+		 
+  		 }
+        //--------------------------------------------------------------- 
+        // devuelve un ovjeto con los datos del formulario....  
+        function form_params( form, como )
+        {
+           
+        } 
+
+         //---------------------------------------------------
+		 function altacli(){
+			 document.getElementById("fcli").style.display=
+				(document.getElementById("fcli").style.display=='none')?'block':'none';
+		 }
+		
+//------------------GUARDAR CLIENTES POR NOMBRE Y PROVINCIA-------------------
+	 function guardaCli(e){
+		e.preventDefault();
+		var nombreFormulario	=document.getElementById("clientes").name;
+		var formulario			=e.target;
+		var clienteGenerico  	= crearObjetoGenerico(nombreFormulario);
+		var opcionGuardado 		= document.getElementsByName("td");
+		for(let i=0;i<opcionGuardado.length;i++){
+			if(opcionGuardado[i].checked){
+				var opcionGuardadoSeleccionada = opcionGuardado[i].value;
+			}
+		}
+		if(compruebaContenido(clienteGenerico) != 0){
+			alert("entra");
+			ClientesN[clienteGenerico.nif]=clienteGenerico;
+			guardaClienteP(ClientesN,clienteGenerico);
+			}else{
+				alert("longitud 0");
+			}
+			pintaLista(opcionGuardadoSeleccionada);
+			document.forms[nombreFormulario].reset();
+		 e.target.reset();
+	 }
+		  
+		  
+//------------------------GUARDAR EN OBJETO GENERICO----------------------------------
+		function crearObjetoGenerico(nombreFormulario){
+			var objetoGenerio={};
+			var formulario=document.forms[nombreFormulario];
+			var creado=false;
+			for(let i=0;i<formulario.length;i++){
+				if(formulario.elements[i].type=="text" || formulario.elements[i].type=="number" || formulario.elements[i].type=="email" || formulario.elements[i].type=="select-one" || formulario.elements[i].type=="radio"){
+					if(formulario.elements[i].value!="" && formulario.elements[i].value!="0"){
+						if( formulario.elements[i].type!="radio"){
+							objetoGenerio[formulario.elements[i].name]=formulario.elements[i].value;
+							creado=true;	
+						}else{
+							if(formulario.elements[i].checked){
+								objetoGenerio[formulario.elements[i].name]=formulario.elements[i].value;
+								creado=true;	
+							}
+						}
+
+					}				
+				}
+
+			}
+			if(!creado){
+				alert("error en la creacion");
+			}		
+			return objetoGenerio;				   
+			}
+//------------------------COMPROBAR CONTENIDO----------------------------------		  
+		function compruebaContenido(objetoGenerio){
+			var contenido=Object.keys(objetoGenerio).length;
+			return contenido;
+		}
+		  
+//------------------------PINTAR LA LISTA----------------------------------		  
+		function pintaLista(opcionGuardadoSeleccionada){
+			var lista = document.getElementById("qs");
+			lista.innerHTML = "";
+			if(opcionGuardadoSeleccionada=="JSON"){
+				for(let cliente of Object.keys(ClientesN)){
+				lista.innerHTML += JSON.stringify(ClientesN[cliente])+"<br>";
+				}
+			}else{
+				for(let valor of Object.keys(ClientesN)){
+					var queryString;
+					queryString= "nombre="+ClientesN[valor].nombre+"&Apellidos="+ClientesN[valor].apellidos+"&nif="+ClientesN[valor].nif+"&edad="+ClientesN[valor].edad+"&genero="+ClientesN[valor].sexo+"&email="+ClientesN[valor].email+"&provincia="+ClientesN[valor].provincia+"&localidad="+ClientesN[valor].localidad;
+					lista.innerHTML += queryString+"<br>";
+				}
+			}
+		}
+//------------------------GUARDAR CLIENTE EN PROVINCIA----------------------------------		  
+		function guardaClienteP(ClientesN,clienteGenerico){
+			var claves=Object.keys(ClientesN);
+			var ProvinciasCliente=[];
+			var provincia="";
+			
+			for(let i=0;i<claves.length;i++){
+				if(clienteGenerico.provincia==ClientesN[claves[i]].provincia){
+					ProvinciasCliente[ProvinciasCliente.length]=ClientesN[claves[i]];
+					provincia=clienteGenerico.provincia;
+				}
+			}
+			ClientesP[provincia]=ProvinciasCliente;
+		}
+//-------------------------LISTADO DE PROVINCIA------------------------------------------
+		  function listarProvincias(){
+			  var lista = document.getElementById("listados");
+			  lista.innerHTML="";
+			  var clavesProvin=Object.keys(ClientesP);
+			  var tabla="";
+			  var cliente;
+			  
+			  if(compruebaContenido(ClientesP)!=0){
+			  		tabla+="<h2>TABLA DE CLIENTES POR PROVINCIAS:</h2>"
+			  for(let i=0; i<clavesProvin.length;i++){
+				  cliente=ClientesP[clavesProvin[i]];
+				  tabla+="<table>"
+				  tabla+="<caption> Procincia:"+clavesProvin[i]+"</caption>";
+				  tabla+="<tr>"
+				  tabla+="<th>Nombre</th><th>Apellidos</th><th>nif</th><th>edad</th><th>sexo</th><th>Email</th><th>Pronvincia</th><th>localidad</th>"
+				  tabla+="</tr>";
+				  for(let j=0;j<cliente.length;j++){
+					  var cClientes= Object.keys(cliente);
+					  
+					  
+					  
+				  }
+				  tabla+="</table><br>"
+		  		} 
+				  
+			  }else{
+				  alert("no hay clientes para mostrar en provincias");
+			  }
+		  }
+//------------------------------------------------------------------------------------------------
+		 
+		
+      </script>
+   </head>
+   <body>
+    	<form id="bt">
+         <fieldset><legend>Mantenimiento de Clientes...</legend>
+            <input type="button" value="Alta (Alt+A)" id="alta" onClick="altacli()"/>
+            <fieldset><legend>Listados de Clientes...</legend>
+                <input type="button" value="Listar (Alt+L)" id="lista"/><br>
+                Mujeres   :<input type="radio" name="lc" id="listP" checked value="M">
+                Hombres   :<input type="radio" name="lc" id="listN" value="H">
+                no Binarios     :<input type="radio" name="lc" id="listNB" value="NB" checked>
+               <br><input type="button" onClick="listarProvincias();" value="Listar Por Provincias (Alt+P)" id="listaP"/>
+            </fieldset>
+            <fieldset><legend>Datos a guardar en...</legend>
+                JSON   :<input type="radio" name="td" checked value="JSON" >
+                Query String   :<input type="radio" name="td" value="?">
+            </fieldset>
+          </fieldset>
+        </form>
+       
+       <div id="divQs">
+        <fieldset ><legend>Query String / JSON</legend>
+            <strong id="qs"></strong>
+        </fieldset>
+       </div>  
+      
+    
+    <footer>
+	<hr>
+<!-- formulario de alta -------------------------------------------------------->
+    <div id="fcli" style="display:none">
+        <form id="clientes" name="clientes" action="/GuardaC" method="GET" onSubmit="guardaCli(event)">
+            <fieldset><legend>Formulario Alta de Clientes...</legend>
+            <div>
+            <p>Nombre.....:<input type="text" id="nomcli" placeholder="Nombre?" name="nombre"
+            pattern="^[A-Z].{3,}" required title="Mayuscula + 3 car" /></p>
+            <!--em id="emN">El campo Nombre es obligatorio...</em-->
+            <p>Apellidos:<input type="text" id="apecli" placeholder="Apellidos?" name="apellidos" 
+                            pattern="^[A-Z].{3,}\s[A-Z].{3,}$" required title="2 Apellidos distintos, enpiezan May, min 3 car"/></p>
+            <p> <br />
+            Nif:<input type="text" id="nifcli" placeholder="Nif" name ="nif" 
+                            pattern="^[0-9]{8}[-]?[A-Z]$" required title="8 numeros y una letra"
+					    onChange="letraNif(event)"/></p>
+            <p>Edad.........:<input type="text" id="edcli" placeholder="Edad?" name="edad" 
+                            pattern="^[0-9]{1,2}"  title="Uno o dos difgitos" required/></p>
+            <p>Sexo......:<input type="radio" value="H" id="hombreee" placeholder="Sexo?" name="sexo" required/><label for="hombreee">Hombre</label> 
+                        <input type="radio" value="M"  id="mujerrr" placeholder="Sexo?" name="sexo" required/><label for="mujerrr">Mujer</label> 
+				<input type="radio" value="NB" id="nobinariooo"  placeholder="Sexo?" name="sexo" required/><label for="nobinariooo">no Binario</label> 
+        </p>
+        <!--p>Teléfono.........:<input type="text" id="tlfcli" placeholder="Nif?" name ="Tlf"/></p-->
+        <p>Email.......:<input type="text" id="mail" placeholder="Email?" name ="email" 
+                               title="empieza letra, minimo 3 car y @ 3car . y 2 o 3 car ext; empieza letra May" 
+                               required pattern="^[A-Z]\w{2,}@\w{3,}\.[a-z]{2,3}$"/></p>       
+                   
+            <select  name="provincia" id="listaProvincias" required onChange="cargaLoc(this.value)">
+            <option value="0">ELIJA UNA PROVINCIA</option>      </select>
+            <input type="file" id="fichProv" value="provinciasypoblaciones.xml"
+				 onChange="cargaFichero2(this);"/>
+    
+            <select name="localidad" id="listaPueblos" disabled multiple required>
+                <option value="0">TODAS LAS POBLACIONES</option>     
+			</select>
+                
+                        
+                <input type="submit" value="Guardar (Ctrl+G)" id="gcli"  />
+                <input type="reset" value="Cancelar (Ctrl+C)" id="ccli" />
+            <br />
+            </div>   
+           </fieldset>  
+         </form> 
+        
+    
+	
+    </div>
+    <div id="listados">
+    </div>
+    <!-- formulario de alta -------------------------------------------------------->  
+   </footer>  
+    
+     </body>
+</html>

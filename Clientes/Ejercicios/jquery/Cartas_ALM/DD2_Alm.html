@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+<title> Drag-and-Drop Number Cards Game </title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="style.css">
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/jquery-ui.min.js"></script>
+
+<style>
+	
+	#pCrono{    width:150px;
+              	 height:auto;
+                border:4px solid #000;
+                background-color:#E2EBED;
+                padding-left:5px;
+                font-size:0.9em;
+		        position:absolute; 
+				top:3em; left:39em;with:150px; "
+				   }  
+	div:nth-child(0)
+</style>
+
+
+<script type="text/javascript">
+	var numeroAciertos=0;	
+	//mio...................................................................................
+	$(document).ready(function(){
+		barajaCartas();
+		programadrag();
+		$("#successMessage").hide();
+		$("#MensajePerdido").hide();
+		$(":radio").change(cambiaValorTiempo);
+		$("#bc").click(reiniciapartida);
+		$("#gp").click(guardarPartida);
+		$("#rp").click(restaurarPartida);
+	});//onload...........................
+
+	
+	//--------------------------------------------------------
+	function compruebaCarta(event,ui){
+		var cartaSlot=$(this).attr("data");
+		var cartaDrag=ui.draggable.attr("data");
+		
+		if(cartaSlot==cartaDrag){
+			ui.draggable.draggable("option","revert","false");
+			ui.draggable.position( { of: $(this), my: 'left top', at: 'left top' } );
+			ui.draggable.addClass( "correct" );
+			numeroAciertos++;
+			ui.draggable.unbind();
+		}
+		
+		if(numeroAciertos==10){
+			$('#successMessage').show();
+			$(".volverJugar").click(reiniciapartida);
+			cronoStop();
+		}
+		
+	}
+	
+	function reiniciapartida(){
+		numeroAciertos=0;
+		barajaCartas();
+		programadrag();	
+		$("#successMessage,#MensajePerdido").hide();
+		$(":radio").change(cambiaValorTiempo);
+		$("#tiempo").val(30);
+		$("#bc").click(reiniciapartida);
+	}
+				
+
+	function programadrag() {
+		$pilaDeCartas=$("#cardPile");
+		$pilaDeCartas.children().draggable({revert:true})	
+		$("#cardSlots").children().droppable({drop:compruebaCarta /*,accept: "#cardSlots", hoverClass: "hovered"*/});
+
+		$pilaDeCartas.children().draggable({start:cronoStart})
+	}
+	//---------------------------------------------------------------
+	function guardarPartida(){
+		var $cartasDesplazadas=$("#cardPile .correct");
+		var cartas={};
+		
+		$cartasDesplazadas.each(function(i,elemento){
+			cartas[$(elemento).attr("data")]={"texto":$(elemento).text()};
+		});
+		
+		localStorage.setItem("tiempo",tiempo);
+		localStorage.setItem("cartas",JSON.stringify(cartas));
+		localStorage.setItem("aciertos",numeroAciertos);
+	}
+	//-----------------------------------------------------------------
+	function restaurarPartida(){
+		var cartas=JSON.parse(localStorage.getItem("cartas"));
+		var tiempo=localStorage.getItem("tiempo");
+		var aciertos=localStorage.getItem("aciertos");
+		var data=Object.keys(cartas);
+		for(letraCarta of data){
+			$("#cardPile div[data='"+letraCarta+"']").position({of:"#cardSlots div[data='"+letraCarta+"']",my:"center",at:"center"}).unbind().addClass( "correct" );
+		}
+		numeroAciertos=aciertos;
+		$("#tiempo").val(tiempo)
+		$("#bc").unbind();
+		$(":radio").unbind()
+	}
+	
+	//------------------------------------------------------------------	
+	
+	//------------------------------------------------------------
+	function cambiaValorTiempo(){
+		var $tiempo=$(":radio:checked").val();
+		$("#tiempo").val($tiempo*60);
+	}
+	
+	var myInterval;
+	var tiempo;
+	function cronoStart() { 
+		$("#bc").unbind();
+		$(":radio").unbind()
+		$("#cardPile").children().draggable({start:false})
+		myInterval=setInterval(contador, 1000);
+	}
+	
+	function cronoStop() {
+		clearInterval(myInterval);
+	}
+	
+	function contador(){
+		tiempo=$("#tiempo").val();
+		tiempo--;
+		if(tiempo==0){
+			cronoStop();
+			$('#MensajePerdido').show();
+			$(".volverJugar").click(reiniciapartida);
+			$("#cardPile").children().unbind();
+		}
+		$("#tiempo").val(tiempo);
+		
+	}
+	
+	//----------------------------------------------------
+
+function barajaCartas(){	
+  var numbers = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ];
+	
+	 // Create the card slots
+	  var words = [ 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve', 'diez' ];
+	  $pilaDeSlots=$("#cardSlots");
+		$pilaDeSlots.empty();
+
+	for(let i=0; i<words.length;i++){
+		var $cartaSlotRandom=$("<div></div>");
+		$cartaSlotRandom.text(words[i]);
+		$cartaSlotRandom.attr("id","Ranura"+numbers[i]);
+		$cartaSlotRandom.attr("data",words[numbers[i]-1]);
+		$pilaDeSlots.append($cartaSlotRandom);
+	}
+	
+	
+	$pilaDeCartas=$("#cardPile");
+	$pilaDeCartas.html("");
+  	numbers.sort(function(){
+		return (Math.random()-0.5);			
+	});
+	
+	for(let i=0; i<numbers.length;i++){
+		var $cartaRandom=$("<div></div>");
+		$cartaRandom.text(numbers[i]);
+		$cartaRandom.attr("id","card"+numbers[i]);
+		$cartaRandom.attr("data",words[numbers[i]-1]);
+		$pilaDeCartas.append($cartaRandom);
+	}
+  }
+	
+	/*$(document).keydown(function(event){
+            if(event.keyCode == 66 && event.altKey){
+                reiniciapartida();
+            }
+      });*/
+	
+	$(document).keydown(function(event){
+          if(event.keyCode == 71 && event.ctrlKey){
+             guardarPartida();
+          }
+      });
+	
+	$(document).keydown(function(event){
+         if(event.keyCode == 82 && event.ctrlKey){
+            restaurarPartida();
+         }
+      });
+ 
+//------------------------------------------------------------------------------------------
+
+</script>
+ 
+
+</head>
+<body style="cursor: auto;">
+
+    <div class="wideBox"><!-- style="with:250p;float: left;"-->
+      <h1>Drag-and-Drop</h1>
+      <h2>A Number Cards Game</h2>
+    </div>
+ 
+	<div style="position:absolute; top:3em; left:20em;with:250px; height:auto; ">
+            <fieldset> 
+                <input type="radio" name="nivel" value="0.5"  checked > Nivel 1->30 sec.<br>
+                <input type="radio" name="nivel" value="1" > Nivel 2->1 min.<br>
+                <input type="radio" name="nivel" value="1.5"> Nivel 3->1:30 min.<br>
+              </fieldset>
+     </div>
+     <p id="pCrono" >
+            Tiempo Partida:<br /><input type="text" id="tiempo" value="30" name="tiempo" style="width:130px"/>
+            <br />
+            Crono:...:<input type="text" id="crono" value="0" name="crono" style="width:50px" disabled/>
+      </p>
+
+ <div style="clear:both; background-color:#3C6; color:#69F">...</div>    
+
+<div id="content">
+
+  <div id="cardPile">
+
+ </div>
+  <div id="cardSlots">
+ 
+  </div>
+	 	<div id="successMessage">
+			<h2>Ganaste!</h2>
+			<button class="volverJugar">Volver a jugar</button>
+		</div>
+		<div id="MensajePerdido">
+			<h2>Perdiste!</h2>
+			<button class="volverJugar">Volver a jugar</button>
+		</div>
+	</div>
+<!-- Crono---------------------------------------->
+    
+
+<div class="wideBox" style="position:absolute; top:2em; left:47em;with:250px; ">
+	Operaciones(3 puntos)</br>
+	<button id="gp">Guardar Partida  (Ctrl+G)</button>
+    <button id="rp">Restaurar Partida(Ctrl+R)</button>
+    <button id="bc">Barajar Cartas   (Alt +B)</button>
+</div>
+
+
+
+
+</body></html>

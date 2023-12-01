@@ -1,0 +1,40 @@
+$("#municipio").keyup(function(event){
+            
+             var $letraEscrita=$(this).val();
+               
+             if(localStorage.getItem("poblaciones")==null){
+                 
+                 $.getJSON("BuscaPoblaciones","municipio="+$letraEscrita,function(poblaciones){
+                    cargarDataList("municipiodl",poblaciones);
+                    poblacion[$letraEscrita]=poblaciones;
+                    localStorage.setItem("poblaciones",JSON.stringify(poblacion));
+                });
+                
+             }else{
+                 var pobla=JSON.parse(localStorage.getItem("poblaciones"));
+                 
+                 var clavesPoblaciones=Object.keys(pobla);
+                 
+                 if(clavesPoblaciones.includes($letraEscrita)){
+                     cargarDataList("municipiodl",pobla[$letraEscrita]);
+                 }else{
+                     $.getJSON("BuscaPoblaciones","municipio="+$letraEscrita,function(poblaciones){
+                        cargarDataList("municipiodl",poblaciones);
+                        pobla[$letraEscrita]=poblaciones;
+                        localStorage.setItem("poblaciones",JSON.stringify(pobla));
+                    });
+                 }
+                 
+             }
+              
+        });
+
+function cargarDataList(id,objeto){
+        var $dataList=$("#"+id);
+        
+        $dataList.empty();
+        
+        $.each(objeto,function(clave,valor){
+            $dataList.append($("<option></option>").val(valor));
+        });
+}

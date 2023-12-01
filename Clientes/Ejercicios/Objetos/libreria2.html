@@ -1,0 +1,205 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		var listalibros = [];
+		var listaclientes = [];
+		var listapedidos = [];
+		
+		
+		function libro(titulo,isbn,editorial,precio,unidades){
+			this.titulo=titulo;
+			this.isbn=isbn;
+			this.editorial=editorial;
+			this.precio=precio;
+			this.unidades=unidades;
+			this.imprimir=function(){
+					return this.titulo+"-"+this.isbn+" - "+this.editorial+" - "+this.precio+" - "+this.unidades+"<br>";
+			}		
+		}
+		
+		function cliente(nombre,dni,localidad,email){
+			this.nombre=nombre;
+			this.dni=dni;
+			this.localidad=localidad;
+			this.email=email;
+			this.imprimir=function(){
+					return this.nombre+"-"+this.dni+" - "+this.localidad+" - "+this.email+"<br>";
+			}		
+		}
+		
+		function pedido(cliente,libro,unidades){
+			this.cliente=cliente;
+			this.libro=libro;
+			this.unidades=unidades;
+			this.imprimir=function(){
+					return this.cliente+" pidio: "+this.unidades+" unidades del libro "+this.libro+"<br>";
+			}		
+		}
+		
+		
+		//----------------------------------------------------------------------------
+		
+		
+		function guarda(tipo){
+			if(tipo.id == "guardal"){
+				var titulo		= 	document.getElementById("titulo").value;
+				var isbn		= 	document.getElementById("ISBN").value;
+				var editorial	= 	document.getElementById("editorial").value;
+				var precio		= 	document.getElementById("precio").value;
+				var unidades	= 	document.getElementById("unidades").value;
+				
+				var libroNuevo	= 	new libro(titulo,isbn,editorial,precio,unidades);
+				//-----------------------------
+				var coincide=false;				
+				for(let i=0;i<listalibros.length;i++){
+					if(listalibros[i].isbn==libroNuevo.isbn){
+						coincide=true;
+					}
+				}
+				if(coincide){
+					alert("el isbn es igual");
+				}else{
+					listalibros.push(libroNuevo);
+					alert(libroNuevo.imprimir());
+
+					anadeSelect(titulo,tipo);
+				}
+				
+			}else if(tipo.id == "guardac"){
+				var nombre		=	document.getElementById("nombre").value;
+				var dni		=	document.getElementById("DNI").value;
+				var localidad	=	document.getElementById("localidad").value;
+				var email		=	document.getElementById("correo").value;
+				
+				var clienteNuevo=	new cliente(nombre,dni,localidad,email);
+				//-----------------------------
+				var coincide=false;			
+				for(let i=0;i<listaclientes.length;i++){
+					if(listaclientes[i].dni==clienteNuevo.dni){
+						coincide=true;
+					}
+				}
+				if(coincide){
+					alert("el dni es igual");
+				}else{
+				
+					listaclientes.push(clienteNuevo);
+
+					alert(clienteNuevo.imprimir());
+
+					anadeSelect(nombre,tipo);
+				}
+			}else if(tipo.id == "guardap"){
+				var clienteSelect		=	document.getElementById("lClientes").value;
+				var libroSelect		=	document.getElementById("lLibros").value;
+				var	unidadesSelect	=	document.getElementById("unidades2").value;
+				
+				var pedidoNuevo	=	new pedido(clienteSelect,libroSelect,unidadesSelect);
+				
+				listapedidos.push(pedidoNuevo);
+				
+				alert(pedidoNuevo.imprimir());
+				
+			}else if(tipo.id == "listado"){
+				if(listapedidos.length!=0){
+					var parrafo=document.getElementById("lt");
+					for(pedido of listapedidos){
+						parrafo.innerHTML+="<br>"+pedido.imprimir();
+					}
+				}else{
+					alert("no hay pedidos para listar");
+				}
+			}
+		}
+		
+		
+		//---------------------------------------------------------------------------
+		
+		
+		function anadeSelect (dato,tipo){
+			var opcion 	=	document.createElement("option");
+			opcion.text	=	dato;
+				if(tipo.id=="guardac"){
+					var select	= 	document.getElementById("lClientes");
+				}else if(tipo.id=="guardal"){
+					var select	= 	document.getElementById("lLibros");
+				}
+			select.add(opcion);
+		}
+		
+		
+		
+	</script>
+</head>
+
+<body>
+
+ <div id="libros" style="width:300; height:250;">
+ 	<form id="flibros">
+    	<fieldset><legend>Libros...</legend>
+       <label for="titulo">Titulo</label>           
+    	<input type="text" id="titulo"/>
+		<label for="ISBN">ISBN</label>
+        <input type="text" id="ISBN"/><br /><br />
+        <label for="editorial">Editorial</label>
+        <input type="text" id="editorial"/><br /><br />
+         <label for="precio">Precio</label>
+        <input type="number" id="precio"/>
+        <label for="unidades">Unidades</label>
+        <input type="number" id="unidades" min="0" max="100" value="0"/><br />
+        <input type="button" id="guardal" value="guardar"  onclick="guarda(this);" align="right"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="clientes" style="width:300; height:250;">
+ 	<form id="fclientes">
+    	<fieldset><legend>Clientes...</legend>
+       <label for="nombre">Nombre</label>           
+    	<input type="text" id="nombre"/>
+		<label for="DNI">DNI</label>
+        <input type="text" id="DNI"/><br /><br />
+        <label for="localidad">Localidad</label>
+        <input type="text" id="localidad"/><br /><br />
+         <label for="correo">E-mail</label>
+        <input type="email" id="correo"/>
+        <input type="button" id="guardac" value="guardar" align="right" 
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="pedidos" style="position:absolute; width:300; height:250">
+ 	<form id="fpedidos">
+    	<fieldset><legend>Pedidos...</legend>
+       <label for="lClientes">Cliente</label> 
+       <select id="lClientes" >
+                     
+                  </select>
+       
+       
+                 
+    	<label for="lLibros">Libro</label>
+        <select id="lLibros" >
+                    
+                  </select>
+        
+        
+        <br /><label for="unidades2">Unidades</label>
+        <input type="number"  size="6" id="unidades2" value="0"/><br />
+         <br />
+        <input type="button" value="Pedir" id="guardap" align="right"
+        onclick="guarda(this);"/>
+        <input type="button" value="Listar Pedidos" id="listado" align="left"
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+    </div>
+    <div id="lt" align="center">Listado de pedidos de Clientes...</div>
+ 
+</body>
+</html>

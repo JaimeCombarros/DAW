@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Documento sin título</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<style>
+		p{
+			background-color:lightblue;
+		}
+		.aparecer{
+			display:none;
+		}
+	</style>
+	<script>
+		$(document).ready(function(){
+		    $("#hide").on("click",function(){
+				$("p").hide(1000,function(){
+					$(".esconder").css("display","none");
+					$(".aparecer").css("display","inline");
+				});
+			})
+			$("#show").on("click",function(){
+				$("p").show(1000,function(){
+					$(".aparecer").css("display","none");
+				$(".esconder").css("display","inline");
+				});
+				
+			})
+			$("#fadeIn").on("click",function(){
+				$("p").fadeIn(1000,function(){
+					$(".aparecer").css("display","none");
+					$(".esconder").css("display","inline");
+				});
+				
+			})
+			$("#fadeOut").on("click",function(){
+				$("p").fadeOut(1000,function(){
+					$(".esconder").css("display","none");
+					$(".aparecer").css("display","inline");
+				});
+				
+			})
+			$("#slideDown").on("click",function(){
+				$("p").slideDown(1000,function(){
+					$(".aparecer").css("display","none");
+					$(".esconder").css("display","inline");
+				});
+				
+			})
+			$("#slideUp").on("click",function(){
+				$("p").slideUp(1000,function(){
+					$(".esconder").css("display","none");
+					$(".aparecer").css("display","inline");
+				});
+				
+			})
+			$("#fadeTo").on("change",function(){
+				$("p").fadeTo(10,$("#fadeTo").val());
+			})
+		});
+	</script>
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+
+<body>
+	<input type="button" id="show" class="aparecer" value="Show">
+	<input type="button" id="hide" class="esconder" value="Hide">
+	<input type="button" id="fadeIn" class="aparecer" value="FadeIn">
+	<input type="button" id="fadeOut" class="esconder" value="FadeOut">
+	<input type="button" id="slideDown" class="aparecer" value="SlideDown">
+	<input type="button" id="slideUp" class="esconder" value="SlideUp">
+	<label for="fadeTo">FadeTo:</label><input type="number" id="fadeTo" min="0" max="1" step="0.1" value="1">
+	<p>Juan</p>
+	<p>Juanito</p>
+	<p>Juan</p>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de89b063df940ab',m:'I89dbQHzcw.jgdVEFXKLTduoVhlhSPjEshIHfpSrOkU-1645033693-0-Aeg/bitmNZQRJnv4maOxIZj7U/dfadqvTOWVfgvah9qyh+22Pguufl9XATOBUpicfh9Qf6ytKxzof7PuNafh6ImpEiaDdHC3To5ZpkLAWymft0e0OiixkYgEhNrQ06tuk3apUXRfHvQXE1GZkTx2J5TlhGRcPj9SCxydf78sxoPXmLK34kMeSl/FnxM+bSYaeQ==',s:[0xdf3ca89a8a,0xdd5352a79f],}})();</script></body>
+</html>

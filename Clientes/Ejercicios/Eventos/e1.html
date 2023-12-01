@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+	/*function resalta(elemento) {
+		switch(elemento.style.borderColor) {
+			case 'silver':
+			case 'silver silver silver silver':
+			case '#c0c0c0':
+				  elemento.style.borderColor = 'black';
+				  break;
+			case 'black':
+			case 'black black black black':
+			case '#000000':
+			  elemento.style.borderColor = 'silver';
+			break;
+		}
+  	}*/
+	function resalta() {
+		
+		if(arguments[0] instanceof Event){
+			 elemento=arguments[0].target
+		}else{
+			 elemento = arguments[0];
+		}
+			
+	  	switch(elemento.style.borderColor) {
+			case 'silver':
+			case 'silver silver silver silver':
+			case '#c0c0c0':
+				  elemento.style.borderColor = 'black';
+				  break;
+			case 'black':
+			case 'black black black black':
+			case '#000000':
+			elemento.style.borderColor = 'silver';
+			break;
+  		}
+	}
+		
+	window.onload=function(){
+		elemento5.onmouseover=resalta2;
+		elemento5.onmouseout=resalta2;
+	}
+	
+	//_---------------------------------
+	
+	function resalta2(ev){
+		switch(ev.type){
+			case "mouseover":
+				ev.target.style.borderColor="blue";
+			break;
+			case "mouseout":
+				ev.target.style.borderColor="silver";
+			break;
+		}
+	}
+		
+	
+	</script>
+</head>
+
+<body>
+	<div id="elemento" style="padding: .2em; height: 60px; border: thin solid silver">
+  	Sección de contenidos...Sin Evento
+	</div>
+	<div id="elemento2" style="padding: .2em;  height: 60px; border: thin solid silver" onmouseover = "this.style.borderColor = 'black'" onmouseout = "this.style.borderColor = 'silver'">
+  	Sección de contenidos...
+	</div>
+	<div id="elemento3" style="padding: .2em; height: 60px; border: thin solid silver"
+		 onmouseover="resalta(this)"
+		 onmouseout="resalta(this)">
+  	Sección de contenidos...
+	</div>
+	<div id="elemento4" style="padding: .2em; height: 60px; border: thin solid silver"
+		 onmouseover="resalta2(event)"
+		 onmouseout="resalta2(event)">
+  		Sección de contenidos...
+	</div>
+	<div id="elemento5" style="padding: .2em; height: 60px; border: thin solid silver">
+  		Sección de contenidos...Con manejador semantico
+	</div>
+</body>
+</html>

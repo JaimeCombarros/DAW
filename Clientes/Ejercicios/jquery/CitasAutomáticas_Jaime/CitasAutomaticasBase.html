@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Using Functions</title>
+<link href="../css/site.css" rel="stylesheet">
+<style>
+body{
+	text-align: justify;
+}
+.derecha {
+	float: right;
+	clear: right;
+	width: 200px;
+	border: 1px solid black;
+	padding: 10px;
+	font-size: 20px;
+	background-color:rgb(195,151,51);
+	margin: 20px 0px 5px 10px;
+	font-style: italic;
+	color: rgb(255,255,255);
+}
+.izquierda {
+	float: left;
+	clear: right;
+	width: 200px;
+	border: 2px solid black;
+	padding: 10px;
+	font-size: 20px;
+	background-color:rgb(195,100,60);
+	margin: 10px 10px 10px 0px;
+	font-style: italic;
+	color: rgb(255,255,255);
+}
+	
+	#menu{
+		display: none;
+		position: absolute;
+		background-color: rgba(223,223,223,1.00);
+	}
+	#menu ul{
+		list-style: none;
+		padding-left: 0px;
+		margin: 0px;
+	}
+	
+	#menu li{
+		border-bottom: 1px solid black;
+		border-left: 1px solid black;
+		border-right: 1px solid black;
+		padding: 10px 5px 10px 5px;
+	}
+	
+	#menu li:hover{
+		background-color: antiquewhite;
+		cursor: pointer;
+	}
+	
+	#menu li:nth-child(1){
+		border-top: 1px solid black;
+	}
+	
+	.resaltar{
+		background-color: gray;
+		font-weight: bold;
+	}
+</style>
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   <script>
+	   if (typeof jQuery === 'undefined') 
+    {
+	document.write(unescape("%3Cscript src='js/jquery-3.5.1.min.js' %3E%3C/script%3E"));
+    }
+  </script>
+	
+	
+	
+<script>
+try{
+	var rango;
+	var texto;
+$(document).ready(function() {
+  $('span.pq').each(function(i) {}); // end each
+	
+	var $menu=$("<div></div>").attr("id","menu");
+	var $lista=$("<ul></ul>");
+
+	var $item1=$("<li></li>").text("Flotar Izquierda");
+	var $item2=$("<li></li>").text("Flotar Derecha");
+	var $item3=$("<li></li>").text("Resaltar");
+	var $item4=$("<li></li>").text("Borrar");
+
+	$lista.append($item1);
+	$lista.append($item2);
+	$lista.append($item3);
+	$lista.append($item4);
+	$menu.append($lista);
+	$("body").append($menu);
+	
+	
+	$(".content").on("contextmenu",function(ev){
+		ev.preventDefault();
+		texto=document.getSelection();
+		$menu.css({"top":ev.pageY+"px","left": ev.pageX+"px",});
+		$("#menu").css("display","block");
+		$menu.show();
+		rango=texto.getRangeAt(0);
+		
+	});
+	
+	$("body").on("click",function(){
+		$("#menu").css("display","none");
+	})
+	
+	
+	$("li").on("click",function(){
+		var opcion=(this).innerHTML;
+		let $span=$("<span>");
+		
+		switch(opcion){
+			case "Flotar Izquierda":
+				
+				$span.addClass("izquierda");
+
+				rango.surroundContents($span[0])
+				$($span).before($span.text());
+			break;
+				
+			case "Flotar Derecha":
+				$span.addClass("derecha");
+
+				rango.surroundContents($span[0])
+				$($span).before($span.text());
+			break;	
+				
+			case "Resaltar":
+				$span.addClass("resaltar");
+
+				rango.surroundContents($span[0])
+			break;
+				
+			case "Borrar":
+				if(rango.startContainer.parentElement.className==""){
+					rango.deleteContents($span[0]);
+				}else{
+					rango.startContainer.parentElement.remove();
+				}
+				
+			break;
+		}
+		
+		
+	});
+	
+	
+});// end ready 
+	
+}catch(e){
+	alert("Error...=" + e);
+}
+	
+	
+	
+	
+	
+	
+</script>
+</head>
+
+<body>
+<div class="wrapper">
+<div class="header">
+	<p class="logo">JavaScript <i>&</i> jQuery <i class="mm">The<br>Missing<br>Manual</i></p>
+</div>
+<div class="content">
+	<div class="main">
+<h1>Citas Automaticas</h1>
+  <h2>Capítulo Primero</h2>
+  <h3>Que trata de la condición y ejercicio del famoso hidalgo D. Quijote de la Mancha</h3>
+  <p>En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un <span class="pq">hidalgo de los de lanza en astillero, adarga antigua, rocín flaco y galgo corredor.</span> Una olla de algo más vaca que carnero, salpicón las más noches, duelos y quebrantos los sábados, lentejas los viernes, algún palomino de añadidura los domingos, consumían las tres partes de su hacienda. El resto della concluían sayo de velarte, calzas de velludo para las fiestas con sus pantuflos de lo mismo, los días de entre semana se honraba con su vellori de lo más fino. Tenía en su casa una ama que pasaba de los cuarenta, y una sobrina que no llegaba a los veinte, y un mozo de campo y plaza, que así ensillaba el rocín como tomaba la podadera. Frisaba la edad de nuestro hidalgo con los cincuenta años, era de complexión recia, seco de carnes, enjuto de rostro; gran madrugador y amigo de la caza.<span class="pq"> Quieren decir que tenía el sobrenombre de Quijada o Quesada</span> (que en esto hay alguna diferencia en los autores que deste caso escriben), aunque por conjeturas verosímiles se deja entender que se llama Quijana; pero esto importa poco a nuestro cuento; basta que en la narración dél no se salga un punto de la verdad.   </p>
+  <br />
+  <h2>Capítulo cuarto</h2>
+  <h3>De lo que le sucedió a nuestro caballero cuando salió de la venta</h3>
+  <p>La del alba sería cuando Don Quijote salió de la venta, <span class="pq"> tan contento, tan gallardo, tan alborozado por verse ya armado caballero, queel gozo le reventaba por las cinchas del caballo.</span> Mas viniéndole a la memoria los consejos de su huésped acerca de las prevenciones tan necesarias que había de llevar consigo, en especial la de los dineros y camisas, determinó volver a su casa y acomodarse de todo, y de un escudero, haciendo cuenta de recibir a un labrador vecino suyo, que era pobre y con hijos, pero muy a propósito para el oficio escuderil de la caballería.<span class="pq"> Con este pensamiento guió a Rocinante hacia su aldea, el cual casi conociendo la querencia, con tanta gana comenzó a caminar, que parecía que no ponía los pies en el suelo</span>. No había andado mucho, cuando le pareció que a su diestra mano, de la espesura de un bosque que allí estaba, salían unas voces delicadas, como de persona que se quejaba; y apenas las hubo oído, cuando dijo: gracias doy al cielo por la merced que me hace, pues tan presto me pone ocasiones delante, donde yo pueda cumplir con lo que debo a mi profesión, y donde pueda coger el fruto de mis buenos deseos: estas voces sin duda son de algún menesteroso o menesterosa, que ha menester mi favor y ayuda: y volviendo las riendas encaminó a Rocinante hacia donde le pareció que las voces salían; y a pocos pasos que entró por el bosque, vió atada una yegua a una encina, y atado en otra un muchacho desnudo de medio cuerpo arriba, de edad de quince años, que era el que las voces daba y no sin causa, porque le estaba dando con una pretina muchos azotes un labrador de buen talle, y cada azote le acompañaba con una reprensión y consejo, porque decía: la lengua queda y los ojos listos. Y el muchacho respondía: no lo haré otra vez, señor mío; por la pasión de Dios, que no lo haré otra vez, y yo prometo de tener de aquí adelante más cuidado con el hato. Y viendo Don Quijote lo que pasaba, con voz airada dijo: descortés caballero, mal parece tomaros con quien defender no se puede; subid sobre vuestro caballo y tomad vuestra lanza, (que también tenía una lanza arrimada a la encina, adonde estaba arrendada la yegua) que yo os haré conocer ser de cobardes lo que estáis haciendo.
+   </p>
+  <h2>Capítulo ....</h2>
+  <p></p>
+  
+</div>
+<div class="footer">
+<p>JavaScript &amp; jQuery: The Missing Manual, by <a href="http://sawmac.com/">David McFarland</a>. Published by <a href="http://oreilly.com/">O'Reilly Media, Inc</a>.</p>
+</div>
+</div>
+</body>
+</html>

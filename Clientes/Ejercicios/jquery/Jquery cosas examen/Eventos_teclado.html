@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        window.onload = function() {
+            document.addEventListener("keydown", funcionKeydown);
+            document.addEventListener("keypress", funcionKeypress);
+            document.addEventListener("keyup", funcionKeyup);
+        }
+
+        function funcionKeydown() {
+            keydown.children[1].innerHTML = "key: " + arguments[0].key;
+            keydown.children[2].innerHTML = "keyCode: " + arguments[0].keyCode;
+            keydown.children[3].innerHTML = "code: " + arguments[0].code;
+            keydown.children[4].innerHTML = "charCode: " + arguments[0].charCode;
+        }
+
+        function funcionKeypress() {
+            keypress.children[1].innerHTML = "key: " + arguments[0].key;
+            keypress.children[2].innerHTML = "keyCode: " + arguments[0].keyCode;
+            keypress.children[3].innerHTML = "code: " + arguments[0].code;
+            keypress.children[4].innerHTML = "charCode: " + arguments[0].charCode;
+        }
+
+        function funcionKeyup() {
+            keyup.children[1].innerHTML = "key: " + arguments[0].key;
+            keyup.children[2].innerHTML = "keyCode: " + arguments[0].keyCode;
+            keyup.children[3].innerHTML = "code: " + arguments[0].code;
+            keyup.children[4].innerHTML = "charCode: " + arguments[0].charCode;
+        }
+
+    </script>
+    <style>
+        fieldset {
+            width: 400px;
+        }
+    </style>
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+<body>
+    <fieldset id="keydown">
+        <legend>onkeydown</legend>
+        <p>key:</p>
+        <p>keyCode:</p>
+        <p>code:</p>
+        <p>charCode:</p>
+    </fieldset>
+    <fieldset id="keypress">
+        <legend>onkeypress</legend>
+        <p>key:</p>
+        <p>keyCode:</p>
+        <p>code:</p>
+        <p>charCode:</p>
+    </fieldset>
+    <fieldset id="keyup">
+        <legend>onkeyup</legend>
+        <p>key:</p>
+        <p>keyCode:</p>
+        <p>code:</p>
+        <p>charCode:</p>
+    </fieldset>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de8d7d25d873a0b',m:'vKMaXtrZF.7h87ZdsD2_DwI5YXRQGho6bAx2FoW7TFU-1645036183-0-AbJvMm5QQVoUDRZWW/Wf0V3mtoMF9lvfKfYu93HDYkXC2vV4yCWRTg5BfMaDz04BBoYdLNMnU/Gq6LgI8YcSsd283ShS+PceAX6uuli5WWrLiFcMJsPZ/sz0VjgMVTq7X+NeBWaraXDAVZIeWwWuKClY89YB6t1OO9S28Lef0+azI7UCItlXatgciH3L8P0qOHBL2ndkMMym+hg8K6Bf0yc=',s:[0x98e80409a3,0xaa0b693f00],}})();</script></body>
+</html>

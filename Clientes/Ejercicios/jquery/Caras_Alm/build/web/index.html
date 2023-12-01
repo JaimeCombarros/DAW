@@ -1,0 +1,272 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<link href="css/estiloParejas.css" rel="stylesheet" type="text/css">
+
+<style>
+ img{display:block}
+ .pareja{border-color:#F00}
+ #tableros{position: absolute; top:150px; right: 20px;font-size: 1em;}
+ #tableros td {font-size: 1em;}
+ #tableros th,  #tableros td {
+   border: 1px solid black;
+}
+
+#combina label{
+    margin-left: 5%;
+}
+</style>
+
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/jquery-ui.min.js"> </script>
+    <script src="js/creaTabla.js"     type="text/javascript"> </script>
+    <script>
+        //---Definicion de variables.....
+        var imagenes = ["IMAGENES/abed.png", "IMAGENES/annie.png", "IMAGENES/barney.png", "IMAGENES/collar.png", "IMAGENES/penny.png", "IMAGENES/sheldon.png", "IMAGENES/stark.png","IMAGENES/ted.png", "IMAGENES/zoey.png"];
+	var posiciones=[];
+	// desordenar el array de posiciones....
+	posiciones=posiciones.sort(function(){return Math.random()-Math.random()});
+	
+	    
+	 $(document).ready(function(){
+		 
+		 //1.- Crear la tabla de (X*Y) celdas , con las imagenes ocultas --- aleatoriamente...
+		
+                var ncartas=imagenes.length*2;
+                
+                for(let i=2;i<(imagenes.length+1);i++){
+                    if(ncartas%i==0){
+                        //alert(i+","+ncartas/i);
+                        $("#combina").append($("<label>"+i+"/"+ncartas/i+"</label>"));
+                        $("#combina").append($("<input type='radio' name='combinacion' value="+i+","+ncartas/i+">")); 
+                    }
+                }
+                
+                for (let i = 0; i < imagenes.length; i++) {
+                    posiciones.push(i);
+                    posiciones.push(i);
+                }
+                
+                posiciones.sort(function(){
+                    return (Math.random()-0.5);			
+                });
+                
+                $("#combina input").click(cambiaTablero);
+                
+                function cambiaTablero() {
+                    $("#tablero").html("");
+                    
+                    var tabla=$("<table>");
+                    var $valores=$(":input:checked").val().split(",")
+                    var numeracion=0;
+                    
+                    for(let i=0;i<$valores[0];i++){
+                        var tr=$("<tr>");
+                        for(let j=0;j<$valores[1];j++){
+                            var $td=$("<td>").css("backgroundColor","grey").click(compruebaCartas);
+                            $td.html($("<img>").attr("src",imagenes[posiciones[numeracion]]).attr("data",posiciones[numeracion]).css("opacity","0"));
+                            tr.append($td);
+                            numeracion++     
+                        }        
+                        tabla.append(tr);    
+                    }
+                    $("#tablero").append(tabla);
+                }
+                
+                
+                
+                
+		 //2.- Escuchar radios...
+					  
+		var nAciertos=0;
+                var nFallo=0;
+                var CartaLevantadaImg="";
+
+                
+                $("#tablero").on("click","td",function (){
+                    $("#combina input").unbind();
+                });
+                
+                    function compruebaCartas(){
+                         
+			$(this).children().css("opacity","1");
+                        var $data= $(this).children().attr("data");
+                        
+                        if(CartaLevantadaImg==("")){
+                            CartaLevantadaImg=$(this).children();
+                            CartaLevantadaImg//.draggable({revert:true});
+                            $("#tablero tr td")//.droppable({drop:compruebaCartas});
+                        }else{
+                            if(CartaLevantadaImg.attr("data")==$data){
+                                nAciertos++
+                                $("#aciertos").html(nAciertos);
+                                
+                                CartaLevantadaImg.parent().unbind();
+                                $(this).unbind();
+                                
+                                
+                                
+                                CartaLevantadaImg="";
+                                
+                            }else{
+                                nFallo++;
+                                
+                                $("#fallos").html(nFallo);
+                                $(this).children().animate({opacity:0},{duration:parseInt($("#delay").val())});
+                                CartaLevantadaImg.animate({opacity:0},{duration:parseInt($("#delay").val())});
+                                
+                                CartaLevantadaImg="";
+                            }
+                        }
+                        
+                          
+		  }//--------------------click--------------------
+		  
+		  //--------Drag && Drop.................................
+		 
+		  
+		  //-----------Guardar Partida----------------------
+                  
+                  var nguardados=0;
+                  var acertada="";
+                  var jugadas="";
+                  $("#gp").click(function(){
+                      var objetoGuardadoTabla={};
+                      var objetoGuardado={tablero:"",jugadas:"",acertada:"",tiempoEspera:"",aciertos:"",fallos:""};
+                      objetoGuardado["tablero"]=$(":input:checked").val();
+                      $("#tablero tr td img").each(function(i,elemento){
+                          jugadas+=elemento.getAttribute("data")+"-";
+                          if(elemento.style.opacity=='1'){
+                               acertada+=elemento.getAttribute("data")+"-";
+                          }
+                      });
+                      jugadas=jugadas.substring(0,(jugadas.length-1));
+                      acertada=acertada.substring(0,(acertada.length-1));
+                      
+                      objetoGuardado["acertada"]=acertada;
+                      objetoGuardado["jugadas"]=jugadas;
+                      
+                      objetoGuardado["tiempoEspera"]=$("#delay").val();
+                      objetoGuardado["aciertos"]=$("#aciertos").html();
+                      objetoGuardado["fallos"]=$("#fallos").html();
+                      
+                      
+                      
+                      objetoGuardadoTabla[nguardados]=objetoGuardado;
+                      
+                      if(localStorage.getItem("objetoGuardadoTabla")!=null){
+                          var diferente=JSON.parse(localStorage.getItem("objetoGuardadoTabla"));
+                          diferente[(Object.keys(diferente).length)]=objetoGuardadoTabla[nguardados];
+                          localStorage.setItem("objetoGuardadoTabla",JSON.stringify(diferente));
+                      }else{
+                          localStorage.setItem("objetoGuardadoTabla",JSON.stringify(objetoGuardadoTabla));
+                      }
+                      
+                      nguardados++;
+                  })// Guardar Partida....
+                 
+                  //-----------Recuperar Partidas----------------------
+                  $("#rp").click(function(){
+                    objetoGuardadoTabla=JSON.parse(localStorage.getItem("objetoGuardadoTabla"));  
+                    $("#tableros").cargaTabla(objetoGuardadoTabla,{titulo:"partidas",id:"tablapartidas"});
+                    $("#tablapartidas tbody tr").click(cargaPartida);
+                  });
+                  
+                  
+                  function cargaPartida(){
+                      $("#tablero").html("");
+                    
+                    var tabla=$("<table>");
+                    var $valores=$(this).children()[0].textContent.split(",");
+                    var acertadas=$(this).children()[2].textContent.split("-")
+                    
+                    posiciones="";
+                    posiciones=$(this).children()[1].textContent.split("-")
+                    
+                    var numeracion=0;
+                    
+                    for(let i=0;i<$valores[0];i++){
+                        var tr=$("<tr>");
+                        for(let j=0;j<$valores[1];j++){
+                            if(acertadas.includes(posiciones[numeracion])){
+                                var $td=$("<td>").css("backgroundColor","grey")
+                                $td.html($("<img>").attr("src",imagenes[posiciones[numeracion]]).attr("data",posiciones[numeracion]).css("opacity","1"));
+                            }else{
+                                var $td=$("<td>").css("backgroundColor","grey").click(compruebaCartas);
+                                $td.html($("<img>").attr("src",imagenes[posiciones[numeracion]]).attr("data",posiciones[numeracion]).css("opacity","0"));
+                            }
+                            tr.append($td);
+                            numeracion++     
+                        }        
+                        tabla.append(tr);    
+                    }
+                    $("#tablero").append(tabla);
+                    $("#aciertos").html($(this).children()[4].textContent);
+                    $("#fallos").html($(this).children()[5].textContent);
+                    $("#delay").val($(this).children()[3].textContent);
+                    $("#combina input").unbind();
+                    $("#tableros").html("");
+                  }
+                  
+                  
+               
+               //-- Cargar la partida Seleccionada...............
+                $("#tableros").on("click","#cargaP",function(){
+                    
+                    
+                });
+		 
+	 });//----READY----
+	 
+	  //--------Drag && Drop.................................
+	  function DD(){
+		  
+		 
+		  
+	     }
+	 
+   //-------Metodo que crea la tabla aleatoriamente ( Baraja ).....
+    function creaPanel(){
+			 
+		 }
+    //-------Metodo que crea las combinaciones posibles según el numero de imágenes....
+     function creaCombinaciones(numImg){
+		 
+	 }
+	  //-------Metodo que crea la tabla....
+     function creaTabla(fil,col,panel){
+			
+		}
+    // tabla Paneles.....................................
+    function tablaPaneles(datos,donde){
+        
+    } 
+		
+    
+    </script>
+</head>
+
+<body>
+
+	 <div id="titulo">
+        
+	    <div class = "cabecera" id="fallo">Fallos: <span id="fallos">0</span></div> 
+    	    <div class = "cabecera" id="acierto">Aciertos: <span id="aciertos">0</span></div>
+            <div class = "cabecera" id="tiempo">Tiempo espera: <input id="delay" type="number" value="500"/></div>
+            <div class = "cabecera" id="combina">Combinadiones: </div>  
+            <div class="cabecera">
+            	<input type="button" value="Guardar Partida" id="gp">
+              	<input type="button" value="Recuperar Partidas" id="rp">
+            </div>  
+            
+        
+         </div>
+    
+         <div id="tablero"> </div>
+       
+         <div id="tableros" ></div>
+
+</body>
+</html>

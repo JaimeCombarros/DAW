@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+	
+<script>
+
+	$(document).ready(function(){
+		
+		$("#myInput").keyup(function(){
+			
+			var $valorInput=$(this).val().toLowerCase();
+		
+			var $checkboxSeleccionados=$("input[type='checkbox']:checked");//PILLO LOS CHECKBOX QUE ME HAS SELECCIONADO.
+			
+			
+			if($("#ocultar").prop("checked")){
+			
+				var filasMostrar=[];//ALMACENO EL INDICE DE FILAS QUE SERAN MOSTRADAS.
+				
+				
+				$checkboxSeleccionados.parent().each(function(i,elemento){//ITERO LAS CELDAS DE LOS CHECKBOX QUE ME HAS PULSADO
+					var $columna=elemento.cellIndex+1;//SACO LAS COLUMNAS(QUE SON UN CONJUNTO DE CELDAS) QUE ME HAS PRESIONADO GRACIAS AL METODO CELLINDEX.
+											
+					$("#myTable tr td:nth-child("+$columna+")").filter(function(){
+						
+					  $("#myTable tr td:nth-child("+$columna+")").each(function(i){  //ITERO LA COLUMNA, YA QUE EN ESTE CASO
+					// ME SERA NECESARIO SABER EL INDICE DE FILA PARA OCULTARTELA O MOSTRARTELA SEGUN SE CUMPLA EL FILTRO, EL NUMERO DE FILAS Y CELDAS COINCIDE, ES POR ESO QUE LO ITERO.
+							if($(this).text().toLowerCase().indexOf($valorInput) > -1){//SI CUMPLE EL FILTRO Y EL INDICE DE LA FILA NO SE ENCUENTRA EN EL ARRAY ME LO QUEDO.
+								if(!filasMostrar.includes(i+1)){
+									filasMostrar.push(i+1);
+								}
+							}
+					   });
+						
+					   $("#myTable tr").hide();//OCULTO TODAS LAS FILAS INICIALMENTE
+						
+						
+					   for(let i=0;i<filasMostrar.length;i++){//MUESTRO LAS QUE CUMPLIERON EL FILTRO
+						   $("#myTable tr:nth-child("+filasMostrar[i]+")").show();
+					   }
+						
+						
+					});
+				});
+
+				
+			}else{//MISMA EXPLICACION QUE EL DE ARRIBA.
+				
+				
+				var filasPintar=[];
+				
+			    $("#myTable tr td").css("color","red");
+				
+				$checkboxSeleccionados.parent().each(function(i,elemento){
+					var $columna=elemento.cellIndex+1;
+											
+					$("#myTable tr td:nth-child("+$columna+")").filter(function(){
+						
+					  $("#myTable tr td:nth-child("+$columna+")").each(function(i){  
+							if($(this).text().toLowerCase().indexOf($valorInput) > -1){
+								if(!filasPintar.includes(i+1)){
+									filasPintar.push(i+1);
+								}
+							}
+					   });
+						
+						
+					   for(let i=0;i<filasPintar.length;i++){
+						   $("#myTable tr:nth-child("+filasPintar[i]+")").children().css("color","black");
+					   }
+						
+						
+					});
+				});
+
+				
+				
+			}
+			
+		});
+		
+		
+	});
+		
+	
+</script>
+	
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  border: 2px solid red;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Filterable Table</h2>
+<p>Type something in the input field to search the table for first names, last names or emails:</p>  
+<input id="myInput" type="text" placeholder="Search..">
+<label>Ocultar: </label><input type="radio" id="ocultar" name="option" value="ocul" checked>
+<label>Colorear: </label><input type="radio" id="colorear" name="option" value="col">
+<br><br>
+
+<table>
+  <thead>
+  <tr>
+    <th>Firstname<input type="checkbox" id="nombre"></th>
+    <th>Lastname<input type="checkbox"  id="apellido"></th>
+    <th>Email<input type="checkbox" id="mail"></th>
+  </tr>
+  </thead>
+  <tbody id="myTable">
+  <tr>
+    <td>John</td>
+    <td>Doe</td>
+    <td>john@example.com</td>
+  </tr>
+  <tr>
+    <td>Mary</td>
+    <td>Moe</td>
+    <td>mary@mail.com</td>
+  </tr>
+  <tr>
+    <td>July</td>
+    <td>Dooley</td>
+    <td>july@greatstuff.com</td>
+  </tr>
+  <tr>
+    <td>Anja</td>
+    <td>Ravendale</td>
+    <td>a_r@test.com</td>
+  </tr>
+  </tbody>
+</table>
+  
+<p>Note that we start the search in tbody, to prevent filtering the table headers.</p>
+
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+		<script>
+			
+			 function validarTelefono(){
+			 
+					 var parrafo=document.getElementById("parrafo");
+					 var telefonoAComprobar=document.getElementById("tf1").value;
+
+				 	 parrafo.innerHTML="NO MATCH";
+				 
+					 var expresion=/^(\d{3})([-]|[\s])(\d{3})([-]|[\s])(\d{3})$/;
+
+					 let match = telefonoAComprobar.match(expresion);
+				 	
+					 if(match!=null){
+
+					  var caracter1=match[2];
+					  var caracter2=match[4];
+
+						 if(caracter1==caracter2){
+								parrafo.innerHTML="MATCH";
+						 }
+					}
+			 }
+			
+		</script>
+</head>
+
+<body>
+	<form>
+			<input type="text" name="telefono" id="tf1" placeholder="telefono">
+			<input type="button" onClick="validarTelefono()" value="Pulsa para validar">
+	    </form>
+	
+	<p id="parrafo"></p>
+</body>
+</html>

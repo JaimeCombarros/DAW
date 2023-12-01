@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+	
+<style type="text/css">
+	#cabecera{
+		width:500px;
+		background:#0CF;
+		padding:10px;
+		border-radius:20px;
+		border:solid 4px;
+		margin:auto;
+	}
+		
+	#cursos, #alumnos{
+		position:relative;
+		float:left;
+		width: 270px;
+		height:100%;
+		background:#F00;
+		padding:10px;
+		border-radius:20px;
+		margin:10px;
+		border:solid 4px;
+		margin-top:20px;
+			
+	}
+	#cursos{
+		float:right;
+		width:500px;
+		background:#F00;
+	}
+	
+	legend{
+		font-size:25px;
+		font-weight:bold;
+		text-transform:uppercase;
+		background:#FFF;
+		padding:5px;
+		border:solid 1px;	
+	}
+	
+	fieldset{
+		background:#FFF;
+		top:20px?
+	}
+	
+	p{
+		float: left;
+		font-weight: bold;
+		margin-right: 55px;
+		width: 60px;	
+	}
+	
+	.cursosAlumnos{
+		width: 90%;
+	}
+	
+</style>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+
+    <script>
+		
+		$(document).ready(function() {
+			
+			var $divCurso=$("#div_cursos");
+			
+		    var $fieldsetRestaurar;//EN CASO DE BORRAR FIELDSET LOS AMACENARE TEMPORALMENTE EN ESTA VARIABLE(ESTO ES GRACIAS AL DETACH).
+			
+			var objFieldsetRestaurar={};
+			
+			
+		    $("#cabecera button").click(function(event){
+				
+				var $opcionesSelect=$("#lista_cursos").children();
+				
+				var $clase=$("#curso").val();
+				$("#curso").val("");//LIMPIO EL INPUT.
+				
+				if($opcionesSelect.filter("option[clase='"+$clase.toLowerCase()+"']").length<=0){//SI YA HAY UN CURSO CON EL NOMBRE QUE ESTAS DANDO DE ALTA NO TE LO INSERTARE.
+				
+					var $opcion=$("<option></option>").text($clase);
+					$opcion.attr("clase",$clase.toLowerCase());//LE ANIADIRE UN ATRIBUTO AL OPTION PARA DESPUÉS COMPROBAR DE QUE ESE CURSO NO HA SIDO ANIADIDO CON ANTERIORIDAD.
+
+				
+					//**************PROCESO PARA CREAR UN FIELDSET*******//
+						var $fieldset=$("<fieldset></fieldset>");
+						$fieldset.attr("busqueda",$clase.toLowerCase());
+						var $legend=$("<legend></legend>").text($clase);
+						$fieldset.append($legend);
+					//**************FIN PROCESO PARA CREAR UN FIELDSET*******//
+
+					if($(this).attr("id")=="btn_principio"){
+						$("#lista_cursos").prepend($opcion);
+						$("#div_cursos").prepend($fieldset);
+
+					}else{
+						$("#lista_cursos").append($opcion);
+						$("#div_cursos").append($fieldset);	
+					}
+
+				}else{
+					alert("YA EXISTE UN CURSO DADO DE ALTA CON ESE NOMBRE -->"+$clase);
+				}
+				
+				
+			});
+			
+			
+			
+		
+			$("#alumnos button").click(function(event){
+				
+				var $opcionesSelect=$("#lista_cursos").children();
+				
+				
+				var $fielsetAFiltrar=$divCurso.children();//OBTENGO TODOS LOS FIELDSET PARA HACER UN FILTRADO
+			    //Y SABER A CUAL FIELDSET DEBO ANIADIR EL ALUMNO.
+				
+				var $cursoSeleccionado=$("#lista_cursos").val();//OBTENGO EL CURSO QUE ME SELECCIONES.
+				
+				if($cursoSeleccionado!=null){//ESTO ES PARA EVITAR QUE DE UN ERROR
+					//YA QUE CUANDO ELIMINO BORRO EL OPTION Y EL FIELDSET CORRESPONDIENTE A LO SELECCIONADO.
+					var $fielsetEncontrado=$fielsetAFiltrar.filter("fieldset[busqueda='"+$cursoSeleccionado.toLowerCase()+"']");//ME QUEDARE CON AQUEL FIELDSET QUE TENGA EL ATRIBUTO BUSQUEDA CON VALOR DEL CURSO SELECCIONADO.
+					
+					var $alumnosAFiltrar=$("#div_cursos fieldset[busqueda='"+$cursoSeleccionado.toLowerCase()+"'] b");
+				}
+				
+				//******************PROCESO PARA CREAR LA ETIQUETA DEL ALUMNO***************//
+					var $nombre_alumno=$("#nombre_alumno").val();
+					$("#nombre_alumno").val("");//LIMPIO EL INPUT.
+					var $etiquetaAlumno=$("<b></b>").text($nombre_alumno);
+					$etiquetaAlumno.css("marginLeft","5%");
+					$etiquetaAlumno.attr("nombre",$nombre_alumno.toLowerCase());
+				//******************PROCESO PARA CREAR LA ETIQUETA DEL ALUMNO***************//
+
+			
+				
+				
+				switch($(this).attr("id")){
+		
+				   case "btn_alumno_principio":
+						
+						if($alumnosAFiltrar.filter("b[nombre='"+$nombre_alumno.toLowerCase()+"']").length==0){
+							$fielsetEncontrado.prepend($etiquetaAlumno);
+						}else{
+							alert("YA EXISTE EL ALUMNO EN EL CURSO AL QUE SE LO ESTAS INTENTANDO ASIGNAR: CURSO "+$cursoSeleccionado+", ALUMNO "+$nombre_alumno);
+						}
+					   break;
+						
+					case "btn_alumno_final":
+						
+						if($alumnosAFiltrar.filter("b[nombre='"+$nombre_alumno.toLowerCase()+"']").length==0){
+							$fielsetEncontrado.append($etiquetaAlumno);
+						}else{
+							alert("YA EXISTE EL ALUMNO EN EL CURSO AL QUE SE LO ESTAS INTENTANDO ASIGNAR: CURSO "+$cursoSeleccionado+", ALUMNO "+$nombre_alumno);
+						}
+						break;
+				
+					case "btn_eliminar":
+						
+						$fieldsetRestaurar=$($fielsetEncontrado).detach();
+						
+						$("#lista_cursos option").remove("option[clase='"+$fieldsetRestaurar.attr("busqueda")+"']");
+						
+						objFieldsetRestaurar[$fieldsetRestaurar.attr("busqueda")]=$fieldsetRestaurar;
+						break;
+						
+					case "btn_restaurar":
+						
+						$divCurso.append($fieldsetRestaurar);
+	
+						//*************RESTAURAR TODO EL SELECT*************//
+						if($fieldsetRestaurar!=null){
+							var $clase=$fieldsetRestaurar.attr("busqueda");
+							var $opcion=$("<option></option>").text($clase);
+							$opcion.attr("clase",$clase);
+						
+					
+							$("#lista_cursos").append($opcion);
+						}
+						//*************RESTAURAR TODO EL SELECT*************//
+						
+						delete objFieldsetRestaurar[$clase];
+						 
+						$fieldsetRestaurar=null;
+						
+						break;
+					case "btn_restaurarTodo":
+						
+						 var arrayfieldSet=Object.values(objFieldsetRestaurar);
+						 var arrayCursos=Object.keys(objFieldsetRestaurar);
+
+						 for(let i=0;i<arrayfieldSet.length;i++){
+							$divCurso.append(arrayfieldSet[i]);
+							 
+							var $opcion=$("<option></option>").text(arrayCursos[i]);
+							$opcion.attr("clase",arrayCursos[i]);
+							$("#lista_cursos").append($opcion);
+						 }
+						
+						
+						 //**********PROCESO PARA LIMPIAR EL OBJETO***********//
+						     for(let i=0;i<arrayCursos.length;i++){
+								 delete objFieldsetRestaurar[arrayCursos[i]];
+							 }
+						 //*********PROCESO PARA LIMPIAR EL OBJETO************//
+						
+						   $fieldsetRestaurar=null;
+						
+						break;
+				
+				}
+				
+				
+
+				
+			});
+			
+		})
+	</script>
+	
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+
+<body>
+	<div id="cabecera">
+    	<span>Añade un curso a la lista</span> <input id="curso" type="text">
+    	<button id="btn_principio">Al Principio</button>
+    	<button id="btn_final">Al Final</button>
+    </div> 
+        
+    <div id="alumnos">
+    	<h1> Añadir </h1>
+        <span>Añadir alumno </span><input size="10" id="nombre_alumno" type="text"><br>
+        <span>Elija un curso </span> 
+        <button id="btn_alumno_principio">Al principio</button>
+        <button id="btn_alumno_final">Al final</button> <br>
+        <select id="lista_cursos" size="5"></select>
+        <button id="btn_eliminar">Eliminar</button>
+		<button id="btn_restaurar">Restaurar</button>
+		<button id="btn_restaurarTodo">Restaurar Todo</button>
+    </div>
+    
+	<div id="cursos">
+    	<h1>Cursos</h1>
+        <div id="div_cursos">
+        </div>
+    </div>
+   
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de8d79279553a0b',m:'gdcSF.SprGGtu7XIxUdbix6vuUYVp.7Ls2Qb3Jj53DE-1645036173-0-AdWvYlehx2puPZgEH36Q/mGYb5T7bI+f9jEFIurrNpu7baSmhIOiRnbXd79ZQRfdLJVcCsAYWqNvkxXBst8oBZy46wf8xSrAiI3susJ+8v81RmqkvJf9u3oWl8o0VIVTagvmoNNFRttcG9GRF7Qy3093ksVYx3NPN0BQMMyekMBb8WVh7KBoR1Ca4g0Q9o1thL+AELiUp050H3zB4bhVPReGfoS1DIhqJfRKxVZQel64',s:[0x6f1470ab50,0xfc15299697],}})();</script></body>
+</html>

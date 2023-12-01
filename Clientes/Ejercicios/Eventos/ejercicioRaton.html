@@ -1,0 +1,77 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<style>
+		p{
+			border-color: 1px solid red;
+		}
+	</style>
+	
+	<script>
+	function muestraInformacion(Evento) {
+		  	var evento = Evento || window.event;
+		switch(evento.type){
+			case "mousemove":
+			var coordenadaX = evento.pageX;
+			var coordenadaY = evento.pageY;
+			var coordenadaXScreen = evento.screenX;
+			var coordenadaYScreen = evento.screenY;
+		
+			var Page=document.getElementById("Page");
+			var Screen=document.getElementById("Screen");
+		
+			Screen.innerHTML="Screen:";
+			Page.innerHTML="Page:";
+		
+			Page.innerHTML+="[ "+coordenadaX+","+coordenadaY+" ]";
+			Screen.innerHTML+="[ "+coordenadaXScreen+","+coordenadaYScreen+" ]";	
+			break;
+			case "mousedown":
+				var coordenadaX = evento.pageX;
+				var coordenadaY = evento.pageY;
+				var Parrafito= document.createElement("p");
+				
+				Parrafito.style.border="solid blue 3px";
+				Parrafito.style.position="absolute";
+				Parrafito.style.top=coordenadaY+"px";
+				Parrafito.style.left=coordenadaX+"px";
+				switch(evento.which){
+					case 1:
+						Parrafito.innerHTML="Boton derecho: ";
+					break;
+					case 2:
+						Parrafito.innerHTML="Boton central: ";
+					break;
+					case 3:
+						Parrafito.innerHTML="Boton izquierdo: ";
+					break;
+				}
+				Parrafito.innerHTML+="X: "+coordenadaX+"  Y: "+coordenadaY;
+				document.body.appendChild(Parrafito);
+			break;
+			
+		}
+		  	
+	}
+		
+	window.onload=function(){
+		document.onmousemove = muestraInformacion;
+		document.onmousedown = muestraInformacion;
+	}
+	
+	</script>
+	
+	
+</head>
+
+<body>
+	<div>
+	<h1>Informacion</h1>
+	<p id="Page">Page</p>
+	<p id="Screen">Screen</p>
+	</div>
+</body>
+</html>

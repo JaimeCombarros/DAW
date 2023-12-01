@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+	<script>
+		$(document).ready(function(){
+			$("body").on("click","div",function(){
+				$("div").animate({marginTop: "+=100px",height: "200px",lineHeight: "+=200px",fontSize: "3em"});
+				$("div").animate({height: "100px",lineHeight: "-=200px",fontSize: "1em"});
+  			}); 
+			
+		});
+	
+	</script>
+	
+	<style>
+		div{
+			width: 30%;
+			margin: auto;
+			background-color: gray;
+			color: white;
+			border: 1px solid black;
+			border-radius: 10px;
+			text-align: center;
+		}
+		
+		div p{
+			padding: 30px;
+			
+		}
+	</style>
+<body>
+	<div><p>Parrafo para animar</p></div>
+</body>
+</html>

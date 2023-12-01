@@ -1,0 +1,64 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		
+		window.onload=function(){
+		    
+			var clave="uno";
+			var array=["cero",111];
+			array.uno="uno";
+			array[4]=4;
+			
+			document.body.innerHTML+="array.uno "+array.uno+"<br>";
+			document.body.innerHTML+="array['uno'] "+array['uno'];
+			document.body.innerHTML+="array[clave] "+array[clave];
+			
+			var obj={cero:"cero",cero:0,1:1};
+			
+			var cero="cero";
+			
+			document.body.innerHTML+="<br>obj.cero "+obj.cero+"<br>";
+			document.body.innerHTML+="obj['cero'] "+obj['cero']+"<br>";
+			document.body.innerHTML+="obj[cero] "+obj[cero]+"<br>";
+			document.body.innerHTML+="obj[1] "+obj[1]+"<br>";
+			document.body.innerHTML+="obj['1'] "+obj['1']+"<br>";
+			
+			
+			recorrerObjetos(array);
+			recorrerObjetos(obj);
+			
+			
+		}
+		
+		function recorrerObjetos(datos){
+			
+			document.body.innerHTML+="<br>tipo de objeto-->"+typeof(datos);
+			
+			document.body.innerHTML+="<br>Recorrido del tipo con for in<br>";
+			
+				if(datos instanceof Array){
+					for(dato of datos){
+						document.body.innerHTML+="<br>datos[]"+dato;
+					}
+				}else{
+					document.body.innerHTML+="<br> Object.values(datos)";
+					Object.values(datos);//te devuelve un array con los valores
+					document.body.innerHTML+="{";
+					for(clave in datos){
+						document.body.innerHTML+=clave+" : "+datos[clave]+"_";
+					}
+					document.body.innerHTML+="}";
+					document.body.innerHTML+=" JSON STRINGFY"+JSON.stringify(datos);
+				}
+		}
+	
+	</script>
+</head>
+
+<body>
+	
+</body>
+</html>

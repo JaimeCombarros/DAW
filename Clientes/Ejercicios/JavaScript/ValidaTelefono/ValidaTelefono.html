@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		
+		
+		
+		 function validarTelefono(){
+			 
+			 
+			 var parrafo=document.getElementById("parrafo");
+			 var telefonoAComprobar=document.getElementById("tf1").value;
+						 
+			// ^(([\(]+\d{3}[\)]+)|(\d{3}))
+			 var expresion=/^(\d{3})(?<carac>[-]|[\s])(\d{3})(?<caract2>[-]|[\s])(\d{3})$/;
+			 
+			 
+			/* var expresion=/^(\d{3})(?<carac>[-]|[\s])(\d{3})(\k<carac>)(\d{3})$/;
+			 
+		     if(expresion.test(telefonoAComprobar)){
+					parrafo.innerHTML="MATCH";
+			 }else{
+					parrafo.innerHTML="NO MATCH";
+			 }*/
+			 
+			 
+			 
+			 let match = telefonoAComprobar.match(expresion);
+			
+			 
+			 if(match!=null){
+				 
+			  var caracter1=""+match.groups.carac;
+			  var caracter2=""+match.groups.caract2;
+				 
+				 if(caracter1==caracter2){
+						parrafo.innerHTML="MATCH";
+				 }else{
+						parrafo.innerHTML="NO MATCH";
+				 }
+				 
+		    }else{
+				parrafo.innerHTML="NO MATCH";
+			}
+		 	
+			
+		}
+		
+	
+	</script>
+</head>
+
+<body>
+		<form>
+			<input type="text" name="telefono" id="tf1" placeholder="telefono">
+			<input type="button" onClick="validarTelefono()" value="Pulsa para validar">
+	    </form>
+	
+	<p id="parrafo"></p>
+</body>
+</html>

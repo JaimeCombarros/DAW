@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+		
+		function validarPatrones(event){
+			
+			var compruebaNombre=validaNombre();
+			var compruebaNif=validaNif();
+			var compruebaContrasenia=validarContrasenias();
+			var compruebaEmail=validarEmail();
+			var compruebaTelefono=validarTelefono();
+			var compruebaISBN=validarISBN();
+			
+			var validaFormulario=false;
+			
+			if(compruebaNombre && compruebaNif && compruebaContrasenia && compruebaEmail && compruebaTelefono &&      compruebaISBN){
+				 document.forms["formu"].submit();
+			 }			 
+			
+		}
+		
+		function validaNombre(){
+			var cumplePatron=false;
+			var nombre=document.getElementById("nombre").value;
+			var expresionAComprobar= /[A-Z]{1,}.*/;
+			
+			if(expresionAComprobar.test(nombre)){
+			   cumplePatron=true;
+			}
+			
+			return cumplePatron;
+		}
+		
+		function validaNif(){
+			
+			var nif=document.getElementById("nf").value;
+			var expresionAComprobar=/\d{8,8}(\s|-)[A-Z]{1,1}/;
+			
+			var cumpleNif=false;
+			var cumpleLetra;
+			
+			if(expresionAComprobar.test(nif)){
+				
+			      if(nif.split("").includes("-")){
+					   cumpleLetra=calcularLetraNif("-",nif);
+				  }else if(nif.split("").includes(" ")){
+					   cumpleLetra=calcularLetraNif(" ",nif);
+				  }
+				
+				  if(cumpleLetra){
+					 	cumpleNif=true;
+				  }
+				
+			 }else{
+				alert("el nif no cumple con el formato: 8 Letras, espacio o guion, 1 letra mayuscula");
+			 }
+			
+			 return cumpleNif;	
+		}
+		
+		function calcularLetraNif(signo,nif){
+			
+			var arrayLetras=["T","R","W","A","G","M","Y","F","P","D","X","B","N","J","Z","S","Q","V","H","L","C","K","E"];
+			
+			var numerosNif=nif.substring(0,nif.indexOf(signo));
+			var resto=numerosNif%23;
+			var letra=arrayLetras[resto];
+			var dniCorrecto=numerosNif+signo+letra;
+			
+			var cumpleLetra=false;
+						
+			if(dniCorrecto==nif){
+			    cumpleLetra=true;
+			}else if(dniCorrecto!=nif){
+				alert("El nif ingresado no tiene la letra correcta, la correcta es --> "+letra);
+			}
+			
+			return cumpleLetra;
+		}
+		
+		function validarContrasenias(){
+			
+			var contrasenia1=document.getElementById("contrasenia1").value;
+			var contrasenia2=document.getElementById("contrasenia2").value;
+			
+			var expresionAComprobar=/(?=(.*[0-9]))(?=(.*[A-Z]))(?=(.*[a-z]))(?=(.*[@.!?¿#$%€]))[\da-zA-Z@.!?¿#$%€]{8,}/;
+			
+			var cumpleContrasenia=false;
+			
+			if(expresionAComprobar.test(contrasenia1)){
+			   	    if(contrasenia1==contrasenia2){
+					   	cumpleContrasenia=true;
+					}else{
+						alert("Las contrasenias ingresadas no son iguales");
+					}
+			}else{
+				alert("El formato de la contrasenia es incorrecto, 1 letra Mayuscula, 1 Minuscula, numero, un caracter, como minimo 8 caracteres en total");
+			}
+			
+			return cumpleContrasenia;
+		}
+		
+	    function validarEmail(){
+			var email=document.getElementById("em").value;
+			var expresionAComprobarEmail=/((?=(.*[a-z]))?)((?=(.*[A-Z]))?)((?=(.*[0-9]))?)[a-zA-Z\d?]{4,}\@[a-z]{2,}\.[a-z]{2,}/;
+			
+			var cumpleEmail=false;
+			
+			if(expresionAComprobarEmail.test(email)){
+			   	cumpleEmail=true;
+			}else{
+				alert("El email no cumple con el formato requerido");
+			}
+			
+			return cumpleEmail;
+		}
+		
+		function validarTelefono(){
+			
+			var cumplePatron=false;
+			
+			var telefono=document.getElementById("si").value;
+			var expresionAComprobar= /^([\(]?)(\d{3})([\)]?)(?<carac>[\s|\-])(\d{3})(\k<carac>)(\d{3})$/;
+			
+			
+			let matche=telefono.match(expresionAComprobar);
+			
+			if(matche!=null){
+				let caracter1=matche[1];
+				let caracter2=matche[3];
+
+				let espacioOguion=matche[4];
+				let espacioOguion2=matche[6];
+				
+				if((caracter1==caracter2) && (espacioOguion==espacioOguion2)){
+					cumplePatron=true;
+				}else{
+					if((caracter1=="(" && caracter2==")") && (espacioOguion==espacioOguion2)){
+						cumplePatron=true;
+					}
+				}
+			}
+		
+			return cumplePatron;
+		}
+		
+		function validarISBN(){
+			
+			var isbn=document.getElementById("isbn").value;
+			var expresionAComprobar=/[0-9]{2}(\-)[0-9]{5}(\-)[0-9]{2}(\-)[0-9]{1}/;
+			
+			var cumpleISBN=false;
+			
+			if(expresionAComprobar.test(isbn)){
+			    cumpleISBN=true;
+			 }else{
+				alert("formato isbn incorrecto, 2 numeros '-' 5 numeros '-' 2 numeros '-' 1numero"); 
+			 }
+			
+			return cumpleISBN;
+		}
+	
+	
+	</script>
+	
+</head>
+
+<body>
+
+    <form name="miForm" action="#" method="get" id="formu">
+     
+    <fieldset name="fs">
+         <legend align="center">Formulario de Alta</legend>
+              <label for="nombre">Escribe tu nombre:</label>
+              <input id="nombre" name="nombre" required="" type="text">
+              <label for="nif">Nif:</label>
+              <input id="nf" name="nif" type="text" >
+               validado con el atributo "pattern" al enviar el formulario "onsubmit"  
+			  <br>
+			   Contraseña...........: <input name="contrasena" id="contrasenia1" value="" type="password">
+			  <br>
+			   Repita Contraseña: <input name="contrasena2" type="password" id="contrasenia2" >
+			  <br>
+			   E-mail   : <input id="em" name="correo" type="text"> 
+			  <br>
+			   Teléfono: <input name="telefono"  type="text"  id="si">
+			  <br>Libro preferido (ISBN): <input id="isbn" name="libro"  type="text">
+			   validar con el atributo "pattern" al enviar el formulario "onsubmit"
+			<br>
+    </fieldset>
+       <br>
+    
+    <button type="button" onClick="validarPatrones(event)">Click para enviar formulario</button>
+		
+</form>	
+<p  id="salida">Datos del formuario...</p>
+
+</body>
+</html>

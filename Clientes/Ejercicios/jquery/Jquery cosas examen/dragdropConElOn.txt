@@ -1,0 +1,27 @@
+  
+				//SELECTOR DONDE QUEREMOS QUE SE APLIQUE
+    $(document).on("mouseenter","#tablaNumeros tr td,td[draggable=true]",function(e){
+            var celda=$(this);
+            if (!celda.is('.ui-draggable')) {
+                celda.draggable({helper:"clone"});
+            }
+    });
+        
+				//SELECTOR DONDE QUEREMOS QUE SE APLIQUE
+   $(document).on("mouseenter", '#tablaSd tr td[estado="oculto"]', function(e){
+        var celda = $(this); 
+        if (!celda.is('.ui-draggable')) {
+            celda.droppable({
+                drop:dropeo
+            });
+        }
+    });
+
+
+		   //ui lo que arrastras, event donde dropeas(sueltas)
+
+    function dropeo(event,ui){
+
+
+
+    }

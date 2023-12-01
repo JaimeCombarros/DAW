@@ -1,0 +1,3 @@
+$("#dp").cargaTabla(pedidosActualesClientes,{titulo:"Carro De la << Compra >>",id:"carro",borrar:true},{nombreObjeto:"pedidosActualesClientes"},{columnaClave:"cd",columnasSumar:{col1:"cantidad",col2:"subtotal"},columnassumar:{col1:"precio",col2:"cantidad",col3:"subtotal"}});
+[17:39]
+Ejemplo de uso del cargaTabla

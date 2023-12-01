@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+
+<script>
+	var codigoPedido=0;
+	var libreria={	libros:{},
+					clientes:{},
+					pedidos:{}
+				};
+	function guarda(event){
+		event.preventDefault();
+		var nombreFormulario=event.target.name;
+		var objetoGenerico= crearObjetoGenerico(nombreFormulario);
+
+		if(nombreFormulario!="pedidos"){
+			if(objetoGenerico!=""){
+				libreria[nombreFormulario][objetoGenerico.nif || objetoGenerico.isbn]=objetoGenerico;
+				anadeSelect(nombreFormulario,objetoGenerico);
+			}
+		}else{
+			var claveLibro = document.getElementById("lLibros").value;
+			var existenciasLibro = libreria.libros[claveLibro].unidades;
+			var unidadesPedidas = document.getElementById("unidadesPedidas").value;
+			if(existenciasLibro>=unidadesPedidas){
+					libreria[nombreFormulario][codigoPedido++] = objetoGenerico;
+					libreria.libros[claveLibro].unidades -= unidadesPedidas; 
+			   		alert("realizado");
+			 }else{
+				 alert("No hay unidades suficientes para realizar el pedido");
+			 }
+			
+		}
+		alert(JSON.stringify(libreria));
+		document.forms[nombreFormulario].reset();
+	}
+	
+	
+	function crearObjetoGenerico(nombreFormulario){
+		var objetoGenerio={};
+		var formulario=document.forms[nombreFormulario];
+		var creado=false;
+		for(let i=0;i<formulario.length;i++){
+			if(formulario.elements[i].type=="text" || formulario.elements[i].type=="number" || formulario.elements[i].type=="email" || formulario.elements[i].type=="select-one"){
+				if(formulario.elements[i].value!="" && formulario.elements[i].value!="0"){
+					objetoGenerio[formulario.elements[i].name]=formulario.elements[i].value
+					creado=true;
+					
+				}				
+			}
+
+		}
+		if(!creado){
+			alert("error en la creacion");
+		}		
+		return objetoGenerio;				   
+	}
+	
+	function anadeSelect(nombreFormulario,objetoGenerico){
+		alert(nombreFormulario);
+		var opcion 	=	new Option((objetoGenerico.titulo || objetoGenerico.nombre),(objetoGenerico.isbn || objetoGenerico.nif));
+		if(nombreFormulario=="libros"){
+			var select	= 	document.getElementById("lLibros");
+		}
+		if(nombreFormulario=="clientes"){
+			var select	= 	document.getElementById("lClientes");
+		}
+		select.add(opcion);
+	}
+	
+	function listarPedidos(event){
+		var listado=document.getElementById("lp");
+		var nombreForm=event.target.name;
+		
+		listado.innerHTML="Listado de Pedidos<br>";
+		for(let pedido of Object.values(libreria.pedidos)){
+			listado.innerHTML += libreria.clientes[pedido.clientes].nombre+" ha pedido "+pedido.pedidos+ " unidades del libro "+libreria.libros[pedido.libros].titulo+"<br>";
+		}
+	}
+
+	
+	
+</script>
+</head>
+
+<body>
+
+ <div id="libros" style="width:300; height:250;">
+ 	<form id="flibros" name="libros" onSubmit="guarda(event)">
+    	<fieldset>
+			<legend>Libros...</legend>	
+			<label for="titulo">Titulo</label>           
+			<input name="titulo" type="text" id="titulo" required/>
+			<label for="isbn">Isbn...</label>           
+			<input name="isbn" type="text" id="isbn" required/>
+			<label for="editorial">Editorial</label>
+			<input name="editorial" type="text" id="editorial"/><br/><br/>
+			<label for="precio">Precio</label>
+			<input name="precio" type="number" id="precio"/>
+			<label for="unidades">Unidades</label>
+			<input name="unidades" type="number" id="unidades" min="0" max="100" value="0"/><br/>
+			<input type="submit" id="guardaLibros" value="guardar" name="libros" onclick="guarda(event);" align="right"/>
+        </fieldset>
+    </form>
+ </div>
+	
+ <div id="clientes" style="width:300; height:250;">
+ 	<form id="fclientes" name="clientes" onSubmit="guarda(event);">
+    	<fieldset><legend>Clientes...</legend>
+			<label for="nombre">Nombre</label>           
+			<input name="nombre" type="text" id="nombre" required/>
+			<label for="nif">Nif...</label>           
+			<input name="nif" type="text" id="nif" required/>
+			<label for="localidad">Localidad</label>
+			<input name="localidad" type="text" id="localidad"/><br/><br/>
+			<label for="correo">E-mail</label>
+			<input name="email" type="email" id="correo"/>
+			<input type="submit" id="guardaCliente" value="guardar" name="clientes" align="right" onclick="guarda(event);"/>
+        </fieldset>
+    </form>
+ </div>
+	
+ <div id="pedidos" style="position:absolute; width:300; height:250">
+ 	<form id="fpedidos" name="pedidos" onSubmit="guarda(event);">
+			<fieldset><legend>Pedidos...</legend>
+			<label for="lClientes">Cliente</label> 
+			<select name="clientes" id="lClientes" ></select>
+			<label for="lLibros">Libro</label>
+			<select name="libros" id="lLibros" ></select>
+			<br/><label for="unidades">Unidades</label>
+			<input name="pedidos" type="number"  size="6" id="unidadesPedidas" value="0"/><br />
+			<br/>
+			<input type="button" name="pedidos" value="Pedir" id="guardaPedido" align="right"
+			onclick="guarda(event);"/>
+			<input type="button" value="Listar Pedidos" name="pedidos" id="listado" align="left"
+			onclick="listarPedidos(event);"/>
+			</fieldset>
+    </form>
+</div>
+	
+<div id="lp" align="center">Listado de pedidos de Clientes...</div>
+ 
+</body>
+</html>

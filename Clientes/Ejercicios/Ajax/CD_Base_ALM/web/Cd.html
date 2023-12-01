@@ -1,0 +1,936 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Aplicación compra de CD's</title>
+
+<style>
+    table,tr,td,th{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+	
+  <link href="css/estiloCD.css" rel="stylesheet"   type="text/css"/>
+  
+  <script src="js/creaTabla.js"     type="text/javascript"> </script>
+  <script src="js/Ajax.js"> </script> 
+  
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAxzeAgRx3i06pWOJX26eh7lOcq1Ua8BGU"></script>
+     
+<script>
+			
+
+    function restaurar(){
+        
+        var fieldset=document.getElementById("tabla");
+        
+        if(fieldset.childElementCount>0){
+            fieldset.removeChild(fieldset.children[0]);
+            var objetoTabla=JSON.parse(localStorage.getItem("datos"));
+            cargarTabla("carro","Carro De la <<Compra>>","tabla",true,true,'table',false,objetoTabla,{col0:2,col1:3},null,"cd",{col1:"cantidad",col2:"subtotal"},"pedidosActualesClientes");
+        }else{
+            var objetoTabla=JSON.parse(localStorage.getItem("datos"));
+            cargarTabla("carro","Carro De la <<Compra>>","tabla",true,true,'table',false,objetoTabla,{col0:2,col1:3},null,"cd",{col1:"cantidad",col2:"subtotal"},"pedidosActualesClientes");
+        }
+        
+
+    }
+		
+    
+
+    function mueveCd(evento){
+        document.getElementById("ccd").style.display="block";
+        document.getElementById("ccd").style.zIndex=10; 
+        cdd.style.left=evento.clientX+"px";
+        cdd.style.top= evento.clientY+"px";
+    }
+
+
+    function verCatalogo(){
+        
+
+        cargarTabla("catalog","Catalogo de Cd's","catalogo",false,true,'table',true,listaCds,null,null,"",null,"listaCds");
+             
+        if(catalogo.style.display=="none"){
+            catalogo.style.display="block";
+        }else{
+             catalogo.style.display="none";
+        }
+    }
+    
+     function verCatalogo2(){
+         
+        var cds=Object.keys(listaCds);
+        
+        var cdImpares={};
+         
+        for(numerosCd of cds){
+             if(numerosCd % 2==0){
+                 cdImpares[numerosCd]=listaCds[numerosCd];
+             }
+        }
+         
+        cargarTabla("catalog2","Catalogo de Cd's","catalogo2",false,true,'table',true,cdImpares,null,"cdImpares");
+               
+        if(catalogo2.style.display=="none"){
+            catalogo2.style.display="block";
+        }else{
+             catalogo2.style.display="none";
+        }
+    }
+
+
+    function cargarXsl(doc){
+        xslDoc=doc;
+    }
+	
+    window.onload=function(){
+
+       loadDocXML("xml/cdcatalog.xml",true,Cargar,"cd",);
+       loadDocXML("xml/cdcatalog.xsl",true,cargarXsl);
+       cata.onclick=verCatalogo;
+       cata2.onclick=verCatalogo2;
+        
+       var datos = "pedido="+JSON.stringify({cpedido:"0",cliente:"todos"});
+          
+       enviarPeticion("POST","RecuperaP",true,cargaCliPedidos,errorCargaCli,datos);
+       
+       sacarUltimoCodPedido(); 
+       
+       aviso.onclick=mostrarOfertas;
+       
+       parar.onclick=stopWorker;
+       
+       bmapa.onclick=cargarMapaGeolocalizacion;
+       
+    }  
+
+   function errorCargaCli(error){
+       alert("se produjo un error recuperando los clientes con pedidos: "+error);
+   }
+
+   function cargaCliPedidos(clientes){     
+       var objCliente=JSON.parse(clientes);
+       var arrayNif=Object.keys(objCliente.clientes);
+
+       for(let i=0;i<arrayNif.length;i++){
+            cli2.options.add(new Option(objCliente.clientes[arrayNif[i]],objCliente.clientes[arrayNif[i]]));
+            cli.options.add(new Option(objCliente.clientes[arrayNif[i]],objCliente.clientes[arrayNif[i]]));
+       }  
+       
+   }
+   
+   function cargarSelectPedidos(pedidos){
+        lp.length=0;
+       
+        var objetoPedidos=JSON.parse(pedidos);
+       
+        var fechaConPedidos=Object.keys(objetoPedidos);
+        
+        var arrayPedidos=[];
+        
+        for(let i=0;i<fechaConPedidos.length;i++){
+             arrayPedidos=Object.keys(objetoPedidos[fechaConPedidos[i]]);
+             var opcion=new Option(objetoPedidos[fechaConPedidos[i]][arrayPedidos[0]]+"-"+objetoPedidos[fechaConPedidos[i]][arrayPedidos[2]]);
+             opcion.setAttribute("value",objetoPedidos[fechaConPedidos[i]][arrayPedidos[2]]);
+             lp.options.add(opcion);
+             
+        }
+        
+   }
+   
+   function cargarPedidos(opcionSelect){ 
+        var datos="pedido="+JSON.stringify({cpedido:"0",cliente:opcionSelect});
+        enviarPeticion("POST","RecuperaP",true, cargarSelectPedidos,errorCargaCli,datos);     
+   }
+   
+   
+   var pedidosActualesClientes={};
+   var contador=37;
+   
+   function detalle(cd,precio,cantidad,color){
+      this.cd=cd;
+      this.precio=precio;
+      this.cantidad=cantidad;
+      this.color=color;
+   }
+   
+   function  Pedido(detalle,cliente){
+       this.detalle=detalle;
+       this.fecha = (new Date).toLocaleDateString();
+       this.cliente=cliente;
+   }
+   
+   var detallesPedido = {};
+   
+   function salvarPedido(){  
+      
+      
+
+       var clavesPedidos = Object.keys(pedidosActualesClientes);
+       
+       for(let i=0; i<clavesPedidos.length;i++){
+           detallesPedido[clavesPedidos[i]]=pedidosActualesClientes[clavesPedidos[i]];
+       }       
+       
+       var nif=document.getElementById("cli").value;
+       
+       if(nif!="0"){
+        var pedido=new Pedido(detallesPedido,nif);
+
+        var datos="pedido="+JSON.stringify(pedido);
+
+        enviarPeticion("POST","GuardaPedidosCD",true,guardando,errorCargaCli,datos);
+       }
+       
+    }
+    
+    function guardando(pedido){
+       alert(pedido);
+       
+    }
+    
+    var arrayCodigos=[];
+    
+    function  sacarUltimoCodPedido(){
+        
+        var selectClientes=document.getElementById("cli2");
+        
+        var optionSelect=selectClientes.children;
+        
+        for(let i=0;i<optionSelect.length;i++){
+            if(i!=0){//EL PRIMER OPTION ES 'SELECCIONE UN CLIENTE'
+               var datos="pedido="+JSON.stringify({cpedido:"0",cliente:optionSelect[i].value});
+               enviarPeticion("POST","RecuperaP",true,almacenaCodPedido,errorCargaCli,datos);
+            }
+        }
+      
+    }
+    
+    
+    function  almacenaCodPedido(pedido){
+        var objPedido=JSON.parse(pedido);
+        var codigos=Object.keys(objPedido);
+        
+        for(let i=0;i<codigos.length;i++){
+            arrayCodigos[arrayCodigos.length]=parseInt(codigos[i]);
+        }
+        
+        arrayCodigos.sort(function(a, b){return a - b});
+        
+        contador=arrayCodigos[arrayCodigos.length-1];
+        contador++;
+    }
+    
+    
+    var arrayPedidos=[];
+    var objetoPedidoModificar={};
+   
+   
+   
+   function aniadirPedidoActual(){
+       
+       var cdSeleccionado=document.getElementById("cd").value;
+       var cantidad=document.getElementById("ctd").value;
+       
+       if(cantidad!="" && document.getElementById("cli").value!="0"){
+            cantidad=parseInt(cantidad);
+            
+            var nombreCD=listaCds[cdSeleccionado].Titulo;
+            var autorCD=listaCds[cdSeleccionado].Artista;
+            var precioCD=parseFloat(listaCds[cdSeleccionado].Precio);
+            
+            var cdCompleto=nombreCD+"/"+autorCD;
+            
+            var subtotal=cantidad*precioCD;
+            
+            pedidosActuales={cd:cdCompleto,precio:precioCD,cantidad:cantidad,subtotal:subtotal};
+ 
+            pedidosActualesClientes[contador]=pedidosActuales;           
+
+            cargarTabla("carro","Carro De la <<Compra>>","tabla",true,true,'table',false,pedidosActualesClientes,{col0:2,col1:3},null,"cd",{col1:"cantidad",col2:"subtotal"},"pedidosActualesClientes");
+            contador++;
+        }else{
+            alert("Debes seleccionar al menos una unidad y seleccionar un cliente");
+        }
+       
+   }
+   
+   var columnaArrastrar=false;
+   
+    function drag(ev){
+        
+      if(ev.target.parentElement.nodeName=="TD"){
+            ev.dataTransfer.setData("text",ev.target.parentElement.parentElement.id);
+            columnaArrastrar=false;
+      }else{
+            var idcolumnaArrastrar=ev.target.parentElement.className;
+            var colmArrastrar=document.getElementsByClassName(idcolumnaArrastrar);
+            ev.dataTransfer.setData("text",colmArrastrar[0].className);
+            columnaArrastrar=true;
+      }
+      
+      var dragIcon = document.createElement('img');   
+      //*************HACE QUE SE MUESTRE LA IMAGEN CUANDO HACES DRAG****************//
+        dragIcon.src = 'img/cd.jpg';
+        dragIcon.width = 100;
+        ev.dataTransfer.setDragImage(dragIcon,-10,-10);
+      //*************HACE QUE SE MUESTRE LA IMAGEN CUANDO HACES DRAG****************// 
+    }
+		
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+    
+    function drop(ev) {
+       
+      ev.preventDefault();
+       
+      var data = ev.dataTransfer.getData("text");
+      
+      var idDrag;
+      if(!columnaArrastrar){
+        var filaArrastrada=document.getElementById(data);
+        idDrag=filaArrastrada.parentElement.id;
+      }else{
+        var columnaArrastrada=document.getElementsByClassName(data);
+        idDrag=columnaArrastrada[0].parentElement.parentElement.id;
+      }
+      
+      var idDrop=ev.target.parentElement.parentElement.id;
+     
+      
+      switch(ev.target.nodeName){
+          
+            case 'TD':
+                    if(idDrag==idDrop){
+                        var filaDelDrop=ev.target.parentElement;
+                        var tablaDelDrop=filaDelDrop.parentElement;
+                        tablaDelDrop.insertBefore(filaArrastrada,filaDelDrop);
+                    }else{
+                        
+                        var titulo;
+                        var precio;
+                        
+                        if(idDrag=="catalog" && idDrop=="carro"){
+                            
+                             if(!columnaArrastrar){
+                                 
+                                 var nombremiObj=document.getElementById("carro").getAttribute("nombremiobj");
+                                 var stringfyObjPedido=document.getElementById("carro").getAttribute("data");
+                                 window[nombremiObj]=JSON.parse(stringfyObjPedido);
+            
+                                 var celdas=filaArrastrada.children;
+                
+                                 titulo=celdas[0].textContent+"/"+celdas[1].textContent;
+                                 precio=parseFloat(celdas[3].textContent);      
+                                 var objDentroTabla=false;
+            
+                                 var valoresObjPedido=Object.values(window[nombremiObj]);
+                                 
+                                 for(let i=0;i<valoresObjPedido.length;i++){
+                                      if(valoresObjPedido[i].cd==titulo){
+                                         objDentroTabla=true;
+                                         valoresObjPedido[i].cantidad=valoresObjPedido[i].cantidad+1;
+                                         valoresObjPedido[i].subtotal=valoresObjPedido[i].precio*valoresObjPedido[i].cantidad;
+                                      }
+                                 }
+                                 
+                                 if(objDentroTabla){
+                                    cargarTabla("carro","Carro De la <<Compra>>","tabla",true,true,'table',false,window[nombremiObj],{col0:2,col1:3},null,"cd",{col1:"cantidad",col2:"subtotal"},nombremiObj);
+                                 }else{
+                                    var pedidoDropado={cd:titulo,precio:precio,cantidad:1,subtotal:precio};
+                                    window[nombremiObj][Object.keys(window[nombremiObj]).length+1]=pedidoDropado;
+                                    cargarTabla("carro","Carro De la <<Compra>>","tabla",true,true,'table',false,window[nombremiObj],{col0:2,col1:3},null,"cd",{col1:"cantidad",col2:"subtotal"},nombremiObj);
+                                 }
+                                 
+                             }
+                        }
+                        
+                    }
+                break;
+            case 'TH':
+                
+                    if(columnaArrastrar){ 
+                        var nombreColumna=ev.target.className;
+                        var columnaSiguiente=document.getElementsByClassName(nombreColumna);
+                        
+                        var idTabla=ev.target.parentElement.parentElement.id;
+                        var tabla=document.getElementById(idTabla);
+                        
+                        var filas=tabla.children;
+
+                        var filasMiTabla=[];
+                       
+
+                        for(let i=0;i<filas.length;i++){
+                            if(i!=0){
+                               filasMiTabla.push(filas[i]); 
+                            }
+                        }
+                       
+                       for(let i=0;i<filasMiTabla.length;i++){
+                            filasMiTabla[i].insertBefore(columnaSiguiente[i],columnaArrastrada[i]);  
+                       }
+                    }
+                    
+                    
+                    
+                break;
+      }     
+      
+      
+        
+    }
+   
+   
+
+
+   function cargarTabla(idTabla,tituloTabla,LugarAniadirTabla,borrar,dropeable,propiedadQueDrope,dragable,objetoACargar,columnasSumar,columnasOcultar,columnaClave,objColSumSiSeReptite,nombreObj){
+             
+      var tablaACargar=document.createElement("table");
+      
+      //*******************CAPTION/TITULO DE LA TABLA*****************//
+      var caption=document.createElement("caption");
+      caption.append(tituloTabla);
+      tablaACargar.appendChild(caption);
+      //*******************FIN CAPTION/TITULO DE LA TABLA*****************//
+ 
+      var contadorFilasID=0;//LE ASIGNARE A CADA FILA UNA ID QUE COMIENZE DESDE 0
+                 
+      var columnasAOcultar=0;
+      
+      //*****************NOMBRE DE LAS COLUMNAS*******************//
+      var fila=document.createElement("tr");
+      var nombres=Object.keys(objetoACargar[Object.keys(objetoACargar)[0]]);
+      for(nombreColumnas of nombres){
+         var celda=document.createElement("th");
+         celda.append(nombreColumnas);
+         celda.setAttribute("class",columnasAOcultar);
+         columnasAOcultar++;
+         fila.appendChild(celda);
+      }
+      
+      columnasAOcultar=0;
+        
+      if(borrar){//SI ME HAS PUESTO BORRAR A TRUE TE AÑADO UNA COLUMNA CON TITULO DE 'FILA A BORRAR'
+          tablaACargar.setAttribute("class","borrar");
+          var celda=document.createElement("th");
+          celda.append("Fila A Borrar");
+          fila.appendChild(celda);
+      }
+        
+      tablaACargar.appendChild(fila);
+      //*****************FIN NOMBRE DE LAS COLUMNAS*******************//
+          
+       var idBoton=0;
+      
+      //*******************PROCESO ARREGLO OBJETO EN CASO QUE TENGA REPETIDO**************************//
+      
+        if(columnaClave.length!=0){
+            var columnasDebenSumarse=Object.values(objColSumSiSeReptite);//EN CASO DE QUE UN OBJETO SE REPITA
+           //TE VOY A SUMAR LAS COLUMNAS QUE TU ME INDIQUES
+
+            var clavesMiObj=Object.keys(objetoACargar);
+            var valoresMiObj=Object.values(objetoACargar);
+
+            var comprobarRepetidos=[];
+            var clavesObjeto=[];
+
+            for(let i=0;i<valoresMiObj.length;i++){  
+                if(!comprobarRepetidos.includes(valoresMiObj[i][columnaClave])){  
+
+                    comprobarRepetidos.push(valoresMiObj[i][columnaClave]);
+                    clavesObjeto.push(clavesMiObj[i]);//ME QUEDO TAMBIEN CON LA CLAVE DEL OBJETO NO REPETIDO
+
+                }else{//EL OBJETO YA ESTA AÑADIDO
+
+                    var numerosSumar=0;
+
+                    for(let j=0;j<comprobarRepetidos.length;j++){
+                        if(comprobarRepetidos[j]==valoresMiObj[i][columnaClave]){//COMPARARE MIS OBJETOS REPETIDOS PARA SUMAR LAS COLUMNAS QUE SEAN NUMERICAS
+                             var clvMiObjAnterior=Object.keys(valoresMiObj[j]);
+                             for(clv of clvMiObjAnterior){
+                                 if(clv!=columnaClave){
+                                     if(columnasDebenSumarse.includes(clv)){
+                                       numerosSumar=valoresMiObj[j][clv]+valoresMiObj[i][clv];
+                                       valoresMiObj[j][clv]=numerosSumar;
+                                       numerosSumar=0;
+                                     }
+                                 }
+                             }
+                             delete objetoACargar[clavesMiObj[i]];
+                        }
+                    } 
+                }
+            }
+     }
+      
+      //****************FIN PROCESO ARREGLO OBJETO EN CASO QUE TENGA REPETIDO**************************//
+      
+      tablaACargar.setAttribute("data",JSON.stringify(objetoACargar));
+      tablaACargar.setAttribute("nombreMiObj",nombreObj);
+      
+        var stringDatos=tablaACargar.getAttribute("data");
+        localStorage.setItem("datos",stringDatos);
+      
+      //*****************CUERPO DE LA TABLA***************************//
+      var nombreColumnasTabla=Object.keys(objetoACargar);
+      for(columnas of nombreColumnasTabla){
+            
+           var filasCuerpoTabla=document.createElement("tr");
+          
+           var clavesObj=Object.keys(objetoACargar[columnas]);
+            
+           for(nombres of clavesObj){
+               var celdaCuerpoTabla=document.createElement("td");
+               celdaCuerpoTabla.append(objetoACargar[columnas][nombres]);
+               celdaCuerpoTabla.setAttribute("class",columnasAOcultar);
+               columnasAOcultar++;
+               filasCuerpoTabla.appendChild(celdaCuerpoTabla);
+            }
+            
+            columnasAOcultar=0;
+                
+            if(borrar){//SI ME HAS PUESTO BORRAR A TRUE, TE AÑADO UN BOTON EN LA CELDA DE ESA FILA
+               var celda=document.createElement("th");
+               var button=document.createElement("button");
+               button.append("BORRAR FILA");
+               button.setAttribute("value",Object.keys(objetoACargar)[idBoton]);
+               idBoton++;     
+               button.onclick=borrarFila;//LE AÑADO UNA FUNCION QUE ME BORRA LA FILA DE ESA TABLA Y
+               //TAMBIEN ME LO QUITA DEL OBJETO
+                             
+               celda.appendChild(button);
+               filasCuerpoTabla.appendChild(celda);
+            }
+            
+            filasCuerpoTabla.setAttribute("id",idTabla+contadorFilasID);//CADA FILA TENDRA SU CORRESPONDIENTE ID
+            tablaACargar.appendChild(filasCuerpoTabla);
+            contadorFilasID++;
+        }
+        //********************FIN CUERPO DE LA TABLA***************************//
+      
+      
+        tablaACargar.setAttribute("id",idTabla);
+      
+        
+        var sitioAniadirTabla=document.getElementById(LugarAniadirTabla);
+      
+        //SI DETECTA QUE YA EXISTE OTRA TABLA DONDE LA VAS A PONER TE ELIMINO LA TABLA ANTERIOR
+        if(sitioAniadirTabla.childElementCount>0){
+           
+           var tablasEliminar=sitioAniadirTabla.children;
+          
+           var arrayTablasEliminar=[];
+          
+           for(let i=0;i<tablasEliminar.length;i++){
+               arrayTablasEliminar[arrayTablasEliminar.length]=tablasEliminar[i];
+           }
+           
+           for(let i=0;i<arrayTablasEliminar.length;i++){
+               sitioAniadirTabla.removeChild(arrayTablasEliminar[i]);
+           }
+
+        }
+        
+        
+        //**************************PROCESO PARA SUMAR COLUMNAS INDICADAS******************//
+         if(columnasSumar!=undefined){
+             
+            var columnasSuma=[];//EN ESTE ARRAY VOY A GUARDAR EL NUMERO QUE SE CORRESPONDE A LA 
+            //COLUMNA QUE TENGO QUE SUMAR.
+
+            var columnas=Object.keys(columnasSumar);
+
+            for(col of columnas){
+                columnasSuma.push(columnasSumar[col]);//GUARDO LAS COLUMNAS EN MI ARRAY.
+            }
+
+            var filas=tablaACargar.children;
+
+            var sumaColumna=0;
+
+            var columnasSumada={};
+
+            for(let k=0;k<columnasSuma.length;k++){
+                 for(let i=0;i<filas.length;i++){
+                     if(i!=0 && i!=1){//EL I=0 ES CAPTION E I=1 ES LA CABECERA
+                         var celdas=filas[i].children;//CELDAS
+                         for(let j=0;j<celdas.length;j++){
+                                 if(columnasSuma[k]==parseInt(celdas[j].className)){
+                                     sumaColumna+=parseFloat(celdas[j].textContent);
+                                 }
+                         }
+                     }
+                 }
+                 columnasSumada[columnasSuma[k]]=sumaColumna;//VOY ALMACENANDO EL TOTAL DE LA SUMA DE MIS COLUMNAS
+                 sumaColumna=0;
+             }
+             
+            var totalColumnas=tablaACargar.children[1].childElementCount;
+       
+            var pieTabla=document.createElement("tr");
+
+            for(let i=0;i<totalColumnas;i++){
+                 var celdaPieTabla=document.createElement("td");
+                 for(let j=0;j<columnasSuma.length;j++){
+                      if(columnasSuma[j]==i){
+                          celdaPieTabla.append(Math.ceil(columnasSumada[i]));
+                      }
+                 }
+                 pieTabla.appendChild(celdaPieTabla);
+            }
+
+            tablaACargar.appendChild(pieTabla);
+                
+       }
+       //**************************PROCESO PARA SUMAR COLUMNAS INDICADAS******************//
+
+
+        //**************************PROCESO PARA OCULTAR LAS COLUMNAS*********************//
+            if(columnasOcultar!=null){
+                var filas=tablaACargar.children;
+                for(let k=0;k<columnasOcultar.length;k++){
+                    for(let i=0;i<filas.length;i++){
+                        if(i!=0){//EL I=0 ES CAPTION
+                            var celdas=filas[i].children;//CELDAS
+                            for(let j=0;j<celdas.length;j++){
+                                  if(columnasOcultar[k]==parseInt(celdas[j].className)){
+                                      celdas[j].style.display="none";
+                                  }
+                            }
+                        }
+                    }
+                }
+           }
+       //**************************FIN PROCESO PARA OCULTAR LAS COLUMNAS*********************//
+          
+       if(dropeable){     
+           switch(propiedadQueDrope){
+                 case 'celda':
+                     var filas=tablaACargar.children;
+                     for(let i=0;i<filas.length;i++){
+                          var celda=filas[i].children;
+                          for(let j=0;j<celda.length;j++){
+                              celda[j].addEventListener("drop",drop);
+                              celda[j].addEventListener("dragover",allowDrop);
+                          }
+                     }
+                    break;
+                case 'fila':
+                     var filas=tablaACargar.children;
+                     for(let i=0;i<filas.length;i++){
+                         filas[i].addEventListener("drop",drop);
+                         filas[i].addEventListener("dragover",allowDrop);
+                     }
+                    break;
+                case 'table':
+                     tablaACargar.addEventListener("drop",drop);
+                     tablaACargar.addEventListener("dragover",allowDrop);
+                    break;
+           }
+           
+       }
+      
+        if(dragable){
+            tablaACargar.addEventListener("dragstart",drag);
+        }
+        
+        sitioAniadirTabla.appendChild(tablaACargar);
+   }
+   
+   
+   
+
+   
+   function borrarFila(){//EN ESTE METODO TIENES QUE PASARLE EL OBJETO QUE VA A ELIMINAR ESA FILA.
+       
+       var fila=this.parentElement.parentElement;
+       var tabla=this.parentElement.parentElement.parentElement;
+       tabla.removeChild(fila);
+       
+       //*******************PARTE QUE ME BORRA TAMBIEN DEL OBJETO*******************//
+         var claveFilaObjAEliminar=this.value;//DEL BOTON SACO EL VALOR QUE ES LA CLAVE DE LA FILA
+         //DE ESE OBJETO QUE QUIERO ELIMINAR.  
+         borrarObj(claveFilaObjAEliminar);
+       //*******************PARTE QUE ME BORRA TAMBIEN DEL OBJETO*******************//
+       
+    }
+    
+    function  borrarFila2(){
+       var fila=this.parentElement.parentElement;
+       var tabla=this.parentElement.parentElement.parentElement;
+       tabla.removeChild(fila);
+    }
+    
+    
+    function borrarObj(claveFilaObjAEliminar){
+       var cdEliminado=pedidosActualesClientes[claveFilaObjAEliminar].cd;
+       delete pedidosActualesClientes[claveFilaObjAEliminar];
+       
+       var arrayAux=[];
+
+       for(let i=0;i<arrayPedidos.length;i++){
+              if(arrayPedidos[i]!=cdEliminado){
+                  arrayAux[arrayAux.length]=arrayPedidos[i];
+              }
+       }
+        
+       arrayPedidos=[];
+        
+       for(let i=0;i<arrayAux.length;i++){
+          arrayPedidos[arrayPedidos.length]=arrayAux[i];   
+       }   
+    }
+    
+    
+    function cargarDetallesDelPedido(){   
+        var nif=document.getElementById("cli2").value;
+        var codigoPedido=document.getElementById("lp").value;
+                
+        var datos="pedido="+JSON.stringify({cpedido:codigoPedido,cliente:nif});
+        
+        enviarPeticion("POST","RecuperaP",true,crearTablaDetalles,errorCargaCli,datos);
+    }
+    
+    function crearTablaDetalles(detallePedido){
+        var detalle=JSON.parse(detallePedido);
+       
+       //****************PROCESO PARA ARREGLAR EL OBJETO DEVUELTO POR LA PETICION AJAX*************//
+        var clavesObjeto=Object.keys(detalle);
+         
+        for(let i=0;i<clavesObjeto.length;i++){
+             detalle[clavesObjeto[i]]=JSON.parse(detalle[clavesObjeto[i]]);
+        }
+       //***************FIN PROCESO PARA ARREGLAR EL OBJETO DEVUELTO POR LA PETICION AJAX***********//
+        
+        
+        //*****************PROCESO PARA OBTENER UN OBJETO CON EL FORMATO QUE SE REQUIERE**************//
+        for(let i=0;i<clavesObjeto.length;i++){
+            var precio=detalle[clavesObjeto[i]].Precio;
+            var cantidad=detalle[clavesObjeto[i]].Cantidad;
+            var subtotal=precio*cantidad;
+            detalle[clavesObjeto[i]]={Titulo:detalle[clavesObjeto[i]].Titulo,Autor:detalle[clavesObjeto[i]].Autor,Precio:precio,cantidad:cantidad,subtotal:subtotal};
+        }
+        //*************FIN PROCESO PARA OBTENER UN OBJETO CON EL FORMATO QUE SE REQUIERE**************//
+        cargarTabla("detalles","Detalle del Pedido","dp",false,false,'fila',true,detalle,null,[1],"",null);
+    }
+    
+    
+    
+    //******************************ALTA CLIENTES******************************//
+    function habilitarAltaClientes(){
+        if(fcli.style.display=="none"){
+            fcli.style.display="block"; 
+        }else{
+            fcli.style.display="none";
+        }
+    }
+    
+    function altaCliente(){
+ 
+        var nombre=document.getElementById("nomcli").value;
+        var apellido=document.getElementById("apecli").value;
+        var nif=document.getElementById("nifcli").value;
+        var edad=document.getElementById("edcli").value;
+        
+        if(nombre!="" && apellido!="" && nif!="" && edad!=""){
+             var opcion=new Option(nif,nif);
+             document.getElementById("cli").options.add(opcion);
+        }else{
+            alert("Revise si relleno todos los campos");
+        }
+        
+    }
+   
+   //******************************ALTA CLIENTES******************************//
+   
+   
+   //*****************************WEB WORKER***********************************//
+    var w;
+
+    function mostrarOfertas(){
+
+        var tiempooferta=document.getElementById("tiempo").value;
+
+        if(typeof(Worker)!="undefined"){
+
+             if(typeof(w)=="undefined"){
+                w = new Worker("js/worker_ofertas.js");
+                w.postMessage(JSON.stringify({cd:listaCds,tiempo:tiempooferta}));
+             }
+
+
+             w.onmessage=function (evento){
+                 document.getElementById("tituloCDOferta").innerHTML=evento.data;
+             }
+
+        }else{
+            alert("NO SOPORTA WEB WORKER");
+        }
+    }
+
+    function stopWorker() {
+         w.terminate();
+         w = undefined;
+    }
+   //*****************************FIN WEB WORKER********************************//
+   
+   
+   //******************************GEOLOCALIZACION******************************//
+   function cargarMapaGeolocalizacion(){
+       
+       if(navigator.geolocation){//SI EL NAVEGADOR SOPORTA LA GEOLOCALIZACION
+           navigator.geolocation.getCurrentPosition(mostrarCoordenadas);
+       }else{
+           alert("LA GEOLOCALIZACION NO SE ENCUENTRA DISPONIBLE PARA ESTE NAVEGADOR");
+       }  
+   }
+   
+   var googleMapsKey = "AIzaSyAa8HeLH2lQMbPeOiMlM9D1VxZ7pbGQq8o";
+   
+   function mostrarCoordenadas(position){
+       
+       var coordenadas=position.coords.latitude+","+position.coords.longitude;
+       
+       var urlImagen="https://maps.googleapis.com/maps/api/staticmap?center="+coordenadas+"\
+                      &zoom=14&size=400x300&sensor=false&key="+googleMapsKey;
+        
+       var imagen=document.createElement("img");
+       imagen.setAttribute("src",urlImagen);
+       
+       if(mapa.style.display=="block"){
+            mapa.style.display="none";
+            mapa.removeChild(mapa.children[0]);
+       }else{
+            mapa.appendChild(imagen); 
+            mapa.style.display="block";
+       }
+       
+   }
+   //******************************GEOLOCALIZACION******************************//
+ 
+        
+   
+    
+    
+   
+   
+</script>
+ 
+</head>
+
+<body>
+<div id="alta">
+<fieldset>
+    <legend>Realizar un pedido...</legend>
+    <button id="altacli" onclick="habilitarAltaClientes();">+</button>
+        
+    <select id="cli" >
+        <option value="0">Seleccione un Cliente</option>
+    </select><br />
+    
+        <select id="scd">
+            <option value="0">Seleccione un CD</option>
+        </select> <br />
+        <select id="cd"></select>
+        
+        <br><br>
+    
+    Cantidad.: <input type="text" placeholder="Catidad" id="ctd"/><br>
+    
+    <input type="button" value="Comprar..."  style="margin-left:65px" id="comprar" onclick="aniadirPedidoActual()"/><!--onClick="comprar2()"/-->
+    <strong id="mensaje">Selecione un Cliente y cantidad > 0"</strong> 
+    <input type="color"  id="color"/><br><br>
+
+    <input type="button" value="Ver Catalogo (Ctrl+c)" id="cata" style="margin-left:65px"/>
+    <input type="button" value="Ver Catalogo2" id="cata2" style="margin-left:65px"/>
+   
+</fieldset>
+
+</div>
+<div id="tc">
+    <!--Geolocalización... -->    
+    <button id="bmapa">Donde Estoy? </button>
+    <div id="mapa" style='display: none'></div>
+    
+<fieldset>
+    <legend>Detalle de los pedidos por Cliente...</legend>
+    
+    <select id="cli2" onchange="cargarPedidos(this.value)">
+    	<option value="0">Seleccione un Cliente</option>
+    </select>
+    
+    <input type="button" value="Lista Pedido" id="bp"  onclick="cargarDetallesDelPedido()"/>
+     Nº:  
+    <select  id="lp" onchange="">
+        <option value="0"> Seleccione Pedido</option>
+    </select>
+     
+    <br>
+ </fieldset>   
+</div>
+    
+<div id="panelCentro">
+    <input type="button" value="Restaurar compra" id="retaurar" onclick='restaurar()' />
+    <br />
+    <button id="aviso" name="aviso">Ver Ofertas cada:</button>
+    <button id="parar" name="parar">Parar oferta</button>
+    <button onclick="pruebaSSE();">click</button>
+    <br />
+    <input type="number" id="tiempo" name="tiempo" value="5" style="width:4em"/>
+    segundos
+    <br />
+    <h4 id="tituloCDOferta"></h4>
+    <h4 id="porcentaje"></h4>
+    <div id="ofrta" style="display:none;border: solid 2px red">Oferta </div>
+</div>
+    
+<br/>
+
+<div id="dp"></div>
+
+<div id="catalogo" style="display:none"></div>
+<div id="catalogo2" style="display:none; width: 200px;float: right; clear:left;margin-right: 20px;padding-right: 60px;"></div>
+
+<div id="tpedido">
+    <fieldset id="tabla">
+        <legend>Estado del pedido Actual...</legend>
+    </fieldset>
+    
+    <input type="button" value="Salvar Pedido (Ctrl+s)" id="pedir" style="width:60; text-align:right; position:relative; float:right " onclick='salvarPedido()' />
+</div>
+
+<div id="listaCompras"></div>
+
+
+ <!-- formulario de alta -->
+    <div id="fcli" style="position:relative; width: 300px; left:500px;bottom:-200px;display:none">
+	<form id="frmcli">
+            <fieldset>
+                <legend>Formulario Alta de Clientes...</legend>
+                <div>
+                    <p>Nombre.....:<input type="text" id="nomcli" placeholder="Nombre?" name="Nombre"
+                            pattern="^[A-Z].{3,}" required title="Mayuscula + 3 car" /></p>
+                    <p>Apellidos:<input type="text" id="apecli" placeholder="Apellidos?" name="Apellidos" pattern="^[A-Z].{3,}" required title="Mayuscula + 3 car"/></p>
+                    <p> <br />
+                    Nif:<input type="password" id="nifcli" placeholder="Nif" name ="Nif" pattern="^[0-9]{8}[-]?[A-Za-z]$" required title="8 numeros y una letra"/></p>
+                    <p>Edad.........:<input type="text" id="edcli" placeholder="Edad?" name="Edad" pattern="^[0-9]{1,2}"  title="Uno o dos difgitos"/></p>
+
+
+                    <input type="button" value="Guardar" id="gcli" onclick="altaCliente();" />
+                    <input type="reset" value="Cancelar" id="ccli" />
+
+                    <br>
+                </div>   
+            </fieldset>  
+        </form> 
+    </div>
+ 
+    <img src="img/cd.jpg" style="display:none; left:5em; top:15em" id="ccd"/>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+ $("input").draggable({cancel:'',helper:myhelper,zIndex:100});                
+    
+                function myhelper(){
+                    
+                     var $div=$("<div></div>");
+                     
+                     var poblacion=$(this).val();
+                     
+                     var $img=$("<img>").attr("src","img/images2.jpg");
+                     $div.append(poblacion);
+                     $div.append($img);
+                     $div.addClass("dragable");
+                     
+                     return $div;
+                }
+               

@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+		var parrafo = document.createElement("p");
+		var texto	= document.createTextNode("hola, esto es una prueba");
+		
+		parrafo.appendChild(texto);
+		
+		document.body.appendChild(parrafo);
+	</script>
+	
+</head>
+
+<body>
+	<p id="p1">Hola</p>
+  	<p id="p2">Adios</p>
+	<div id="d1">HTMLCollection</div>
+	<div id="d2">QuerySelector</div>
+</body>
+</html>

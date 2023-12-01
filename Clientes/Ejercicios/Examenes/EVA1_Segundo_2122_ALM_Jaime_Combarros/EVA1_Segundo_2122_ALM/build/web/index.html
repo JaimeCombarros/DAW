@@ -1,0 +1,277 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="iso-8859-1">
+<title>Municipios de España</title>
+		
+<link href="css/estilo_tablas.css" rel="stylesheet"/>
+<style>
+    .rojo{border: 2px double red}
+    .verde{border: 2px double green}
+    .sinBorde{border: 0}
+    
+    .fijo{ overflow: scroll;
+           height : 380px}/* Si el contenido del fieldset crece, se rompería*/
+   
+    fieldset{		padding-bottom:30px;
+			margin-bottom:20px;			
+			width: 50%;}
+	
+    #divprov, #divmuni{width: auto}
+	
+    label,#muni,#buscam{ font:   bold medium fantasy }
+    tr[id]:hover{background-color:  aquamarine}
+    .rojo{border: 2px double red;}
+    .arrastra{}
+    .suelta{}
+    tr:nth-child(even) { background-color: #dddddd;}
+    
+    .nuevoForm label{display:block; padding:5px;}
+    .nuevoForm fieldset{ width: 93%}
+    .nuevoForm input{width:100%}
+	#divmiForm	{ 
+				box-sizing:border-box;
+				top:4em;
+				float:right;
+                                width:40%; 
+				min-width:260px;
+				Margin-top:50px;
+				border:solid 2px brown;
+                                background-color:#9FF
+                         }
+			  
+	.nuevoForm{ 
+                width:80%;
+                padding:20px;
+                margin:30px auto;
+                backgroundColor:white;
+                border:1px solid black
+            }
+	#Contenedor{min-width:700px}
+	.nuevoForm input[type="reset"]{ background-color:red; color:white}
+	.nuevoForm input[type="submit"]{Margin-top:20px; background-color:green; color:white}
+</style>
+   
+<script src="js/utilidades.js"></script> 
+ <script> 
+     
+       var listaProvincias={};
+       var listaPueblos   ={};
+       var claveProvinciaUsada;
+       
+   //-----------------------------onload----------------------------------
+    window.onload=function(){
+        
+    }
+ //------------------------------------------------------------------------
+        function Provincia(provinciaseo,Abreviatura,idprovincia,provincia,comunidad){
+		this.provinciaseo=provinciaseo;
+	        this.Abreviatura=Abreviatura;
+		this.idprovincia=idprovincia;
+		this.provincia=provincia;
+                this.comunidad=comunidad;
+	 }
+         
+         function Pueblo(latitud,longitud,idpoblacion,poblacion){
+		this.latitud=latitud;
+	        this.longitud=longitud;
+		this.idpoblacion=idpoblacion;
+		this.poblacion=poblacion;
+	 }
+ function cargarProvincias(){
+    var datos="provincia=0";
+
+    enviarPeticion("POST","CargaProvMuni",true,cargaTablaProvin,errorCargaProvin,datos);
+ }
+ 
+    function errorCargaProvin(error){
+       alert("se produjo un error recuperando los clientes con pedidos: "+error);
+    }
+
+   function cargaTablaProvin(respuesta){     
+       listaProvincias=JSON.parse(respuesta); 
+       
+       cargarTabla("Provincias","divprov",false,listaProvincias,null);
+       
+       var listatd=document.querySelectorAll("#divprov table tr");
+       for (var i = 0; i < listatd.length; i++) {
+            listatd[i].setAttribute("onClick","cargaPoblacion(this,event)");;
+       }
+   }
+   
+   function cargaPoblacion(nodo,evento){
+       if(evento.ctrlKey){
+           muestrasFormulario(nodo);
+       }else{
+            var claveProvin=nodo.children[2].innerText;
+            var listatd=document.querySelectorAll("#divprov table tr");
+            for (var i = 0; i < listatd.length; i++) {
+                 listatd[i].style.border="none";
+            }
+            claveProvinciaUsada=claveProvin;
+            nodo.style.border="3px solid red";
+            //comprobarmos para cargar de localStorage
+            if(localStorage.getItem(claveProvinciaUsada)!=null){
+                var objetoLocal=JSON.parse(localStorage.getItem(claveProvinciaUsada));
+                cargarTabla("Municipios","divmuni",false,objetoLocal,null);
+                var listatd=document.querySelectorAll("#divmuni table tr");
+                for (var i = 0; i < listatd.length; i++) {
+                     listatd[i].setAttribute("onClick","cargaFormulario(this,event)");
+                }
+            }else{
+                var datos="provincia="+claveProvin;
+                enviarPeticion("POST","CargaProvMuni",true,cargaTablaMuni,errorCargaMuni,datos); 
+            } 
+             
+       }
+   }
+   
+   function errorCargaMuni(error){
+       alert("se produjo un error recuperando los clientes con pedidos: "+error);
+   }
+   
+   function cargaTablaMuni(respuesta){
+      //como hemos entrado aqui significa que no estan estos datos en el localStorage asi que los cargamos
+       var objetoLocalStorage={};
+       
+       listaPueblos=JSON.parse(respuesta);
+       var claveListaPueblos=Object.keys(listaPueblos);
+       cargarTabla("Municipios","divmuni",false,listaPueblos,null);
+       
+       for (var i = 0; i < claveListaPueblos.length; i++) {
+            objetoLocalStorage[claveListaPueblos[i]]=listaPueblos[claveListaPueblos[i]]
+       }
+       
+       localStorage.setItem(claveProvinciaUsada,JSON.stringify(objetoLocalStorage));
+       
+       var listatd=document.querySelectorAll("#divmuni table tr");
+       for (var i = 0; i < listatd.length; i++) {
+            listatd[i].setAttribute("onClick","cargaFormulario(this,event)");
+       }
+    
+   }
+   
+   
+   function cargaFormulario(nodo,evento){
+       var listatd=document.querySelectorAll("#divmuni table tr");
+       for (var i = 0; i < listatd.length; i++) {
+            listatd[i].style.border="none";
+       }
+       nodo.style.border="3px solid red";
+       
+        if (evento.ctrlKey) {
+            evento.preventDefault();
+            muestrasFormulario(nodo);
+        }
+   }
+   
+   
+   function muestrasFormulario(nodo){
+       //creamos el formulario y le añadimos los elementos
+       if(document.getElementById("divmiForm").children.length!=0){
+           document.getElementById("divmiForm").innerHTML="";
+       }
+       var listath=nodo.parentNode.children[1].children;
+       var listaValoresNodo=nodo.children;
+       var titulo=nodo.parentNode.caption.innerText;
+       
+       
+       var formularioCreado=document.createElement("form");
+       var formulario=document.getElementById("divmiForm");
+       formularioCreado.setAttribute("class","nuevoForm");
+       
+       
+       var tituloFormu=document.createElement("h3");
+       tituloFormu.innerHTML=titulo;
+       formularioCreado.appendChild(tituloFormu);
+       //añadimos los label y los imputs
+       for (var i = 0; i < listath.length; i++) {
+        
+           var labelCreado=document.createElement("label");
+           labelCreado.innerHTML=listath[i].innerText;
+           var nodoCreado=document.createElement("input");
+           nodoCreado.setAttribute("name",listath[i].innerText);
+           nodoCreado.setAttribute("type","text");
+           nodoCreado.setAttribute("required",true);
+           if(nodo.children[0].nodeName=="TD"){
+               nodoCreado.setAttribute("value", nodoCreado.innerHTML=listaValoresNodo[i].innerText);
+           }
+
+           formularioCreado.appendChild(labelCreado);
+           formularioCreado.appendChild(nodoCreado);
+        }
+        
+        
+        
+        
+        //botones de confirma y cancelar
+        var botonConfirmar=document.createElement("input");
+        botonConfirmar.setAttribute("type","submit");
+        botonConfirmar.setAttribute("value","confirmar");
+        formularioCreado.setAttribute("onsubmit","guardaFormulario(event,this)");
+        
+        var botonCancelar=document.createElement("input");
+        botonCancelar.setAttribute("type","reset");
+        botonCancelar.setAttribute("value","cancelar");
+        
+        formularioCreado.appendChild(botonConfirmar);
+        formularioCreado.appendChild(botonCancelar);
+        //poner el formulario en su sitio
+        formulario.appendChild(formularioCreado);
+        formulario.style.display="block";
+   }
+   
+   
+   function guardaFormulario(event,formulario){
+       var inputs=document.querySelectorAll("#divmiForm form input");
+       event.preventDefault();
+       if(inputs.length==7){//PROVINCIA
+           var provinciaseo=inputs[0].value;
+	    var Abreviatura=inputs[1].value;
+            var idpovincia=inputs[2].value;
+            var provincia=inputs[3].value;
+            var comunidad=inputs[4].value;
+            
+           var objetoProvincia=new Provincia(provinciaseo,Abreviatura,idpovincia,provincia,comunidad);
+           listaProvincias[(Object.keys(listaProvincias).length)+1]=objetoProvincia;
+           alert("provincia añadida con exito");
+       }else{//MUNICIPIO
+           var latitud=inputs[0].value;
+	    var longitud=inputs[1].value;
+            var idpobla=inputs[2].value;
+            var poblacion=inputs[3].value;
+            
+           var objetoPoblacion=new Pueblo(latitud,longitud,idpobla,poblacion);
+           listaPueblos[(Object.keys(listaPueblos).length)+1]=objetoPoblacion;
+           alert("poblacion añadida con exito");
+       }
+   }
+   
+</script>
+
+</head>
+
+<body>
+<div id="Contenedor">
+
+ <div id="divmiForm"  style="display : none" >
+   
+</div>
+
+ <fieldset class="fijo">
+     <legend>Provincias de España</legend>
+     <button id="prov" onclick="cargarProvincias()"> Carga Provincias...</button>
+
+<div id="divprov">
+
+</div>
+ </fieldset>
+   <fieldset  class="fijo">
+    
+    <div id="divmuni">
+    </div>  
+  </fieldset>  
+
+</div>          
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script>
+		$(document).ready(function(){
+		  $("#numero").on("change",function(){
+				$("p").fadeIn();
+			});
+			
+		$("#hide").on("click",function(){
+			if(this.id=="hide"){
+				$("p").hide();
+				this.id="show";
+			}else{
+				$("p").show();
+				this.id="hide";
+			}
+				
+		});
+			
+		$("#fadeout").on("click",function(){
+			if(this.id=="fadein"){
+				$("p").fadeIn();
+				this.id="fadeout";
+			}else{
+				$("p").fadeOut();
+				this.id="fadein";
+			}
+				
+		});	
+			
+		$("#slidedown").on("click",function(){
+				
+			if(this.id=="slidedown"){
+				$("p").slideUp();
+				this.id="slideup";
+			}else{
+				$("p").slideDown();
+				this.id="slidedown";
+			}
+		});		
+			
+		});
+	
+		
+	</script>
+	
+	
+	<style>
+		p{
+			background-color: blue;
+		}
+	
+	</style>
+<body>
+	
+	<button id="hide">Hide</button>
+	<button id="fadeout">Fade out</button>
+	<button id="slidedown">slide up</button>
+	<input type="number" id="numero">
+	<p>Parrafo de ejemplo</p>
+	<p>Parrafo de ejemplo</p>
+	<p>Parrafo de ejemplo</p>
+</body>
+</html>

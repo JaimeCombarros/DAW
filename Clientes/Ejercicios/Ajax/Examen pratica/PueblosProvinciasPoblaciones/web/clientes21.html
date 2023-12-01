@@ -1,0 +1,338 @@
+<html>
+   <head>
+   <meta charset="utf-8">
+      <title>
+        Mantenimiento de Clientes
+      </title>
+ 
+      <style>
+          #panelCentro	  {left:20em;position:absolute;border:solid 1px green;top:1em;}
+	  
+          #bt{
+            width: 400px;	 
+	    left: 30%;
+	   }
+           
+            #fcli {
+                display:none;
+	   	width: 400px;
+	        float:left;
+	        position: absolute;
+	        left: 1%;
+	        }
+                
+            #listados {
+                left: 45%;
+		position: absolute;
+            }
+            
+            #divQs{
+                left: 45%;
+                top:2%;
+                width: 400px;
+		position: absolute; 
+            }    
+                
+      </style>
+      
+     <script src="js/utilidades.js"></script>
+
+      <script>
+          
+          var objetoProvincias={};
+          var ClientesP={}; var ClientesN={};
+                  
+          function Cliente(nombre,apellidos,edad,sexo,nif,email,provincia,localidad){
+		this.nombre=nombre;
+	        this.apellidos=apellidos;
+		this.edad=edad;
+		this.sexo=sexo;
+		this.nif=nif;
+		this.email=email;
+		this.provincia=provincia;
+		this.localidad=localidad;
+	 }
+		  
+        
+         //*******************FORMULARIO DE ALTA********************************//
+         
+         function  altacli(){
+             
+             var formularioAlta=document.getElementById("fcli");
+             
+             if(formularioAlta.style.display=="none"){
+                 formularioAlta.style.display="block";
+             }else{
+                 formularioAlta.style.display="none";
+             }
+             
+         }
+         
+        window.onload=function(){
+            document.getElementById('fichProv').onchange=cargarProvincias;
+            var datos = "provincia=provincia";
+            enviarPeticion("GET","BuscaPoblaciones",true,
+                        cargarProvincias,
+                        errorCargaMunicipios,datos);
+        }
+        
+        
+        function cargarProvincias(provincias){ 
+            //ESTO ES PARA EL XML
+            //
+            //var input=document.getElementById("fichProv");
+            //cargaFichero2(input,input.value);
+            //ESTO ES PARA EL XML
+            var objetoProvincias=JSON.parse(provincias);
+            var lista=document.getElementById("listaProvincias");
+            
+            var clavesObjetoProvincias=Object.keys(objetoProvincias);
+            for(let i=0;i<clavesObjetoProvincias.length;i++){
+                lista.options.add(new Option(objetoProvincias[clavesObjetoProvincias[i]],i+1));
+            }
+        }
+        
+        function listarProvincias(input){
+            
+            var datos = "provincia="+input.value;
+                     
+            enviarPeticion("GET","BuscaPoblaciones",true,
+                        cargaMunicipios,
+                        errorCargaMunicipios,datos);
+        }               
+		
+        function cargaMunicipios(municipios){
+            var listaMunicipios=JSON.parse(municipios);
+            
+            var lista=document.getElementById("listaPueblos");
+            lista.length=0;
+            var clavesMunicipios=Object.keys(listaMunicipios);
+            for(let i=0;i<clavesMunicipios.length;i++){
+                lista.options.add(new Option(listaMunicipios[clavesMunicipios[i]],listaMunicipios[clavesMunicipios[i]]));
+            }
+            
+            lista.disabled=false;
+            
+        }        
+        function errorCargaMunicipios(error){
+            alert("iyo");
+        }
+        
+        
+        function GuardaCliente(event){
+            event.preventDefault();
+            var nombre=nomcli.value;
+            var apellidos=apecli.value;
+            var nifcli=document.getElementById("nifcli").value;
+            var mail=document.getElementById("mail").value;
+            var edad=document.getElementById("edcli").value;
+            var apellidos=document.getElementById("apecli").value;
+            var provincia=document.getElementById("listaProvincias").value;
+            var municipio=document.getElementById("listaPueblos").value;
+            
+            var radio=document.getElementsByName("sexo");
+            var radioElegio;
+            var nombreProvin;
+            
+            for (let i = 0;i<radio.length;i++) {
+                if(radio[i].checked){
+                    radioElegio=radio[i].value;
+                }
+            }
+            
+            for (let i = 0; i < listaProvincias.options.length; i++) {
+                if(listaProvincias.options[i].value==provincia){
+                    nombreProvin=listaProvincias.options[i].textContent
+                }
+            }
+            
+            var clienteNuevo = new Cliente(nombre,apellidos,edad,radioElegio,nifcli,mail,nombreProvin,municipio);
+            
+            var datos = "cliente="+JSON.stringify(clienteNuevo);
+            
+            enviarPeticion("POST","GuardaC",true,insercionCorrecta,errorInsercion,datos);
+        }
+        
+        function insercionCorrecta(){
+            
+        }
+        
+        function errorInsercion(){
+            
+        }
+        
+        function listadoCargaClientes() {
+            var datos = "";
+            enviarPeticion("POST","RecuperaC",true,listadoClientes,errorInsercion,datos);
+        }
+        
+        function listadoClientes(clientesCargados){
+            
+            var clientes = JSON.parse(clientesCargados);
+            
+            var claveCLientes=Object.keys(clientes);
+            var input= document.getElementsByName("lc");
+            var genero;
+            
+            for (var i = 0; i < Object.keys(input).length; i++) {
+                if(input[i].checked){
+                     genero= input[i].value;
+                }
+            }
+            
+            for (var i = 0; i < claveCLientes.length; i++) {
+                clientes[claveCLientes[i]]=JSON.parse(clientes[claveCLientes[i]]);
+            }
+            
+            if(genero=="T"){
+                cargarTabla("tablaCLientes","listados",false,clientes,null);
+            }else{
+                var objetoCLientesGenero={};
+                    for (var i = 0; i < claveCLientes.length; i++) {
+                        if(clientes[claveCLientes[i]].sexo==genero){
+                            objetoCLientesGenero[i]=clientes[claveCLientes[i]];
+                        }
+                    }
+                cargarTabla("tablaCLientes","listados",false,objetoCLientesGenero,null);  
+            
+            }  
+        }
+        
+        function cargadoClientesProvincia(){
+            var datos = "";
+            enviarPeticion("POST","RecuperaC",true,listadoClientesProvincia,errorInsercion,datos);  
+        }
+        
+         function listadoClientesProvincia(clientesCargados){ 
+             var ObjetoclientesCargados= JSON.parse(clientesCargados);
+             
+             var claveObjetoClientes= Object.keys(ObjetoclientesCargados);
+             var arrayClientes=[];
+             var clientesProvinciasLista={};
+             var claveObjetoClientesProvincias;
+             
+             for(let i=0;i<claveObjetoClientes.length;i++){
+                 claveObjetoClientesProvincias=JSON.parse(ObjetoclientesCargados[claveObjetoClientes[i]]).provicia;
+             }
+             
+             
+             for (provincias of claveObjetoClientesProvincias){
+                 for(let i=0;i<claveObjetoClientes.length;i++){
+                     if(provincias==JSON.parse(ObjetoclientesCargados[claveObjetoClientes[i]]).provicia){
+                         arrayClientes.push(JSON.parse(ObjetoclientesCargados[claveObjetoClientes[i]]));
+                     }
+                 }
+                 clientesProvinciasLista[provincias]=arrayClientes;
+                 arrayClientes=[];
+             }
+             
+             
+        }
+        
+      </script>
+   </head>
+   <body>
+    	<form id="bt">
+         <fieldset><legend>Mantenimiento de Clientes...</legend>
+            <input type="button" value="Alta (Alt+A)" id="alta" onClick="altacli()"/>
+            <fieldset><legend>Listados de Clientes...</legend>
+                <input type="button" value="Listar (Alt+L)" id="lista" onclick="listadoCargaClientes()"/><br>
+                Mujeres   :<input type="radio" name="lc" id="listP" checked value="M">
+                Hombres   :<input type="radio" name="lc" id="listN" value="H">
+                Todos     :<input type="radio" name="lc" id="listN" value="T" checked>
+                <br><input type="button" value="Listar Por Provincias (Alt+P)" id="listaP" onclick="cargadoClientesProvincia()"/>
+            </fieldset>
+            <fieldset><legend>Datos a guardar en...</legend>
+                JSON   :<input type="radio" name="td" checked value="JSON" >
+                Query String   :<input type="radio" name="td" value="?">
+            </fieldset>
+          </fieldset>
+        </form>
+       
+       <div id="divQs">
+        <fieldset ><legend>Query String / JSON</legend>
+            <strong id="qs"></strong>
+        </fieldset>
+       </div>  
+       
+       <!--div id="panelCentro">
+       
+        <button id="aviso" name="aviso" onclick="oferta()">Carga Automatica de Clientes cada:</button>
+        <br />
+        <input type="number" id="tiempo" name="tiempo" value="5" style="width:4em"/>
+        segundos
+        
+
+    </div-->
+       
+    
+    <footer>
+	<hr>
+<!-- formulario de alta -------------------------------------------------------->
+    <div id="fcli" style="display:none">
+        <form id="frmcli"  method="GET">
+            <fieldset>
+                <legend>Formulario Alta de Clientes...</legend>
+                <div>
+                    <p>Nombre.....:
+                        <input type="text" id="nomcli" placeholder="Nombre?" name="nombre"
+                         title="Mayuscula + 3 car" value="Pepe"/>
+                    </p>
+                <!--em id="emN">El campo Nombre es obligatorio...</em-->
+
+                    <p>Apellidos:
+                        <input type="text" id="apecli" placeholder="Apellidos?" name="apellidos" 
+                               title="2 Apellidos distintos, enpiezan May, min 3 car" value="Macumbe"/>
+                    </p>
+
+                    <p>
+                        <br>    
+                        Nif:<input type="text" id="nifcli" placeholder="Nif" name ="nif" 
+                             title="8 numeros y una letra" value="99999999T"/>
+                    </p>
+
+                <p>
+                    Edad.........:<input type="text" id="edcli" placeholder="Edad?" name="edad" 
+                                 title="Uno o dos difgitos" value="31"/>
+                </p>
+
+                <p>
+                    Sexo......:<input type="radio" value="H"  placeholder="Sexo?" name="sexo"/>Hombre
+                            <input type="radio" value="M"  placeholder="Curso?" name="sexo"/>Mujer
+                </p>
+
+            <!--p>Teléfono.........:<input type="text" id="tlfcli" placeholder="Nif?" name ="Tlf"/></p-->
+                <p>Email.......:
+                    <input type="text" id="mail" placeholder="Email?" name ="email" 
+                  title="empieza letra, minimo 3 car y @ 3car . y 2 o 3 car ext; empieza letra May" value="PepeMacumbe@gmail.com"/>
+                </p>       
+
+                <select  name="provincia" id="listaProvincias" onchange="listarProvincias(this)">
+                    <option value=0>ELIJA UNA PROVINCIA</option>      
+                </select>
+
+                <input type="file" id="fichProv" value="provinciasypoblaciones.xml"/>
+
+                <select name="localidad" id="listaPueblos" disabled multiple>
+                    <option value=0>TODAS LAS POBLACIONES</option>     
+                 </select>
+
+
+                <input type="submit" value="Guardar (Ctrl+G)" id="gcli" onclick="GuardaCliente(event)"/>
+                <input type="reset" value="Cancelar (Ctrl+C)" id="ccli" />
+
+                 <br>
+            </div>   
+        </fieldset>  
+    </form> 
+        
+    
+	
+    </div>
+    <div id="listados">
+    </div>
+    <!-- formulario de alta -------------------------------------------------------->  
+   </footer>  
+    
+     </body>
+</html>

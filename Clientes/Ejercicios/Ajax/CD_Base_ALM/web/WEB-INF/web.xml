@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+    <servlet>
+        <servlet-name>ServerServlet</servlet-name>
+        <servlet-class>ServerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>TestServlet</servlet-name>
+        <servlet-class>TestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ServerServlet</servlet-name>
+        <url-pattern>/ServerServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>TestServlet</servlet-name>
+        <url-pattern>/TestServlet</url-pattern>
+    </servlet-mapping>
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>Cd.html</welcome-file>
+    </welcome-file-list>
+    <context-param>
+        <param-name>driver</param-name>
+        <param-value>com.mysql.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>url</param-name>
+        <param-value>jdbc:mysql://localhost/cd</param-value>
+    </context-param>
+    <context-param>
+        <param-name>userName</param-name>
+        <param-value>cd</param-value>
+    </context-param>
+    <context-param>
+        <param-name>password</param-name>
+        <param-value>cd</param-value>
+    </context-param>
+</web-app>

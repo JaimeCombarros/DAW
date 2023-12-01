@@ -1,0 +1,49 @@
+<style type="text/css">
+#divFcli	{ position:absolute; top:7em; left:26em;
+                          with:auto; height:auto; 
+                          border:solid 2px brown;
+			  background-color:#9FF
+                        }
+</style>
+
+<!-- formulario de alta -->
+    <div id="divFcli" style="display:none">
+         
+        <!-------------------------------------------------->
+        <form id="formAltaCliente" action="GuardaC"  metod="Get"><!-- onSubmit="guardaCli()"-->
+    	<fieldset><legend>Formulario Alta de Clientes...</legend>
+        <div>
+        <p>Nombre..:<input type="text" id="nomcli" placeholder="Nombre?" name="Nombre"/></p>
+        
+        <p>Apellidos:<input type="text"  id="apecli" placeholder="Apellidos?" name="Apellidos"/></p>
+        <p>Edad......:<input type="text" id="edcli"  placeholder="Edad?" name="Edad"/></p>
+        <p>Nif.........:<input type="text" id="nifcli" placeholder="Nif?" name ="Nif"/></p>
+        <p>Email.......:<input type="text" id="mail" placeholder="Email?" name ="Email"/></p>
+        <p>Sexo......:<input type="radio" value="H"  placeholder="Sexo?" name="Sexo"/>Hombre
+                      <input type="radio" value="M"  placeholder="Curso?" name="Sexo"/>Mujer
+        </p>
+        
+        <fieldset><!-- style="width:30%"-->
+           <legend>Procedencia...</legend>
+                <label>Provincias</label><br/> 
+
+                <select id="provincia" name="Provincia"><!--datalist-->
+                    <option>Selecciona una provincia...</option>
+                </select>
+                <div id="resto-form" ><!--style="display:none"-->
+                    <label>Localidades</label><br/> 
+                    <input list="localidad" name="Localidad">
+                    <datalist id="localidad"><!-- name="localidad"-->
+                    </datalist>
+                </div>
+        </fieldset>
+        
+        <input type="submit" value="Guardar(form)" id="gcli"  />
+        <input type="submit" value="Enviar (Ajax)" id="ecli">
+        <input type="reset" value="Cancelar" id="ccli" />
+               
+            <br />
+         </div>   
+         </fieldset>  
+     </form> 
+	</div>

@@ -1,0 +1,5 @@
+chavales, he descubierto como guardar elementos html enteritos en el local, después os cuento
+PASOS:
+var $salida=$("#salida").html();//PILLAMOS EL STRING DEL ELEMENTO HTML
+localStorage.setItem("Tabla",$salida);//GUARDAMOS EL STRING DEL ELEMENTO HTML
+let doc = new DOMParser().parseFromString(localStorage.getItem("Tabla"), 'text/html');//PARSEAMOS EL STRING DEL ELEMENTO HTML A UN ELEMENTO HTML

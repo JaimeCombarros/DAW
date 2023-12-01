@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>	
+	
+<style type="text/css">
+	#cabecera{
+		width:500px;
+		background:#0CF;
+		padding:10px;
+		border-radius:20px;
+		border:solid 4px;
+		margin:auto;
+	}
+		
+	#cursos, #alumnos{
+		position:relative;
+		float:left;
+		 width: 270px;
+		height:100%;
+		background:#F00;
+		padding:10px;
+		border-radius:20px;
+		margin:10px;
+		border:solid 4px;
+		margin-top:20px;
+			
+	}
+	#cursos{
+		float:right;
+		width:500px;
+		background:#F00;
+	}
+	
+	legend{
+		font-size:25px;
+		font-weight:bold;
+		text-transform:uppercase;
+		background:#FFF;
+		padding:5px;
+		border:solid 1px;	
+	}
+	
+	fieldset{
+		background:#FFF;
+		top:20px?
+	}
+	p{
+		float: left;
+		font-weight: bold;
+		margin-right: 55px;
+		width: 60px;	
+	}
+</style>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script>
+		$(document).ready(function(){
+			//BOTON AÑADIR AL PRINCIPIO
+			$("#btn_principio").click(function(){
+				
+				if(compruebaRepetido($("#curso").val())){
+					alert("repetido");
+				}else{
+					var $option = $("<option></option>").text($("#curso").val());
+					$("#lista_cursos").prepend($option);
+					var $fieldset=$("<fieldset></fieldset>").attr("id",$("#curso").val());
+					var $legend=$("<legend></legend>").text($("#curso").val());;
+					$fieldset.append($legend);
+					$("#div_cursos").prepend($fieldset);
+				}
+			});
+			
+			
+			//BOTON AÑADIR AL FINAL
+			$("#btn_final").click(function(){
+				
+				if(compruebaRepetido($("#curso").val())){
+					alert("repetido");
+				}else{
+					var $option = $("<option></option>").text($("#curso").val());
+					$("#lista_cursos").append($option);
+					var $fieldset=$("<fieldset></fieldset>").attr("id",$("#curso").val());
+					var $legend=$("<legend></legend>").text($("#curso").val());;
+					$fieldset.append($legend);
+					$("#div_cursos").append($fieldset);	
+				}
+			});
+			
+			//BOTON ELIMINAR
+			$("#btn_eliminar").click(function(){
+				
+				var $id=$("#lista_cursos").val();
+				
+				$("#"+$id).remove();
+				
+				$("#lista_cursos option:selected").remove();
+			});
+			
+			//BOTON AÑADIR ALUMNO PRINCIPIO
+			$("#btn_alumno_principio").click(function(){
+				var $id=$("#lista_cursos option:selected").val();
+				var $alumno=$("#nombre_alumno").val();
+				
+				$("#"+$id).prepend("<p>"+$alumno+"</p>");
+			});
+			
+			
+			//BOTON AÑADIR ALUMNO FINAL
+			$("#btn_alumno_final").click(function(){
+				var $id=$("#lista_cursos option:selected").val();
+				var $alumno=$("#nombre_alumno").val();
+				
+				$("#"+$id).append("<p>"+$alumno+"</p>");
+			});
+			
+			
+			
+			//FUNCION COMPROBAR REPETIDO CURSO
+			function compruebaRepetido(nombre){
+				var repetido=false;
+				$("#lista_cursos").children().each(function() {
+  					if($( this )[0].value == nombre){
+						repetido=true;
+					}
+				});
+				return repetido;
+			}
+			
+		});
+	</script>
+</head>
+
+<body>
+	<div id="cabecera">
+    	<span>Añade un curso a la lista</span> <input value="4ªA" id="curso" type="text">
+    	<button id="btn_principio">Al Principio</button>
+    	<button id="btn_final">Al Final</button>
+    </div> 
+        
+    <div id="alumnos">
+    	<h1> Añadir </h1>
+        <span>Añadir alumno </span><input size="10" id="nombre_alumno" type="text"><br>
+        <span>Elija un curso </span> 
+        <button id="btn_alumno_principio">Al principio</button>
+        <button id="btn_alumno_final">Al final</button> <br>
+        <select id="lista_cursos" size="5"></select>
+        <button id="btn_eliminar">Eliminar</button>
+    </div>
+    
+        
+	<div id="cursos">
+    	<h1>Cursos</h1>
+        <div id="div_cursos">
+        </div>
+    </div>
+    
+    
+
+
+
+
+</body></html>

@@ -1,0 +1,801 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Aplicación compra de CD's</title>
+
+<style>
+    table,tr,td,th{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+	
+  <link href="css/estiloCD.css" rel="stylesheet"   type="text/css"/>
+  
+  <script src="js/creaTabla.js"     type="text/javascript"> </script>
+  <script src="js/Ajax.js"> </script> 
+  
+  <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAxzeAgRx3i06pWOJX26eh7lOcq1Ua8BGU"></script>
+     
+<script>
+			
+
+    function restaurar(){
+        
+        var fieldset=document.getElementById("tabla");
+        
+        if(fieldset.childElementCount>0){
+            fieldset.removeChild(fieldset.children[0]);
+            var objetoTabla=JSON.parse(localStorage.getItem("tablaPedidosActuales"));
+            cargarTabla("Carro De la <<Compra>>","tabla",true,true,'table',false,objetoTabla,null);
+        }else{
+            var objetoTabla=JSON.parse(localStorage.getItem("tablaPedidosActuales"));
+            cargarTabla("Carro De la <<Compra>>","tabla",true,true,'table',false,objetoTabla,null);
+        }
+        
+
+    }
+		
+    function tecla(elEvento) {
+      var evento = elEvento || window.event;
+      var caracter = evento.key;
+
+    }	
+
+    function mueveCd(evento){
+        document.getElementById("ccd").style.display="block";
+        document.getElementById("ccd").style.zIndex=10; 
+        cdd.style.left=evento.clientX+"px";
+        cdd.style.top= evento.clientY+"px";
+    }
+
+    function nuevoCli(){
+
+    }
+
+    function cargaListas(){
+	
+		
+    }
+
+    function comprar(){}
+
+    function enviaPedido(xmlhttp) {} 
+
+    function cargaListaPedidos(){}
+
+    function listaPedidos(){}
+
+    function verCatalogo(){
+        
+        creaTabla({borrar:false,
+                   titulo:"Catalogo de Cd's",
+                   donde :"catalogo"},listaCds);
+               
+        catalogo.style.display="block";       
+    }
+
+    function  cargaPedidoCliente(){
+        
+        
+        
+    }
+
+    function cargaDetallePedido( respuesta ){}   
+
+    function cargaClientes( respuesta ){}
+
+    function  cargaListaPedidos(evento){}
+
+    function cargaPedidosCliente(respuesta){}
+
+    function cargarXsl(doc){
+        xslDoc=doc;
+    }
+	
+    window.onload=function(){
+
+       loadDocXML("xml/cdcatalog.xml",true,Cargar,"cd",);
+       loadDocXML("xml/cdcatalog.xsl",true,cargarXsl);
+       cata.onclick=verCatalogo;
+        
+       var datos = "pedido="+JSON.stringify({cpedido:"0",cliente:"todos"});
+          
+       enviarPeticion("POST","RecuperaP",true,cargaCliPedidos,errorCargaCli,datos);
+       
+       sacarUltimoCodPedido(); 
+       
+    }  
+
+   function errorCargaCli(error){
+       alert("se produjo un error recuperando los clientes con pedidos: "+error);
+   }
+
+   function cargaCliPedidos(clientes){     
+       var objCliente=JSON.parse(clientes);
+       var arrayNif=Object.keys(objCliente.clientes);
+
+       for(let i=0;i<arrayNif.length;i++){
+            cli2.options.add(new Option(objCliente.clientes[arrayNif[i]],objCliente.clientes[arrayNif[i]]));
+       }  
+   }
+   
+   function cargarSelectPedidos(pedidos){
+        lp.length=0;
+       
+        var objetoPedidos=JSON.parse(pedidos);
+       
+        var fechaConPedidos=Object.keys(objetoPedidos);
+        
+        var arrayPedidos=[];
+        
+        for(let i=0;i<fechaConPedidos.length;i++){
+             arrayPedidos=Object.keys(objetoPedidos[fechaConPedidos[i]]);
+             var opcion=new Option(objetoPedidos[fechaConPedidos[i]][arrayPedidos[0]]+"-"+objetoPedidos[fechaConPedidos[i]][arrayPedidos[2]]);
+             opcion.setAttribute("value",objetoPedidos[fechaConPedidos[i]][arrayPedidos[2]]);
+             lp.options.add(opcion);
+        }
+        
+   }
+   
+   function cargarPedidos(opcionSelect){ 
+        var datos="pedido="+JSON.stringify({cpedido:"0",cliente:opcionSelect});
+        enviarPeticion("POST","RecuperaP",true, cargarSelectPedidos,errorCargaCli,datos);     
+   }
+   
+   
+   var pedidosActualesClientes={};
+   var contador=37;
+   
+   function detalle(cd,precio,cantidad,color){
+      this.cd=cd;
+      this.precio=precio;
+      this.cantidad=cantidad;
+      this.color=color;
+   }
+   
+   function  Pedido(detalle,cliente){
+       this.detalle=detalle;
+       this.fecha = (new Date).toLocaleDateString();
+       this.cliente=cliente;
+   }
+   
+   var detallesPedido = {};
+   
+   function salvarPedido(){  
+      
+       var cantidadComprar=document.getElementById("ctd").value;
+       var claveDiscoSeleccionado=document.getElementById("cd").value;
+       
+       var tituloCd=listaCds[claveDiscoSeleccionado].Titulo;
+       var autorCd=listaCds[claveDiscoSeleccionado].Artista;
+       var precioCd=listaCds[claveDiscoSeleccionado].Precio;
+       var colorCd=listaCds[claveDiscoSeleccionado].Color;
+
+       var cd=tituloCd+"/"+autorCd;
+
+       var detallePedido=new detalle(cd,precioCd,cantidadComprar,colorCd);
+       
+       
+       detallesPedido[contador]=detallePedido;
+       
+       var nif=document.getElementById("cli").value;
+       
+       if(nif!="0"){
+        var pedido=new Pedido(detallesPedido,nif);
+
+        var datos="pedido="+JSON.stringify(pedido);
+
+        enviarPeticion("POST","GuardaPedidosCD",true,guardando,errorCargaCli,datos);
+       }
+       
+    }
+    
+    function guardando(pedido){
+       alert(pedido);
+    }
+    
+    var arrayCodigos=[];
+    
+    function  sacarUltimoCodPedido(){
+        
+        var selectClientes=document.getElementById("cli2");
+        
+        var optionSelect=selectClientes.children;
+        
+        for(let i=0;i<optionSelect.length;i++){
+            if(i!=0){//EL PRIMER OPTION ES 'SELECCIONE UN CLIENTE'
+               var datos="pedido="+JSON.stringify({cpedido:"0",cliente:optionSelect[i].value});
+               enviarPeticion("POST","RecuperaP",true,almacenaCodPedido,errorCargaCli,datos);
+            }
+        }
+      
+    }
+    
+    
+    function  almacenaCodPedido(pedido){
+        var objPedido=JSON.parse(pedido);
+        var codigos=Object.keys(objPedido);
+        
+        for(let i=0;i<codigos.length;i++){
+            arrayCodigos[arrayCodigos.length]=parseInt(codigos[i]);
+        }
+        
+        arrayCodigos.sort(function(a, b){return a - b});
+        
+        contador=arrayCodigos[arrayCodigos.length-1];
+        contador++;
+    }
+    
+    
+    var arrayPedidos=[];
+    var objetoPedidoModificar={};
+   
+   
+   
+   function aniadirPedidoActual(){
+       
+       var cdSeleccionado=document.getElementById("cd").value;
+       var cantidad=document.getElementById("ctd").value;
+       
+       if(cantidad!="" && document.getElementById("cli").value!="0"){
+            cantidad=parseInt(cantidad);
+            
+            var nombreCD=listaCds[cdSeleccionado].Titulo;
+            var autorCD=listaCds[cdSeleccionado].Artista;
+            var precioCD=parseFloat(listaCds[cdSeleccionado].Precio);
+            
+            var cdCompleto=nombreCD+"/"+autorCD;
+            
+            var subtotal=cantidad*precioCD;
+            
+            pedidosActuales={cd:cdCompleto,precio:precioCD,cantidad:cantidad,subtotal:subtotal};
+ 
+            if(!arrayPedidos.includes(pedidosActuales.cd)){//CONTROLO QUE NO ME AÑADA "UN MISMO OBJETO" DOS VECES
+                //POR EJEMPLO, SI YA TENGO UN PEDIDO QUE ES: CD{TITULO:"EMPIRE BURLESQUE",CANTIDAD:2,PRECIO:10.9,...}
+                //PUES NO TE VOY A VOLVER A ANIADIR EL MISMO PEDIDO, SI NO QUE TE ACTUALIZO LOS DATOS QUE SEAN NUMERICOS.
+                
+                //PARA ELLO EMPLEARE UN ARRAY EN EL QUE METERÉ EL DATO QUE CONSIDERES CLAVE DE ESE OBJETO(EN ESTE CASO IDENTIFICO QUE ES EL TITULO DEL CD)
+                arrayPedidos.push(pedidosActuales.cd);
+             
+                /*LA FINALIDAD DE ESTE OBJETO(objetoPedidoModificar) ES QUEDARME CON EL TITULO DEL CD QUE SERA MI CLAVE Y COMO VALUE
+                  SERA LA CLAVE DE ESE OBJETO, PARA DESPUES, CUANDO SE ME REPITA ESE PEDIDO DE UN MISMO CLIENTE
+                  PODRE ACCEDER AL PEDIDO Y MODIFICAR LOS DATOS QUE CONSIDERE.*/
+                
+                
+                
+                objetoPedidoModificar[pedidosActuales.cd]=contador;
+                pedidosActualesClientes[contador]=pedidosActuales;
+                
+            }else{
+                var cantidadObjAnterior=pedidosActualesClientes[objetoPedidoModificar[pedidosActuales.cd]].cantidad;
+                
+                var cantidadActualizada=pedidosActuales.cantidad+cantidadObjAnterior;
+                var precioActualizado=pedidosActuales.precio*cantidadActualizada;
+                
+                var subtotalActualizado=cantidadActualizada*precioActualizado;
+                
+                var pedidoActualizado={cd:cdCompleto,precio:precioActualizado,cantidad:cantidadActualizada,subtotal:subtotalActualizado};
+                pedidosActualesClientes[objetoPedidoModificar[pedidosActuales.cd]]=pedidoActualizado;
+            }
+            
+
+            cargarTabla("Carro De la <<Compra>>","tabla",true,true,'table',false,pedidosActualesClientes,null);
+            contador++;
+        }else{
+            alert("Debes seleccionar al menos una unidad y seleccionar un cliente");
+        }
+       
+   }
+   
+    function drag(ev){
+      ev.dataTransfer.setData("text",ev.target.parentElement.parentElement.id);
+      var dragIcon = document.createElement('img');   
+      //*************HACE QUE SE MUESTRE LA IMAGEN CUANDO HACES DRAG****************//
+        dragIcon.src = 'img/cd.jpg';
+        dragIcon.width = 100;
+        ev.dataTransfer.setDragImage(dragIcon,-10,-10);
+      //*************HACE QUE SE MUESTRE LA IMAGEN CUANDO HACES DRAG****************// 
+    }
+		
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+    
+    function drop(ev) {
+        
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+         
+      var celdas=document.getElementById(data).children;
+         
+      var arrayNuevasCeldas=[];
+      
+      var titulo="";
+      
+      for(let i=0;i<celdas.length;i++){
+          if(i==0 || i==1){//I=0 E I=1 SON EL TITULO Y ARTISTA DEL CD.
+              titulo+=celdas[i].textContent+"/";
+          }else if(i==2){
+              titulo=titulo.substring(0,titulo.length-1);//CORRIGO EL TITULO DE 'PRUEBA/PRUEBA/' A 'PRUEBA/PRUEBA'
+              arrayNuevasCeldas.push(titulo);
+              arrayNuevasCeldas.push(parseFloat(celdas[i].textContent));
+          }else{
+              arrayNuevasCeldas.push(parseFloat(celdas[i].textContent));
+          } 
+      }
+
+
+      var nuevaFila=document.createElement("tr");
+      
+      for(let i=0;i<arrayNuevasCeldas.length;i++){
+           var celda=document.createElement("td");
+           celda.append(arrayNuevasCeldas[i]);
+           nuevaFila.appendChild(celda);
+      }
+      
+        
+      switch(ev.target.nodeName){      
+            case 'TD':
+                  var comprobarABorrar=ev.target.parentElement.parentElement.getAttribute("class");
+                  if(comprobarABorrar=="borrar"){
+                      var celda=document.createElement("td");
+                      var boton=document.createElement("button");
+                      
+                      boton.append("BORRAR FILA");
+                      boton.addEventListener("click",borrarFila2);
+                      
+                      celda.appendChild(boton);
+                      nuevaFila.appendChild(celda);
+                  }
+                  ev.target.parentElement.parentElement.appendChild(nuevaFila);
+                  localStorage.setItem("tablaPedidosActuales",JSON.stringify(pedidosActualesClientes));
+                break;
+            case 'TR':
+                  var comprobarABorrar= ev.target.parentElement.getAttribute("class");
+                  if(comprobarABorrar=="borrar"){
+                      var celda=document.createElement("td");
+                      var boton=document.createElement("button");
+                      
+                      boton.append("BORRAR FILA");
+                      boton.addEventListener("click",borrarFila2);
+                      
+                      celda.appendChild(boton);
+                      nuevaFila.appendChild(celda);
+                  }
+                  ev.target.parentElement.appendChild(nuevaFila);
+                  localStorage.setItem("tablaPedidosActuales", JSON.stringify(pedidosActualesClientes));
+                break;
+            case 'CAPTION':
+                  var comprobarABorrar= ev.target.parentElement.getAttribute("class");
+                  if(comprobarABorrar=="borrar"){
+                      var celda=document.createElement("td");
+                      var boton=document.createElement("button");
+                      
+                      boton.append("BORRAR FILA");
+                      boton.addEventListener("click",borrarFila2);
+                      
+                      celda.appendChild(boton);
+                      nuevaFila.appendChild(celda);
+                  }
+                  ev.target.parentElement.appendChild(nuevaFila);
+                  localStorage.setItem("tablaPedidosActuales",JSON.stringify(pedidosActualesClientes));
+                break;
+            case 'TABLE':
+                  var comprobarABorrar= ev.target.getAttribute("class");
+                  if(comprobarABorrar=="borrar"){
+                      var celda=document.createElement("td");
+                      var boton=document.createElement("button");
+                      
+                      boton.append("BORRAR FILA");
+                      boton.addEventListener("click",borrarFila2);
+                      
+                      celda.appendChild(boton);
+                      nuevaFila.appendChild(celda);
+                  }
+                  ev.target.appendChild(nuevaFila); 
+                  localStorage.setItem("tablaPedidosActuales", JSON.stringify(pedidosActualesClientes));
+                break;
+      }
+    
+        
+    }
+   
+   
+   var idMiTabla=0;
+
+   function cargarTabla(tituloTabla,LugarAniadirTabla,borrar,dropeable,propiedadQueDrope,dragable,objetoACargar,columnasOcultar){
+             
+      var tablaACargar=document.createElement("table");
+      
+      //***************CAPTION/TITULO DE LA TABLA*****************//
+      var caption=document.createElement("caption");
+      caption.append(tituloTabla);
+      tablaACargar.appendChild(caption);
+      //****************FIN CAPTION/TITULO DE LA TABLA*****************//
+ 
+      var contadorFilasID=0;//LE ASIGNARE A CADA FILA UNA ID QUE COMIENZE DESDE 0
+                 
+      var columnasAOcultar=0;
+      //*****************NOMBRE DE LAS COLUMNAS*******************//
+      var fila=document.createElement("tr");
+      var nombres=Object.keys(objetoACargar[Object.keys(objetoACargar)[0]]);
+      for(nombreColumnas of nombres){
+         var celda=document.createElement("th");
+         celda.append(nombreColumnas);
+         celda.setAttribute("class",columnasAOcultar);
+         columnasAOcultar++;
+         fila.appendChild(celda);
+      }
+      
+      columnasAOcultar=0;
+        
+      if(borrar){//SI ME HAS PUESTO BORRAR A TRUE TE AÑADO UNA COLUMNA CON TITULO DE 'FILA A BORRAR'
+          tablaACargar.setAttribute("class","borrar");
+          var celda=document.createElement("th");
+          celda.append("Fila A Borrar");
+          fila.appendChild(celda);
+      }
+        
+      tablaACargar.appendChild(fila);
+      //*****************FIN NOMBRE DE LAS COLUMNAS*******************//
+      var idBoton=0;
+      //*****************CUERPO DE LA TABLA***************************//
+      var nombreColumnasTabla=Object.keys(objetoACargar);
+      for(columnas of nombreColumnasTabla){
+            
+           var filasCuerpoTabla=document.createElement("tr");
+           var clavesObj=Object.keys(objetoACargar[columnas]);
+            
+           for(nombres of clavesObj){
+               var celdaCuerpoTabla=document.createElement("td");
+               celdaCuerpoTabla.append(objetoACargar[columnas][nombres]);
+               celdaCuerpoTabla.setAttribute("class",columnasAOcultar);
+               columnasAOcultar++;
+               filasCuerpoTabla.appendChild(celdaCuerpoTabla);
+            }
+            
+            columnasAOcultar=0;
+                
+            if(borrar){//SI ME HAS PUESTO BORRAR A TRUE, TE AÑADO UN BOTON EN LA CELDA DE ESA FILA
+               var celda=document.createElement("th");
+               var button=document.createElement("button");
+               button.append("BORRAR FILA");
+               button.setAttribute("value",Object.keys(objetoACargar)[idBoton]);
+               idBoton++;     
+               button.onclick=borrarFila;//LE AÑADO UNA FUNCION QUE ME BORRA LA FILA DE ESA TABLA Y
+               //TAMBIEN ME LO QUITA DEL OBJETO
+                             
+               celda.appendChild(button);
+               filasCuerpoTabla.appendChild(celda);
+            }
+            
+            filasCuerpoTabla.setAttribute("id",contadorFilasID);//CADA FILA TENDRA SU CORRESPONDIENTE ID
+            tablaACargar.appendChild(filasCuerpoTabla);
+            contadorFilasID++;
+        }
+        //********************FIN CUERPO DE LA TABLA***************************//
+      
+        tablaACargar.setAttribute("id","tablaCreada"+idMiTabla);
+      
+        
+        var sitioAniadirTabla=document.getElementById(LugarAniadirTabla);
+      
+        //SI DETECTA QUE YA EXISTE OTRA TABLA DONDE LA VAS A PONER TE ELIMINO LA TABLA ANTERIOR
+        if(sitioAniadirTabla.childElementCount>0){
+           
+           var tablasEliminar=sitioAniadirTabla.children;
+          
+           var arrayTablasEliminar=[];
+          
+           for(let i=0;i<tablasEliminar.length;i++){
+               arrayTablasEliminar[arrayTablasEliminar.length]=tablasEliminar[i];
+           }
+           
+           for(let i=0;i<arrayTablasEliminar.length;i++){
+               sitioAniadirTabla.removeChild(arrayTablasEliminar[i]);
+           }
+
+        }
+        
+        idMiTabla++;
+        
+
+        //**************************PROCESO PARA OCULTAR LAS COLUMNAS*********************//
+            if(columnasOcultar!=null){
+                var filas=tablaACargar.children;
+                for(let k=0;k<columnasOcultar.length;k++){
+                    for(let i=0;i<filas.length;i++){
+                        if(i!=0){//EL I=0 ES CAPTION
+                            var celdas=filas[i].children;//CELDAS
+                            for(let j=0;j<celdas.length;j++){
+                                  if(columnasOcultar[k]==parseInt(celdas[j].className)){
+                                      celdas[j].style.display="none";
+                                  }
+                            }
+                        }
+                    }
+                }
+           }
+       //**************************PROCESO PARA OCULTAR LAS COLUMNAS*********************//
+          
+       if(dropeable){     
+           switch(propiedadQueDrope){
+                 case 'celda':
+                     var filas=tablaACargar.children;
+                     for(let i=0;i<filas.length;i++){
+                          var celda=filas[i].children;
+                          for(let j=0;j<celda.length;j++){
+                              celda[j].addEventListener("drop",drop);
+                              celda[j].addEventListener("dragover",allowDrop);
+                          }
+                     }
+                    break;
+                case 'fila':
+                     var filas=tablaACargar.children;
+                     for(let i=0;i<filas.length;i++){
+                         filas[i].addEventListener("drop",drop);
+                         filas[i].addEventListener("dragover",allowDrop);
+                     }
+                    break;
+                case 'table':
+                     tablaACargar.addEventListener("drop",drop);
+                     tablaACargar.addEventListener("dragover",allowDrop);
+                    break;
+           }
+           
+       }
+      
+        if(dragable){
+            tablaACargar.addEventListener("dragstart",drag);
+        }
+        
+        sitioAniadirTabla.appendChild(tablaACargar);
+   }
+   
+   
+   
+
+   
+   function borrarFila(){//EN ESTE METODO TIENES QUE PASARLE EL OBJETO QUE VA A ELIMINAR ESA FILA.
+       
+       var fila=this.parentElement.parentElement;
+       var tabla=this.parentElement.parentElement.parentElement;
+       tabla.removeChild(fila);
+       
+       //*******************PARTE QUE ME BORRA TAMBIEN DEL OBJETO*******************//
+         var claveFilaObjAEliminar=this.value;//DEL BOTON SACO EL VALOR QUE ES LA CLAVE DE LA FILA
+         //DE ESE OBJETO QUE QUIERO ELIMINAR.  
+         borrarObj(claveFilaObjAEliminar);
+       //*******************PARTE QUE ME BORRA TAMBIEN DEL OBJETO*******************//
+       
+    }
+    
+    function  borrarFila2(){
+       var fila=this.parentElement.parentElement;
+       var tabla=this.parentElement.parentElement.parentElement;
+       tabla.removeChild(fila);
+    }
+    
+    
+    function borrarObj(claveFilaObjAEliminar){
+       var cdEliminado=pedidosActualesClientes[claveFilaObjAEliminar].cd;
+       delete pedidosActualesClientes[claveFilaObjAEliminar];
+       
+       var arrayAux=[];
+
+       for(let i=0;i<arrayPedidos.length;i++){
+              if(arrayPedidos[i]!=cdEliminado){
+                  arrayAux[arrayAux.length]=arrayPedidos[i];
+              }
+       }
+        
+       arrayPedidos=[];
+        
+       for(let i=0;i<arrayAux.length;i++){
+          arrayPedidos[arrayPedidos.length]=arrayAux[i];   
+       }   
+    }
+    
+    
+    function cargarDetallesDelPedido(){   
+        var nif=document.getElementById("cli2").value;
+        var codigoPedido=document.getElementById("lp").value;
+                
+        var datos="pedido="+JSON.stringify({cpedido:codigoPedido,cliente:nif});
+        
+        enviarPeticion("POST","RecuperaP",true,crearTablaDetalles,errorCargaCli,datos);
+    }
+    
+    function crearTablaDetalles(detallePedido){
+        var detalle=JSON.parse(detallePedido);
+       
+       //****************PROCESO PARA ARREGLAR EL OBJETO DEVUELTO POR LA PETICION AJAX*************//
+        var clavesObjeto=Object.keys(detalle);
+         
+        for(let i=0;i<clavesObjeto.length;i++){
+             detalle[clavesObjeto[i]]=JSON.parse(detalle[clavesObjeto[i]]);
+        }
+       //***************FIN PROCESO PARA ARREGLAR EL OBJETO DEVUELTO POR LA PETICION AJAX***********//
+        
+        
+        //*****************PROCESO PARA OBTENER UN OBJETO CON EL FORMATO QUE SE REQUIERE**************//
+        for(let i=0;i<clavesObjeto.length;i++){
+            var precio=detalle[clavesObjeto[i]].Precio;
+            var cantidad=detalle[clavesObjeto[i]].Cantidad;
+            var subtotal=precio*cantidad;
+            detalle[clavesObjeto[i]]={Titulo:detalle[clavesObjeto[i]].Titulo,Autor:detalle[clavesObjeto[i]].Autor,Precio:precio,cantidad:cantidad,subtotal:subtotal};
+        }
+        //*************FIN PROCESO PARA OBTENER UN OBJETO CON EL FORMATO QUE SE REQUIERE**************//
+
+        cargarTabla("Detalle del Pedido","dp",false,false,'fila',true,detalle,null);
+    }
+    
+    
+    
+    //******************************ALTA CLIENTES******************************//
+    function habilitarAltaClientes(){
+        if(fcli.style.display=="none"){
+            fcli.style.display="block"; 
+        }else{
+            fcli.style.display="none";
+        }
+    }
+    
+    function altaCliente(){
+ 
+        var nombre=document.getElementById("nomcli").value;
+        var apellido=document.getElementById("apecli").value;
+        var nif=document.getElementById("nifcli").value;
+        var edad=document.getElementById("edcli").value;
+        
+        if(nombre!="" && apellido!="" && nif!="" && edad!=""){
+             var opcion=new Option(nif,nif);
+             document.getElementById("cli").options.add(opcion);
+        }else{
+            alert("Revise si relleno todos los campos");
+        }
+        
+    }
+   
+   //******************************ALTA CLIENTES******************************//
+   function cargarMapaGeolocalizacion(){
+       
+       if(navigator.geolocation){//SI EL NAVEGADOR SOPORTA LA GEOLOCALIZACION
+           navigator.geolocation.getCurrentPosition(mostrarCoordenadas);
+       }else{
+           alert("NO SOPORTADO");
+       }  
+   }
+   
+   var googleMapsKey = "AIzaSyAa8HeLH2lQMbPeOiMlM9D1VxZ7pbGQq8o";
+   
+   function mostrarCoordenadas(position){
+       
+       var coordenadas=position.coords.latitude+","+position.coords.longitude;
+       
+       var urlImagen="https://maps.googleapis.com/maps/api/staticmap?center="+coordenadas+"\
+                      &zoom=14&size=400x300&sensor=false&key="+googleMapsKey;
+        
+       var imagen=document.createElement("img");
+       imagen.setAttribute("src",urlImagen);
+       
+       if(mapa.style.display=="block"){
+           mapa.removeChild(mapa.children[0])
+           mapa.style.display="none";
+       }else{
+           mapa.appendChild(imagen);
+           mapa.style.display="block";
+       }
+
+   }
+</script>
+ 
+</head>
+
+<body>
+<div id="alta">
+<fieldset>
+    <legend>Realizar un pedido...</legend>
+    <button id="altacli" onclick="habilitarAltaClientes();">+</button>
+        
+    <select id="cli" >
+        <option value="0">Seleccione un Cliente</option>
+        <option value="25628327-W">25628327-W</option>
+    </select><br />
+    
+            <p>Seleccione un CD</p> <br />
+        <select id="cd"></select>
+        
+        <br><br>
+    
+    Cantidad.: <input type="text" placeholder="Catidad" id="ctd"/>
+    
+    <input type="button" value="Comprar..."  style="margin-left:65px" id="comprar" onclick="aniadirPedidoActual()"/><!--onClick="comprar2()"/-->
+    <strong id="mensaje">Selecione un Cliente y cantidad > 0"</strong> 
+    <input type="color"  id="color"/><br><br>
+
+    <input type="button" value="Ver Catalogo (Ctrl+c)" id="cata" style="margin-left:65px"/>
+   
+</fieldset>
+
+</div>
+<div id="tc">
+    <!--Geolocalización... -->    
+    <button id="bmapa" onclick="cargarMapaGeolocalizacion()">Donde Estoy? </button>
+    <div id="mapa" style='display: none'></div>
+    
+<fieldset>
+    <legend>Detalle de los pedidos por Cliente...</legend>
+    
+    <select id="cli2" onchange="cargarPedidos(this.value)">
+    	<option value="0">Seleccione un Cliente</option>
+    </select>
+    
+    <input type="button" value="Lista Pedido" id="bp"  onclick="cargarDetallesDelPedido()"/>
+     Nº:  
+    <select  id="lp" onchange="">
+        <option value="0"> Seleccione Pedido</option>
+    </select>
+     
+    <br>
+ </fieldset>   
+</div>
+    
+<div id="panelCentro">
+    <input type="button" value="Restaurar compra" id="retaurar" onclick='restaurar()' />
+    <br />
+    <button id="aviso" name="aviso" onclick="oferta()">Ver Ofertas cada:</button>
+    <br />
+    <input type="number" id="tiempo" name="tiempo" value="5" style="width:4em"/>
+    segundos
+    <br />
+    <div id="ofrta" style="display:none;border: solid 2px red">Oferta </div>
+</div>
+    
+<br/>
+
+<div id="dp"></div>
+
+<div id="catalogo" style="display:none"></div>
+
+<div id="tpedido">
+    <fieldset id="tabla">
+        <legend>Estado del pedido Actual...</legend>
+    </fieldset>
+    
+    <input type="button" value="Salvar Pedido (Ctrl+s)" id="pedir" style="width:60; text-align:right; position:relative; float:right " onclick='salvarPedido()' />
+</div>
+
+<div id="listaCompras"></div>
+
+
+ <!-- formulario de alta -->
+    <div id="fcli" style="position:relative; width: 300px; left:500px;bottom:-200px;display:none">
+	<form id="frmcli">
+            <fieldset>
+                <legend>Formulario Alta de Clientes...</legend>
+                <div>
+                    <p>Nombre.....:<input type="text" id="nomcli" placeholder="Nombre?" name="Nombre"
+                            pattern="^[A-Z].{3,}" required title="Mayuscula + 3 car" /></p>
+                    <p>Apellidos:<input type="text" id="apecli" placeholder="Apellidos?" name="Apellidos" pattern="^[A-Z].{3,}" required title="Mayuscula + 3 car"/></p>
+                    <p> <br />
+                    Nif:<input type="password" id="nifcli" placeholder="Nif" name ="Nif" pattern="^[0-9]{8}[-]?[A-Za-z]$" required title="8 numeros y una letra"/></p>
+                    <p>Edad.........:<input type="text" id="edcli" placeholder="Edad?" name="Edad" pattern="^[0-9]{1,2}"  title="Uno o dos difgitos"/></p>
+
+
+                    <input type="button" value="Guardar" id="gcli" onclick="altaCliente();" />
+                    <input type="reset" value="Cancelar" id="ccli" />
+
+                    <br>
+                </div>   
+            </fieldset>  
+        </form> 
+    </div>
+ 
+    <img src="img/cd.jpg" style="display:none; left:5em; top:15em" id="ccd"/>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+	<script>
+		window.onload=function(){
+		var objeto_html = document.documentElement;
+		
+		var objeto_head = objeto_html.firstChild;
+		var objeto_body = objeto_html.lastChild;
+		console.log(objeto_body,objeto_head);
+		
+		var objeto_head = objeto_html.childNodes[0];
+		var objeto_body = objeto_html.childNodes[1];
+		console.log(objeto_body,objeto_head);
+			
+		var objeto_head = objeto_html.children[0];
+		var objeto_body = objeto_html.children[1];
+		console.log(objeto_body,objeto_head);
+			
+			
+		var parrafo= document.getElementsByTagName("p");
+			for(let i=0;i<parrafo.length;i++){
+				d1.innerHTML+="<br>"+parrafo[i].textContent;
+				d1.innerHTML += "<br>"+parrafo[i].innerText;
+			}
+		
+		var parrafo2= document.querySelectorAll("p");
+			for(let i=0 ;i<parrafo2.length;i++){
+				d2.innerHTML+="<br>"+parrafo2[i].textContent;
+				d2.innerHTML += "<br>"+parrafo2[i].innerText;
+			}
+			
+			
+		}
+	</script>
+</head><body>
+	<p id="p1">Hola</p>
+  	<p id="p2">Adios</p>
+	<div id="d1">HTMLCollection</div>
+	<div id="d2">QuerySelector</div>
+</body>
+</html>

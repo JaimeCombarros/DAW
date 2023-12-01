@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		var libreria={	libros:{},
+					   	clientes:{},
+					  	pedidos:{}
+					 }
+		
+		function guarda (evento){
+			evento.preventDefault();
+			
+			var datos ={};
+			
+			datos = serializaForm(evento.target);
+			
+			libreria[evento.target.name][datos.ISBN||datos.NIF]=datos;
+			
+			//añadir al select 
+			
+			//limpiar el formulario
+			evento.reset();
+		}
+		
+		//------------------------------------
+		
+		function serializaForm(formulario){
+			var datosF={};
+			for(let i=0;i<formulario.elements.length;i++){
+				var nodo = formulario.elements[i];
+				if(nodo=="text" || nodo.type=="number"){
+					datosF[nodo.name]=nodo.value;
+				} 
+				//datosF.formulario[i].type=formulario[i].value;
+			}
+			return datosF;
+		}
+		
+	</script>
+</head>
+
+<body>
+
+	
+	//ponerle el name a todos los parametros
+	
+ <div id="libros" style="width:300; height:250;">
+ 	<form name="libro" id="flibros" onSubmit="guarda(event)">
+    	<fieldset><legend>Libros...</legend>
+       	<label for="titulo">Titulo</label>           
+    	<input type="text" id="titulo"/>
+		<label for="ISBN">ISBN</label>
+        <input type="text" id="ISBN"/><br /><br />
+        <label for="editorial">Editorial</label>
+        <input type="text" id="editorial"/><br /><br />
+        <label for="precio">Precio</label>
+        <input type="number" id="precio"/>
+        <label for="unidades">Unidades</label>
+        <input type="number" id="unidades" min="0" max="100" value="0"/><br />
+        <input type="submit" id="guardal" value="guardar" align="right"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="clientes" style="width:300; height:250;">
+ 	<form name="cliente" id="fclientes">
+    	<fieldset><legend>Clientes...</legend>
+       	<label for="nombre">Nombre</label>           
+    	<input type="text" id="nombre"/>
+		<label for="DNI">DNI</label>
+        <input type="text" id="DNI"/><br /><br />
+        <label for="localidad">Localidad</label>
+        <input type="text" id="localidad"/><br /><br />
+        <label for="correo">E-mail</label>
+        <input type="email" id="correo"/>
+        <input type="button" id="guardac" value="guardar" align="right" 
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="pedidos" style="position:absolute; width:300; height:250">
+ 	<form id="fpedidos" name="pedidos">
+    	<fieldset><legend>Pedidos...</legend>
+       	<label for="lClientes">Cliente</label> 
+       	<select id="lClientes" >
+                     
+                  </select>
+       
+       
+                 
+    	<label for="lLibros">Libro</label>
+        <select id="lLibros" >
+                    
+                  </select>
+        
+        
+        <br /><label for="unidades2">Unidades</label>
+        <input type="number"  size="6" id="unidades2" value="0"/><br />
+         <br />
+        <input type="button" value="Pedir" id="guardap" align="right"
+        onclick="guarda(this);"/>
+        <input type="button" value="Listar Pedidos" id="listado" align="left"
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+    </div>
+    <div id="lt" align="center">Listado de pedidos de Clientes...</div>
+ 
+</body>
+</html>

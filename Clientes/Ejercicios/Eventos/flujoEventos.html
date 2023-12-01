@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+	
+	function mensaje (ev){
+		
+		if(ev.currentTarget.tagName=="HTML"){
+			ev.stopPropagation();
+		}
+		
+		let texto=ev.type+" en "+ev.currentTarget.tagName+" en fase---> "+ev.eventPhase;
+		
+		alert(texto);
+	}	
+		
+		
+	window.onload=function(){
+		//Eventos en fase 3 Bubbling phase
+		boton.onclick=mensaje;
+		dv.onclick=mensaje;
+		//document.body.onclick=mensaje;
+		document.documentElement.onclick=mensaje;
+		window.onclick=mensaje;
+	}
+	
+	</script>
+	
+</head>
+
+<body>
+	
+	<div id="dv">
+		<button id="boton" type="button"> Pinchame </button>
+	</div>
+	
+</body>
+</html>
