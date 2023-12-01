@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Cola_Pila</title>
+	<style>
+		td{
+			border-style: double;
+		}
+	</style>
+	<script>
+
+		var usuarioCola=[];
+		var usuarioPila=[];
+		
+		function insertarUsuarioCola(){	
+
+			let nombreUsuario=document.getElementById("usuario").value;
+			
+			if(nombreUsuario!=""){
+				usuarioCola.push(nombreUsuario);
+			
+		    	document.getElementById("FilaCola").innerHTML+="<td>"+usuarioCola[usuarioCola.length-1]+"</td>";
+				
+				document.getElementById("usuario").value="";
+				
+			}else{
+				alert("No se puede aniadir Clientes que no hayas insertado en el campo de texto");
+			}
+		}
+		
+		function insertarUsuarioDeColaAPila(){
+			
+			if(usuarioCola.length>0){
+				
+				let nombreUsuarioCola=usuarioCola.shift();
+				let nombreUsuarioPila="";
+
+				document.getElementById("FilaCola").innerHTML="";
+
+				refrescaCola();
+
+				usuarioPila.push(nombreUsuarioCola);
+
+				for(let i=usuarioPila.length-1;i>=0;i--){
+						nombreUsuarioPila+="<tr><td>"+usuarioPila[i]+"</td></tr>";		
+				}
+
+				document.getElementById("tablaPila").innerHTML=nombreUsuarioPila;
+			}else{
+				alert("No hay ningun cliente en la cola para pasar a la pila");
+			}
+		}	
+		
+		
+		function insertarUsuarioDePilaACola(){
+			if(usuarioPila.length>0){
+				let nombreUsuarioPila=usuarioPila.pop();
+
+				refrescaPila();
+
+				usuarioCola.push(nombreUsuarioPila);
+
+				refrescaCola();
+			}else{
+				alert("No hay ningun cliente en la pila para pasar a la cola");
+			}
+		}
+		
+		var refrescaCola=function(){
+			let nombreUsuariosColas="";
+			
+			for(let i=0;i<usuarioCola.length;i++){
+				nombreUsuariosColas+="<td>"+usuarioCola[i]+"</td>";
+			}
+			
+			document.getElementById("FilaCola").innerHTML=nombreUsuariosColas;
+				
+		}
+		
+		var refrescaPila=function(){
+			let nombresUsuarioPilas="";
+			
+			for(let i=usuarioPila.length-1;i>=0;i--){
+					nombresUsuarioPilas+="<tr><td>"+usuarioPila[i]+"</td></tr>";
+			}
+			
+			document.getElementById("tablaPila").innerHTML=nombresUsuarioPilas;
+		}
+		
+	</script>
+</head>
+
+<body>
+	<lable for="usuario">Usuario: </lable><input type="text" id="usuario"><button onClick="insertarUsuarioCola()">Insertar Cliente a la cola</button><br><br>
+	<label>Cola</label><br><br>
+	
+	<table id="tablaCola">
+		<tr id="FilaCola"></tr>
+	</table>
+	
+	<button onClick="insertarUsuarioDeColaAPila()">Pasar a Pila</button><br><br>
+	<label>Pila</label><br><br>
+	<table id="tablaPila"></table>
+	<button onClick="insertarUsuarioDePilaACola()">Volver a la Cola</button>	
+</body>
+</html>
