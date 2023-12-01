@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	<script>
+		
+		var deletrea="hola mundo";
+		
+
+		function deletrearConFor(){
+			
+			var parrafo1=document.getElementById("si1");
+			
+			for(let i=0;i<deletrea.length;i++){
+				parrafo1.innerHTML+=deletrea[i] + "-";
+			}
+						
+			parrafo1.innerHTML=parrafo1.textContent.substring(0,parrafo1.textContent.length-1);			
+		}
+		
+		function deletrearConForIn(){
+			
+			var parrafo2=document.getElementById("si2");
+			
+			for(let letra in deletrea){
+				parrafo2.innerHTML+=deletrea[letra]+"-";
+			}
+			
+			parrafo2.innerHTML=parrafo2.textContent.substring(0,parrafo2.textContent.length-1);
+		}
+		
+		function deletrearConForOf(){
+			
+			var parrafo3=document.getElementById("si3");
+			
+			for(let letra of deletrea){
+				  parrafo3.innerHTML+=letra+"-";
+			}
+			
+			parrafo3.innerHTML=parrafo3.textContent.substring(0,parrafo3.textContent.length-1);
+			
+		}
+		
+		function deletrearConForEach(){
+			
+			 var parrafo4=document.getElementById("si4");
+			
+			 deletrea.split("").forEach(function(letra){
+				 parrafo4.innerHTML+=letra+"-";
+			 })
+			
+			parrafo4.innerHTML=parrafo4.textContent.substring(0,parrafo4.textContent.length-1);
+		}
+		
+		function deletrearConSplitJoin(){
+			
+			var parrafo5=document.getElementById("si5");
+			
+			parrafo5.innerHTML+=deletrea.split("").join("-");
+		}
+		
+	</script>
+</head>
+
+<body>
+	<p id="si1" onclick="deletrearConFor()">---Parrafo con For Normal---</p>
+	<p id="si2" onclick="deletrearConForIn()">---Parrafo con For IN---</p>
+	<p id="si3" onclick="deletrearConForOf()">---Parrafo con For OF---</p>
+	<p id="si4" onclick="deletrearConForEach()">---Parrafo con For Each---</p>
+	<p id="si5" onclick="deletrearConSplitJoin()">---Parrafo con Split Join---</p>
+</body>
+</html>
