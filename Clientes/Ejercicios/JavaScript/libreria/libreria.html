@@ -1,0 +1,185 @@
+<!doctype html>
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+</head>
+	
+	<script>
+		
+		var arrayLibros=[];
+		var arrayClientes=[];
+		var arrayPedidos=[];
+		
+		var unidades=0;
+	
+		function libro(titulo,editorial,precio,unidades){
+			
+			this.titulo=titulo;
+			this.editorial=editorial;
+			this.precio=precio;
+			this.unidades=unidades;
+			
+			this.imprimir=function(){
+				return this.titulo+"-"+this.editorial+"-"+this.precio+"-"+unidades;		
+			}
+		}
+		
+		function clientes(nombre,localidad,email){
+			
+			this.nombre=nombre;
+			this.localidad=localidad;
+			this.email=email;
+			
+			this.imprimir=function(){
+				return this.nombre+"_"+this.localidad+"_"+this.email;
+			}
+			
+		}
+		
+		function pedidos(clientePedido,libroPedido,unidadesPedidas){
+			
+			 this.clientePedido=clientePedido;
+			 this.libroPedido=libroPedido;
+			 this.unidadesPedidas=unidadesPedidas;
+			
+			 this.imprimir=function(){
+				 return "El Cliente: "+clientePedido+", ha pedido el libro: "+libroPedido+" con las siguientes unidades "+unidadesPedidas;
+			 }
+		}
+		
+		var guarda=function(){
+			
+			var elemento=arguments[0].getAttribute("id");
+			
+			if(elemento=="guardaLibros"){
+			 	
+				var titulo=document.getElementById("titulo").value;
+				var editorial=document.getElementById("editorial").value;
+				var precio=document.getElementById("precio").value;
+				var unidadesLibros=document.getElementById("unidades").value;
+				unidades=unidadesLibros;
+				
+				var libroCreado=new libro(titulo,editorial,precio,unidadesLibros);// RECORDATORIO: ES UN OBJETO(NEW)
+				
+				arrayLibros[arrayLibros.length]=libroCreado;
+				
+				var select=document.getElementById("lLibros");
+  				var option = document.createElement("option");
+  				option.text = libroCreado.titulo;
+				select.add(option);
+				
+				document.getElementById("titulo").value="";
+				document.getElementById("editorial").value="";
+				document.getElementById("precio").value="";
+				document.getElementById("unidades").value="";
+				
+				alert("Se ha creado el libro "+libroCreado.imprimir());
+				
+			}else if(elemento=="guardaCliente"){
+				
+				var nombre=document.getElementById("nombre").value;
+				var localidad=document.getElementById("localidad").value;
+				var email=document.getElementById("correo").value;
+				
+				var clienteCreado=new clientes(nombre,localidad,email);
+				arrayClientes[arrayClientes.length]=clienteCreado;
+				
+				var select=document.getElementById("lClientes");
+				var option=document.createElement("option");
+				option.text=clienteCreado.nombre;
+				select.add(option);
+				
+				document.getElementById("nombre").value="";
+				document.getElementById("localidad").value="";
+				document.getElementById("correo").value="";
+				
+				alert("Se ha creado el Cliente "+clienteCreado.imprimir());
+				
+			}else if(elemento=="guardaPedido"){
+			
+				var clientePedido=document.getElementById("lClientes").value;
+				var libroPedido=document.getElementById("lLibros").value;
+				var unidadesPedidas=document.getElementById("unidadesPedidas").value;
+				if(unidadesPedidas<=unidades){
+					var pedidosRealizados=new pedidos(clientePedido,libroPedido,unidadesPedidas);
+
+					arrayPedidos[arrayPedidos.length]=pedidosRealizados;
+					
+					alert("Se ha creado el Pedido "+pedidosRealizados.imprimir());
+					
+				}else{
+					alert("No se ha podido crear el pedido, has puesto "+unidadesPedidas+", cuando solo existen: "+unidades+" del libro "+libroPedido);
+				}
+			}else if(elemento=="listado"){
+				
+				var parrafo=document.getElementById("lt");
+				parrafo.innerHTML="";
+				parrafo.innerHTML+="<br>******************LISTADO DE PEDIDOS REALIZADOS******************<br>";
+				for(let i=0;i<arrayPedidos.length;i++){
+					parrafo.innerHTML+="<br>"+arrayPedidos[i].imprimir()+"<br>";
+				}
+				parrafo.innerHTML+="<br>****************FIN LISTADO DE PEDIDOS REALIZADOS****************<br>";
+				
+			}
+			
+		}
+		
+	
+	</script>
+
+<body>
+
+ <div id="libros" style="width:300; height:250;">
+ 	<form id="flibros">
+    	<fieldset><legend>Libros...</legend>
+        <label for="titulo">Titulo</label>           
+    	<input type="text" id="titulo"/>
+        <label for="editorial">Editorial</label>
+        <input type="text" id="editorial"/><br /><br />
+        <label for="precio">Precio</label>
+        <input type="number" id="precio"/>
+        <label for="unidades">Unidades</label>
+        <input type="number" id="unidades" min="0" max="100" value="0"/><br />
+        <input type="button" id="guardaLibros" value="guardar"  onclick="guarda(this);" align="right"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="clientes" style="width:300; height:250;">
+ 	<form id="fclientes">
+    	<fieldset><legend>Clientes...</legend>
+       <label for="nombre">Nombre</label>           
+    	<input type="text" id="nombre"/>
+        <label for="localidad">Localidad</label>
+        <input type="text" id="localidad"/><br /><br />
+         <label for="correo">E-mail</label>
+        <input type="email" id="correo"/>
+        <input type="button" id="guardaCliente" value="guardar" align="right" 
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+ 
+ </div>
+ <div id="pedidos" style="position:absolute; width:300; height:250">
+ 	<form id="fpedidos">
+    	<fieldset><legend>Pedidos...</legend>
+        <label for="lClientes">Cliente</label> 
+        <select id="lClientes" ></select>
+    	<label for="lLibros">Libro</label>
+        <select id="lLibros" ></select>
+        <br /><label for="unidades">Unidades</label>
+        <input type="number"  size="6" id="unidadesPedidas" value="0"/><br />
+         <br />
+        <input type="button" value="Pedir" id="guardaPedido" align="right"
+        onclick="guarda(this);"/>
+        <input type="button" value="Listar Pedidos" id="listado" align="left"
+        onclick="guarda(this);"/>
+        </fieldset>
+    </form>
+    </div>
+    <div id="lt" align="center">Listado de pedidos de Clientes...</div>
+ 
+</body>
+</html>
