@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Euromillon</title>
+	
+	<script>
+			
+	function generaEuroMillon(){
+			
+		 var parrafo=document.getElementById("euromillon");
+		 parrafo.innerHTML="";
+			
+		 var euromillones=[];	
+			
+		 euromillones=generaNumeroEuroMillon(euromillones);
+			
+		 euromillones=euromillones.concat("*");
+		
+		 let generaEuromillon="";
+		
+		 generaEuromillon=generaEstrella(generaEuromillon,euromillones);
+		
+		 parrafo.innerHTML=generaEuromillon;
+		}
+		
+		
+		function generaNumeroEuroMillon(euromillones){
+			
+		 var contadorNumerosInsertados=0;
+		 var numeroAleatorio;
+		 var numeroEncontrado=false; 
+			
+			while(contadorNumerosInsertados<4){
+			  
+			numeroAleatorio=generaAleatorio(1,50);
+				 
+			 if(euromillones.length==0){
+					   euromillones[euromillones.length]=numeroAleatorio;
+			  }else{
+				  
+					for(let i=0;i<euromillones.length;i++){
+						 if(numeroAleatorio==euromillones[i]){
+							   numeroEncontrado=true;
+						}
+					}
+
+					 if(numeroEncontrado!=true){
+						euromillones[euromillones.length]=numeroAleatorio;
+						contadorNumerosInsertados++;
+					 }
+				  
+					   numeroEncontrado=false;
+			   }
+			}
+		
+			euromillones.sort(function(a,b){
+				return a-b;	
+			});
+			
+			return euromillones;
+		}
+		
+		var generaEstrella=function(generaEuromillon,euromillones){
+		
+			let contadorNumerosEstrellas=0;
+			var estrella1,estrella2;
+		
+			estrella1=generaAleatorio(1,12);
+			estrella2=generaAleatorio(1,12);
+		
+			do{
+				if(estrella1>estrella2){
+					euromillones[euromillones.length]=estrella2;
+					euromillones[euromillones.length]=estrella1;
+					contadorNumerosEstrellas=contadorNumerosEstrellas+2;
+				}else if(estrella2>estrella1){
+					euromillones[euromillones.length]=estrella1;
+					euromillones[euromillones.length]=estrella2;
+					contadorNumerosEstrellas=contadorNumerosEstrellas+2;
+				}else{
+					if(estrella1==estrella2){
+						estrella1=generaAleatorio(1,12);
+					 }
+				}
+			}while(contadorNumerosEstrellas<2);
+		
+			generaEuromillon+="Euromillon generado--->";
+			
+			for(let i=0;i<euromillones.length;i++){
+					generaEuromillon+=euromillones[i]+" ";
+			}
+						
+			return generaEuromillon;
+		}
+		
+		
+		function generaAleatorio(minimo,maximo){
+			 var x = Math.floor((Math.random() * maximo) + minimo);
+			 return x;
+		} 
+		
+	</script>
+</head>
+
+<body>
+	<button onClick="generaEuroMillon()">Haz click para generar Euromillon</button>
+	<p id="euromillon"></p>
+</body>
+</html>
